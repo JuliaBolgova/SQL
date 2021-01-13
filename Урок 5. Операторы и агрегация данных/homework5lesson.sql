@@ -55,4 +55,33 @@ select * from storehouses_products;
 
 select * from storehouses_products order by value=0, value;
 
+# задание 5.  
+show tables;
+drop table if exists catalogs;
+CREATE TABLE catalogs (
+    id SERIAL,
+    name VARCHAR(255) NOT NULL UNIQUE
+    );
+
+show tables;
+  
+insert INTO `catalogs` (`name`) VALUES ('Процессоры');
+insert INTO `catalogs` (`name`) VALUES ('Мат. платы');
+insert INTO `catalogs` (`name`) VALUES ('Видеокарты');
+insert INTO `catalogs` (`name`) VALUES ('Жесткие диски');
+insert INTO `catalogs` (`name`) VALUES ('Оперативная память');
+
+desc catalogs;
+
+select * from catalogs where id in (5,1,2);
+
+select * from catalogs where id in (5,1,2)
+order by field (id, 5,1,2);
+
+# Агрегация
+select avg(timestampdiff(year, bithday_at, now())) as AGE from tbl;
+
+
+
+
 
