@@ -82,6 +82,22 @@ order by field (id, 5,1,2);
 select avg(timestampdiff(year, bithday_at, now())) as AGE from tbl;
 
 
+Задание 3
+drop table if exists multiply;
+CREATE TABLE multiply (
+    id SERIAL,
+    number_calculate int NOT NULL UNIQUE
+    );
+insert INTO multiply (number_calculate) VALUES 
+(1),
+(2),
+(3),
+(4),
+(5);
+
+select * from multiply;
+
+select exp(sum(ln(number_calculate))) as Multi from multiply;
 
 
 
