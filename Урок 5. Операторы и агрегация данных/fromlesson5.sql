@@ -80,7 +80,7 @@ select * from catalogs where name rlike ('[[:digit:]]');
 # сортировка 1
 select * from catalogs order by name;
 # сортировка 2 обратная
-select * from catalogs order by name decs;
+select * from catalogs order by name desc;
 
 
 use vk;
@@ -98,10 +98,14 @@ select version();
 
 select user();
 
-use vk;
+use my;
 
 # вывести только первых 5 символов с столбце
 select substring(email, 1, 5) as name from users;
 
 # собьрать несколько данных в олин столбец CONCAT
 select id, concat(first_name, ' ', timestampdiff(year, created_at, now())) as name from users;
+
+# количество строк в таблице
+select count(*) from catalogs;
+select count(id) as count1 from catalogs ;
