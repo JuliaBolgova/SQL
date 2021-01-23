@@ -1,0 +1,65 @@
+Правка таблиц
+	
+	users
+title_id gender_id привязать ключи (выполнено)
+сделать updated_at моложе created_at (выполнено)
+nationality подставить настоящие национальности (погуглить список) (выполнено)
+
+* birthday не больше 2000 года (совершеннолетние) (выполнено)
+
+	-- Можно создать таблицу как данные карт users (???)
+
+	reviews 
+Думаю сделать рандомно from_user_id (50) только проверить количество user
+Тоже самое с hotel_id
+from_user_id hotel_id rating_id привязать ключи
+* created_at должен быть моложе чем дата основания отеля
+** через обновление таблицы hotels поставить реальный рейтинг users отелю,
+   но сначала поставить все рейтинги hotels как "0 отзывов"
+
+	number of booking
+рандомно user_id олько проверить количество user
+* created_at должен быть моложе чем !!!!!
+сделать updated_at моложе created_at
+*** обновить count_booking (сколько раз бронировал user отели)
+
+	media_types
+сделать updated_at моложе created_at
+
+
+	media
+сделать updated_at моложе created_at
+id c 1
+filename c урока 4 поменять
+size проверить
+metadata вообще не понятно. Посмотреть!
+media_type_id привязать и числа подобрать
+
+	hotels_included
+hotel_id призявать к hotels(id)
+
+	hotels
+*** rating_id призявать к hotels(id) реальный рейтинг
+media_id должно быть сколько отелей 
+
+	bookings
+USER_ID от 1 до 100 кажется, рандомно
+hotel_id рандомно от 1 до сколько отелей
+если created_at > arrival_day то created_at = arrival_day - 1 month
+* если check_out_day < arrival_day то check_out_day = now()
+** count_days = check_out_day - arrival_day 
+count_adult от 1 до 3
+count_child от 1 до 3
+** если animal в отеле запрещены то animal в booking '-'
+value перемиеновать в 10-бальную шкалу посетителя
+
+
+
+
+
+
+
+
+
+
+
