@@ -1120,6 +1120,7 @@ ALTER TABLE likes
     	on delete cascade;
     
 alter table likes drop foreign key likes_target_id_fk;
+
 ALTER TABLE likes 
   ADD CONSTRAINT likes_target_id_fk 
     FOREIGN KEY (target_id) REFERENCES users(id)
