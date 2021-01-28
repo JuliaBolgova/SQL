@@ -53,7 +53,7 @@ CREATE TABLE users (
    created_at datetime DEFAULT current_timestamp(),
    updated_at datetime DEFAULT current_timestamp(),
    CONSTRAINT nationality_id_fk 
-   foreign key (nationality_id) references nationalities(nationality_id)
+   foreign key (nationality_id) references nationalities(nationality_id) on delete cascade on update cascade
    );
 
 INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (1, 'Ms', 'Kelsi', 'Schmeler', 'beatae', 'kolby86@example.com', '(472)348-2537x173', '2005-01-07', 70, 'a3c5cbf2702a03a64ddeac7a4ca30cd4', 'Male', '29168 Bahringer Gateway Apt. 814\nRunolfsdottirmouth, NE 80586-2831', '1992-07-25 03:57:32', '1995-03-30 04:27:20');
@@ -99,7 +99,7 @@ CREATE TABLE payment_details (
   card_number BIGINT unsigned NOT NULL,
   expiration_date datetime DEFAULT NULL,
   CONSTRAINT user_id_payment_fk 
-  foreign key (user_id) references users(user_id)
+  foreign key (user_id) references users(user_id) on delete cascade on update cascade
 );
 
 INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (1, 'vitae', '4024007187397928', '0000-00-00 00:00:00');
@@ -160,7 +160,7 @@ CREATE TABLE media (
    created_at datetime DEFAULT current_timestamp(),
    updated_at datetime DEFAULT current_timestamp(),
    CONSTRAINT media_type_id_fk 
-   foreign key (media_type_id) references media_types(media_type_id)
+   foreign key (media_type_id) references media_types(media_type_id) on delete cascade on update cascade
 );
 
 INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (1, 'ut', 8717, '5', 1, '1989-08-28 17:53:51', '1981-10-12 18:21:46');
@@ -296,7 +296,7 @@ CREATE TABLE hotels (
   created_at datetime DEFAULT current_timestamp(),
   updated_at datetime DEFAULT current_timestamp(),
   CONSTRAINT media_id_fk 
-  foreign key (media_id) references media(media_id)
+  foreign key (media_id) references media(media_id) on delete cascade on update cascade
 );
 
 
@@ -422,7 +422,7 @@ CREATE TABLE hotels_included (
    public_transport BOOLEAN,
    airport_near BOOLEAN,
    CONSTRAINT hotel_id_fk 
-   foreign key (hotel_included_id) references hotels(hotel_id)
+   foreign key (hotel_included_id) references hotels(hotel_id) on delete cascade on update cascade
 );
 
 INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0);
@@ -544,9 +544,9 @@ CREATE TABLE bookings (
   count_animal int(5) NOT NULL,
   review_id int default NULL,
   CONSTRAINT user_id_booking_fk 
-  foreign key (user_id) references users(user_id),
+  foreign key (user_id) references users(user_id) on delete cascade on update cascade,
   CONSTRAINT hotel_id_booking_fk 
-  foreign key (hotel_id) references hotels(hotel_id)
+  foreign key (hotel_id) references hotels(hotel_id) on delete cascade on update cascade
 );
 
 INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (1, 1, 1, '2003-01-08 22:34:19', '1981-12-04 23:26:55', '2005-02-04 19:30:41', 0, 0, 6, 641465507, 0, 1);
@@ -719,7 +719,7 @@ CREATE TABLE reviews (
    body text NOT NULL COMMENT 'Текст сообщения',
    created_at  datetime DEFAULT null,
    CONSTRAINT hotel_id_reviews_fk 
-   foreign key (hotel_id) references bookings(hotel_id)
+   foreign key (hotel_id) references bookings(hotel_id) on delete cascade on update cascade
 );
 
 
@@ -880,16 +880,20 @@ update hotels set rating = 0 where rating is null;
 -- JOIN
 
 -- Выводим человека и его номер карты и имя на карте
-select CONCAT(u.first_name, ' ', u.last_name) as Full_name, p.cardholders_name as Cardholder_name , p.card_number as Card_number, p.expiration_date as ExpirationDate from users as u natural join payment_details p;
+select CONCAT(u.first_name, ' ', u.last_name) as Full_name, p.cardholders_name as Cardholder_name , p.card_number as Card_number,
+p.expiration_date as ExpirationDate 
+from users as u  join payment_details p using(user_id); -- from users as u natural join payment_details p ;
 
 -- Выводим человека  и его национальность
 select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n;
 
 -- Выводим англичанина, американца и китайца
-select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n where n.nationality in ("English", "Japanese", "Chinese") ;
+select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n 
+where n.nationality in ("English", "Japanese", "Chinese") ;
 
 -- Выводим cписок отелей, его страну, и средний рейтинг по убыванию с фото-видео представлением отеля
-select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename from hotels h inner join media m using(media_id) order by rating desc ;
+select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename from hotels h 
+inner join media m using(media_id) order by rating desc ;
 
 -- Выводим список людей кто бронировал отели на Багамах (почему бы и нет )
 select 
@@ -899,7 +903,7 @@ b.arrival_day as
 Arrive, b.check_out_day as CheckOut , 
 b.count_days as CountDays 
 from users u 
-inner join bookings b using(user_id) 
+join bookings b using(user_id) 
 where b.hotel_id in (select hotel_id from hotels where country_hotel = ("Bahamas")); -- b.hotel_id in (48,54,96) ;
 
 -- Что арендовывал пользователь 1
