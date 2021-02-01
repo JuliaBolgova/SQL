@@ -891,9 +891,11 @@ select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from u
 select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n 
 where n.nationality in ("English", "Japanese", "Chinese") ;
 
--- Выводим cписок отелей, его страну, и средний рейтинг по убыванию с фото-видео представлением отеля
-select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename from hotels h 
-inner join media m using(media_id) order by rating desc ;
+-- Выводим cписок отелей, его страну, и средний рейтинг по убыванию с фото-видео представлением отеля и его пару характеристик
+select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename, 
+hi.age_limit, hi.airport_near, hi.parking_lot, hi.nature from hotels h 
+join hotels_included hi on hi.hotel_included_id = h.hotel_id
+inner join media m using(media_id) order by rating desc;
 
 -- Выводим список людей кто бронировал отели на Багамах (почему бы и нет )
 select 
@@ -938,4 +940,27 @@ select concat ('Самый дорогой отель ', (SELECT hotel_name FROM 
  -- Отели с ценой ниже средней по версии моего booking.com 
 SELECT hotel_name, country_hotel, price FROM hotels WHERE price < (select avg(price) from hotels);
 
-select * from hotels;
+-- Кто бронировал больше всех отелей, мужчины или женщины?
+select 
+	(select gender from users where users.user_id = bookings.user_id) as gender,
+	count(*) as total
+	from bookings 
+	group by gender order by total desc limit 2;
+	
+-- Топ 10 активных людей
+select user_id, (select concat (first_name, ' ', last_name) from users where bookings.user_id=users.user_id) as FIO,
+count(*) as total
+from bookings
+group by FIO order by total desc limit 10;
+
+select * from bookings b ;
+
+-- Кто в списке bookings согласно id мужчина или женщина?
+select (select gender from users where bookings.user_id=users.user_id) 
+from bookings;
+	
+-- у этих отелей нет брони ни одной
+select hotels.hotel_id , hotels.hotel_name ,b.user_id
+from hotels left join bookings b on b.hotel_id = hotels.hotel_id 
+where b.user_id is null ;
+
