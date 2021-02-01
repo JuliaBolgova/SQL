@@ -1273,13 +1273,13 @@ select * from target_types;
 
 -- Task 3
 
-select gender from profiles where profiles.user_id = likes.user_id;
 
+-- Кто поставил больше лайков?
 select 
 	(select gender from profiles where user_id = likes.user_id) as gender,
-	count (*) as total
+	count(*) as total
 	from likes 
-	group by gender order by total desc limit 1;
+	group by gender order by total desc limit 2;
 
 
 -- Task 4
@@ -1299,8 +1299,63 @@ select
 	(select count(*) from media where media.user_id = users.id) +
 	(select count(*) from messages where messages.from_user_id = users.id) as overall_activity
 	from users
-	order by overall_activity
+	order by overall_activity desc
 	limit 20;
+
+select * from users;
+
+select concat(u.first_name, ' ', u.last_name), u.email, p.gender,
+p.birthday, p.city
+from users u join profiles p on u.id = p.user_id 
+where u.id = 7; -- or 'and' (better 'and')
+
+select messages.from_user_id , messages.to_user_id, messages.body, users.first_name , users.last_name, 
+messages.created_at 
+from messages 
+join users 
+on users.id = messages.to_user_id 
+or users.id = messages.from_user_id 
+where users.id = 8;
+
+
+-- ДЗ 8 урок
+-- кто больше поставил лайков?
+select * from profiles p ;
+select profiles.gender , count(likes.id) as likes_total
+from likes 
+join profiles
+on likes.user_id =  profiles.user_id 
+group by profiles.gender order by likes_total desc;
+
+--  Наименьшая активность
+select users.id,
+  count(distinct messages.id) + 
+  count(distinct likes.id) + 
+  count(distinct media.id) as activity 
+  from users
+    left join messages 
+      on users.id = messages.from_user_id
+    left join likes
+      on users.id = likes.user_id
+    left join media
+      on users.id = media.user_id
+  group by users.id
+  order by activity
+  limit 10;  
+ 
+ -- 
+ select sum(got_likes) as total
+  from (   
+    select count(distinct likes.id) as got_likes 
+      from profiles
+        left join likes
+          on likes.target_id = profiles.user_id
+            and target_type_id = 2
+      group by profiles.user_id
+      order by profiles.birthday desc
+      limit 10
+) as youngest;  
+
 
 
 
