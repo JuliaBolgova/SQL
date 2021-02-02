@@ -138,6 +138,7 @@ update payment_details set cardholders_name = (select CONCAT(first_name, ' ', la
 -- Update card_number
 update payment_details set card_number =floor( rand()*(9999999999999999-1000000000000000));
 select * from payment_details;
+
 DROP TABLE IF EXISTS media_types;
 
 CREATE TABLE media_types (
@@ -877,6 +878,12 @@ INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) 
 update hotels set rating = (select avg(rating) from reviews where hotels.hotel_id = hotel_id);
 update hotels set rating = 0 where rating is null;
 
+ -- Пару индексов
+ 
+CREATE INDEX users_first_name_idx ON users(first_name);
+CREATE INDEX users_last_name_idx ON users(last_name);
+CREATE INDEX hotels_hotel_name ON hotels(hotel_name);
+
 -- JOIN
 
 -- Выводим человека и его номер карты и имя на карте
@@ -889,7 +896,7 @@ select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from u
 
 -- Выводим англичанина, американца и китайца
 select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n 
-where n.nationality in ("English", "Japanese", "Chinese") ;
+where n.nationality in ("English", "Japanese", "Chinese", "German") ;
 
 -- Выводим cписок отелей, его страну, и средний рейтинг по убыванию с фото-видео представлением отеля и его пару характеристик
 select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename, 
@@ -900,13 +907,14 @@ inner join media m using(media_id) order by rating desc;
 -- Выводим список людей кто бронировал отели на Багамах (почему бы и нет )
 select 
 CONCAT(u.first_name, ' ', u.last_name) as Full_name,
-b.hotel_id as Hotel, 
+h.hotel_name as Hotel, 
 b.arrival_day as 
 Arrive, b.check_out_day as CheckOut , 
 b.count_days as CountDays 
 from users u 
 join bookings b using(user_id) 
-where b.hotel_id in (select hotel_id from hotels where country_hotel = ("Bahamas")); -- b.hotel_id in (48,54,96) ;
+join hotels h on h.hotel_id = b.hotel_id 
+where b.hotel_id in (select hotel_id from hotels where country_hotel = ("Bahamas")); 
 
 -- Что арендовывал пользователь 1
 SELECT CONCAT(
@@ -931,8 +939,8 @@ SELECT CONCAT(
   count_days , ' дней, c ', arrival_day , ' , у которого рейтинг = ',
   (SELECT round(rating,1) FROM hotels WHERE hotel_id= bookings.hotel_id)) AS news 
     FROM bookings 
-    WHERE hotel_id in (select hotel_id from hotels where country_hotel = ("Italy"));
-  
+    WHERE hotel_id in (select hotel_id from hotels where country_hotel = ("Kenya"));
+
  -- Самый дорогой отель по версии моего booking.com 
 select concat ('Самый дорогой отель ', (SELECT hotel_name FROM hotels WHERE price = (select max(price) from hotels))
 		,' в стране ', (SELECT country_hotel FROM hotels WHERE price = (select max(price) from hotels)), '. Его стоимость =  ', (select max(price) from hotels)) as The_most_expensive_hotel ;
@@ -953,11 +961,6 @@ count(*) as total
 from bookings
 group by FIO order by total desc limit 10;
 
-select * from bookings b ;
-
--- Кто в списке bookings согласно id мужчина или женщина?
-select (select gender from users where bookings.user_id=users.user_id) 
-from bookings;
 	
 -- у этих отелей нет брони ни одной
 select hotels.hotel_id , hotels.hotel_name ,b.user_id
@@ -969,5 +972,26 @@ CREATE OR REPLACE VIEW topHotels AS
 select hotel_name, country_hotel, price, rating, hi.age_limit, hi.airport_near, hi.parking_lot, hi.nature  FROM hotels  
 join hotels_included hi on hotels.hotel_id  = hi.hotel_included_id order by hotels.rating desc limit 10;
 
+select * from tophotels t2 ;
+-- оконные функции: сумма медиафайлов по типу
+SELECT DISTINCT media_types.type_media, 
+  SUM(media.size) OVER(PARTITION BY media.media_type_id) AS total_by_type,
+  SUM(media.size) OVER() AS total,
+  SUM(media.size) OVER(PARTITION BY media.media_type_id) / SUM(media.size) OVER() * 100 AS "%%"
+    FROM media
+      JOIN media_types
+        ON media.media_type_id = media_types.media_type_id;
+       
+-- оконные функции: сколько оценок поставлено отелю (количество, мин, макс, средняя)
+SELECT distinct hotels.hotel_id as id, hotels.hotel_name as Hotel, 
+  count(reviews.hotel_id) over W1 AS countReview, -- сколько поставлено оценок каждому отелю
+  MIN(reviews.rating) OVER W1 AS MinReview, -- минимальная оценка каждому отелю
+  MAX(reviews.rating) over W1 AS MaxReview, -- максимальная оценка каждому отелю
+  AVG(reviews.rating) OVER W1 AS AVGReview -- средняя оценка каждому отелю
+    FROM hotels
+      JOIN reviews
+        ON hotels.hotel_id = reviews.hotel_id
+        window W1 as (PARTITION BY reviews.hotel_id);
+        
 
 
