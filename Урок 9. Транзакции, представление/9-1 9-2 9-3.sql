@@ -190,4 +190,6 @@ on
   date(date('2018-08-31') - interval days.day day) = table1.created_at
 order by
   day;
+ 
+ 
   

@@ -964,3 +964,10 @@ select hotels.hotel_id , hotels.hotel_name ,b.user_id
 from hotels left join bookings b on b.hotel_id = hotels.hotel_id 
 where b.user_id is null ;
 
+-- представление (топ 10 лучших отелей)
+CREATE OR REPLACE VIEW topHotels AS
+select hotel_name, country_hotel, price, rating, hi.age_limit, hi.airport_near, hi.parking_lot, hi.nature  FROM hotels  
+join hotels_included hi on hotels.hotel_id  = hi.hotel_included_id order by hotels.rating desc limit 10;
+
+
+

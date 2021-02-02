@@ -1,966 +1,1364 @@
-drop database if exists booking;
-create database booking;
-use booking;
+DROP database vk;
+create database vk;
+use vk;
 
-DROP TABLE IF EXISTS nationalities;
-CREATE TABLE nationalities (
-	nationality_id int auto_increment primary key,	
-	nationality VARCHAR(20) NOT NULL
-	);
-INSERT INTO nationalities (nationality) VALUES 
-('Afghan'), ('Argentine'),('Australian'),('American'), 
-('Belarusian'), ('Belgian'), ('Brazilian'), ('Bolivian'), ('British'), 
-('Cambodian'), ('Canadian'), ('Chilean'), ('Chinese'), ('Colombian'), ('Costa Rican'), ('Cuban'), ('Cypriot'), ('Czech'), 
-('Danish'), ('Dominican'), 
-('Ecuadorian'), ('Egyptian'), ('Emirati'), 
-('Salvadorian'), 
-('English'), ('Estonian'), ('Ethiopian'), 
-('Finnish'), ('French'), 
-('German'), ('Ghanaian'), ('Greek'), ('Guatemalan'), 
-('Haitian'), ('Honduran'), ('Hungarian'), 
-('Icelandic'), ('Indian'), 
-('Indonesian'), ('Iranian'), ('Iraqi'), ('Irish'), ('Israeli'), ('Italian'), 
-('Japanese'), ('Jordanian'), 
-('Kazakhstani'), ('Kenyan'), 
-('Laotian'), ('Latvian'), ('Lebanese'), ('Lithuanian'), 
-('Malaysian'), ('Mexican'), ('Montenegrin'), ('Moroccan'), 
-('Dutch'), 
-('New Zealander'), ('Nicaraguan'), ('North Korean'), ('Norwegian'), 
-('Panamanian'), ('Paraguayan'), ('Peruvian'), 
-('Filipino'), 
-('Polish'), ('Portuguese'), ('Puerto Rican'), 
-('Romanian'), ('Russian'), 
-('Saudi'), ('Scot / Scottish'), ('South African'), ('South Korean'), ('Spanish'), ('Swedish'), ('Swiss'), 
-('Taiwanese'), ('Tajik'), ('Thai'),('Tunisian'), ('Turkish'), 
-('Ukrainian'), ('Uruguayan'), 
-('Venezuelan'), ('Vietnamese'), 
-('Welsh');
+DROP TABLE IF EXISTS `communities`;
 
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
-   user_id int auto_increment primary key,
-   title ENUM ('Mr','Ms','Mrs'),
-   first_name varchar(100) NOT NULL,
-   last_name varchar(100)  NOT NULL,
-   display_name varchar(20) NOT NULL,
-   email varchar(100) NOT NULL,
-   phone varchar(100) NOT NULL,
-   birthday date not NULL,
-   nationality_id int NOT null,
-   password_user varchar(100) NOT NULL,
-   gender ENUM ('Male','Female'),
-   address varchar(130) NOT NULL,
-   created_at datetime DEFAULT current_timestamp(),
-   updated_at datetime DEFAULT current_timestamp(),
-   CONSTRAINT nationality_id_fk 
-   foreign key (nationality_id) references nationalities(nationality_id) on delete cascade on update cascade
-   );
+CREATE TABLE `communities` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT ,
+  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+)
 
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (1, 'Ms', 'Kelsi', 'Schmeler', 'beatae', 'kolby86@example.com', '(472)348-2537x173', '2005-01-07', 70, 'a3c5cbf2702a03a64ddeac7a4ca30cd4', 'Male', '29168 Bahringer Gateway Apt. 814\nRunolfsdottirmouth, NE 80586-2831', '1992-07-25 03:57:32', '1995-03-30 04:27:20');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (2, 'Mrs', 'Kaylee', 'Yundt', 'assumenda', 'marilou.marquardt@example.com', '228.696.2075x18456', '1970-08-12', 2, '9d16f1636777386754ab92523e963d29', 'Male', '386 Bradtke Springs Suite 628\nLake Estevanview, MD 09157', '2020-09-22 14:30:51', '1992-11-07 06:44:55');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (3, 'Mr', 'Ada', 'Trantow', 'autem', 'timmy.reilly@example.org', '(905)731-7915x54055', '1991-10-25', 3, '2803226be9d8f1e4683ef9f6e5bc0174', 'Male', '90180 Boris Circles\nNew Abagailport, SC 50462', '1983-06-13 07:07:40', '1983-08-09 19:58:12');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (4, 'Mrs', 'Anastasia', 'Gottlieb', 'voluptatem', 'dibbert.ernestina@example.net', '588.297.8599x5582', '2003-02-12', 4, '6121ae24593cf7c3af9bd6c043e6e7e5', 'Male', '18035 Faustino Drive Apt. 201\nPort Roslynton, RI 61709', '1976-02-06 21:12:31', '1976-06-15 12:23:46');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (5, 'Mr', 'Ally', 'Thiel', 'neque', 'myrtice.barrows@example.net', '(961)536-2303x4215', '1981-01-04', 5, '5152e00397b781e8e60ba677c3d9a447', 'Male', '24816 Riley Viaduct\nMarkusbury, WA 32799', '1985-09-17 02:43:53', '1981-11-27 14:14:12');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (6, 'Mr', 'Lizzie', 'Williamson', 'quasi', 'ekub@example.org', '+17(8)4104053386', '2003-10-28', 6, '5ccdde524690be70ec99fafcc1e036b7', 'Female', '36593 Osinski Inlet Apt. 086\nNorth Tylershire, NM 88207-4054', '1974-12-04 05:20:05', '2001-05-17 03:15:39');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (7, 'Mrs', 'Eliezer', 'Torp', 'aspernatur', 'lia71@example.com', '+35(5)6693603451', '1974-10-10', 7, 'efbb72d4110c7d6c641f567d99006475', 'Male', '44936 Curtis Isle\nEast Josianne, KS 45793-6937', '2013-06-25 08:21:13', '2010-10-11 09:53:35');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (8, 'Ms', 'Malinda', 'Kirlin', 'vero', 'acormier@example.org', '(490)996-4610', '1974-01-20', 8, '277c3a74211b59a3744c91488490df99', 'Female', '386 Laila Forge\nWest Gerryborough, NV 95197', '2008-12-19 11:21:53', '1986-11-26 18:45:22');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (9, 'Ms', 'Cristal', 'Fay', 'beatae', 'maverick.schoen@example.com', '979-861-6924', '1981-01-05', 9, '8b63969cf01bd6494b903d5ca6116a76', 'Female', '24442 Tianna Summit Apt. 403\nSouth Alanabury, WI 98866-8789', '2001-08-16 21:04:20', '1994-12-14 08:19:37');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (10, 'Ms', 'Lafayette', 'Bernier', 'est', 'alverta.johnson@example.com', '782.902.6510', '2002-08-29', 10, '0d97c77b389e28d0a83d8e04a116f649', 'Male', '5451 Roberts Court Suite 582\nPort Jeremieville, WV 15798-9034', '1994-10-19 02:56:26', '1976-09-30 02:14:42');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (11, 'Ms', 'Lucius', 'Keeling', 'accusantium', 'littel.leon@example.org', '1-958-114-4309', '2015-06-13', 11, '53bc8eed7e4c1898d68d2897a26c861f', 'Male', '803 Scarlett Lights Apt. 995\nSouth Axel, NE 81901-1146', '1970-12-17 01:37:44', '1980-10-29 13:26:04');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (12, 'Mr', 'Annie', 'Stamm', 'eveniet', 'sandy53@example.org', '022-709-0538x994', '1996-09-27', 12, '79da8ae138527cf75c38be06cd9a862c', 'Male', '796 Riley Points Suite 489\nGarrettberg, CO 77944', '2016-07-26 16:45:35', '2017-07-04 12:22:01');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (13, 'Mrs', 'Skyla', 'Borer', 'facere', 'billie76@example.com', '787.951.9469x039', '2019-03-01', 13, '4daa944b77e09af93402747ea9ddc266', 'Male', '2813 Howell Estate Apt. 031\nRowechester, OK 07106-9530', '1975-04-06 08:18:42', '2020-02-13 12:27:58');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (14, 'Mr', 'Magnolia', 'Schaefer', 'ad', 'nya.o\'hara@example.com', '+89(3)9604039822', '1997-09-01', 14, '34d5005b08337f0490ddf6f68ccb857d', 'Female', '41400 Halle Via Suite 304\nLake Revaburgh, MD 43850', '1976-11-27 16:00:06', '1991-11-05 00:25:16');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (15, 'Ms', 'Vivien', 'Conroy', 'optio', 'brad.spencer@example.org', '(115)158-9413x7104', '1975-03-08', 15, '412b562e00251342d885055d58e14ebe', 'Female', '5616 Lily Station\nColemanmouth, RI 03314-1623', '2013-12-24 22:46:49', '1991-11-16 05:48:27');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (16, 'Ms', 'Otto', 'Tremblay', 'est', 'kris.demario@example.net', '581.016.9738x291', '1996-03-09', 16, '81767fa2d77a2ffc039192f929bb3ba9', 'Female', '9556 Anastacio Brooks\nBatzberg, CO 31160', '2004-12-30 18:23:33', '1995-11-05 21:41:19');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (17, 'Ms', 'Jonatan', 'Raynor', 'non', 'cordie37@example.net', '937.021.2535x2349', '1970-03-20', 17, '7fabb6186ad6e5ac7a8b0ce2e4c791dc', 'Female', '7122 Sauer Alley\nPort Jazmyneside, WA 52492-8141', '1985-06-14 17:25:24', '2010-05-11 11:21:32');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (18, 'Mrs', 'Evalyn', 'Kirlin', 'distinctio', 'antonette.dach@example.org', '(737)692-7240x95392', '1972-05-19', 18, '4b80d5f34706b8ca30e0cb88c6926c8d', 'Female', '7061 Adrian Villages Apt. 676\nSincereport, IA 95554', '2003-02-02 14:32:29', '2016-11-20 15:57:44');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (19, 'Mr', 'Samantha', 'Koch', 'facere', 'marielle.kessler@example.com', '1-108-548-5135', '1989-02-11', 19, 'ba6df7f8f44dc22ba5047576981a54a0', 'Male', '25307 Corkery Light\nNicklausburgh, CA 78103', '2003-11-29 11:19:01', '1996-05-06 11:31:14');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (20, 'Mr', 'Madelynn', 'Grant', 'saepe', 'matilda78@example.com', '(226)831-7503x03150', '1982-02-22', 20, '7970f561707871eb85183778a02c8814', 'Female', '9821 Grant Square\nNorth Oscarberg, MA 63307', '2015-06-04 03:43:21', '1984-07-28 19:14:56');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (21, 'Mr', 'Hugh', 'Cummerata', 'exercitationem', 'matteo81@example.com', '(820)477-0970', '1980-07-04', 21, 'cc317e4bd578258e9aa861931975c8f7', 'Female', '25416 Wiza Port\nClaudieton, RI 20735', '2017-05-14 23:33:13', '1988-09-05 10:29:27');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (22, 'Mr', 'Genoveva', 'McLaughlin', 'ipsam', 'yasmeen.schmitt@example.net', '522-272-7840x9185', '1987-10-10', 22, 'ea969e0f4fedb45890a81cc5e20717cb', 'Male', '93275 Marina Cliff Apt. 686\nSouth Felton, IA 74646', '2000-03-22 00:15:26', '1979-02-25 02:42:24');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (23, 'Ms', 'Annamarie', 'Swift', 'placeat', 'dspinka@example.org', '(283)957-6378x258', '2001-03-10', 23, 'f0787f945384c05ec561b40b1c4bf333', 'Male', '91287 Kayli Course Suite 700\nDonnaside, WI 49155', '1989-05-24 06:12:30', '1982-06-01 09:06:54');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (24, 'Mrs', 'Boyd', 'Bernhard', 'nihil', 'johns.kennedy@example.net', '748-203-7294x36685', '1972-09-13', 24, '7f7f97ac967ad3be118e15ec4b556d7b', 'Female', '843 Purdy Extensions\nLake Freddy, MA 49933', '2009-04-05 02:59:35', '1997-04-10 06:36:16');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (25, 'Mr', 'Korbin', 'Jakubowski', 'qui', 'barrett63@example.org', '1-170-788-5830x57532', '2011-09-21', 25, '5b344281481e6d6483041592d9f23e67', 'Male', '340 Violet Wall\nNew Kameron, OR 96152-9801', '1996-04-28 16:03:59', '1993-04-03 08:40:36');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (26, 'Mrs', 'Marianne', 'Leffler', 'eaque', 'vernie40@example.org', '07203670307', '2012-12-12', 26, 'eb2706982d7b746af86fe4b7e925bb52', 'Female', '998 Lloyd Mill Suite 093\nLake Garryland, AK 40652-4160', '2008-02-17 08:38:40', '1987-01-23 09:06:48');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (27, 'Mr', 'Felipe', 'Jast', 'autem', 'bogan.vivian@example.org', '(992)389-7828', '2014-04-03', 27, 'd782eecddf145ff6bae17d9555d52005', 'Female', '249 Davis Falls Apt. 255\nEast Akeem, ND 56236-1921', '1975-02-04 11:39:18', '1972-09-22 19:13:11');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (28, 'Ms', 'Susana', 'Zboncak', 'ex', 'raheem.green@example.com', '(613)158-1851', '2003-12-12', 28, 'bfa2bceb89f89c97381389d4a252f889', 'Female', '7219 Jettie Expressway\nSouth Claire, AZ 20887', '1998-02-20 05:42:43', '1996-06-20 19:57:26');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (29, 'Ms', 'Alessandra', 'Olson', 'et', 'flatley.eve@example.com', '(332)874-2279x5657', '1991-03-24', 29, '82b03764422ec4eb7c027e9b1daa3128', 'Male', '00758 Fisher Pass\nHellerburgh, NC 91445', '2001-11-21 16:40:02', '1971-03-18 03:38:21');
-INSERT INTO `users` (`user_id`, `title`, `first_name`, `last_name`, `display_name`, `email`, `phone`, `birthday`, `nationality_id`, `password_user`, `gender`, `address`, `created_at`, `updated_at`) VALUES (30, 'Ms', 'Terrence', 'Yost', 'ut', 'baumbach.vincenzo@example.org', '968-217-4260', '2001-11-30', 30, 'cf1fa47b467a7ba2ec6adb42068d029e', 'Male', '4792 Darrin Gardens\nEast Darien, AR 26429-6386', '1981-08-14 23:38:06', '1992-08-31 06:06:14');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (1, 'debitis', '1999-05-10 13:14:01', '1987-09-12 13:33:52');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (2, 'harum', '2014-03-24 20:52:07', '1986-01-08 00:30:20');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (3, 'vero', '2014-05-23 12:44:05', '1997-01-03 01:39:24');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (4, 'nihil', '1977-08-28 21:26:51', '1988-06-25 20:32:42');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (5, 'ipsum', '2012-07-10 18:02:46', '1992-11-28 12:59:45');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (6, 'reprehenderit', '2018-01-09 22:10:04', '1980-10-28 02:00:11');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (7, 'ut', '1979-09-18 22:37:57', '1994-08-11 12:15:17');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (8, 'reiciendis', '2019-10-27 18:18:17', '1977-03-21 10:35:05');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (9, 'sit', '2009-06-25 04:17:34', '1981-06-22 11:01:46');
+INSERT INTO `communities` (`id`, `name`, `created_at`, `updated_at`) VALUES (10, 'rem', '2008-11-22 01:57:52', '2014-04-17 21:25:31');
 
-update users set birthday = birthday - interval 20 year where date(birthday) >'2005-01-01';
-UPDATE users SET updated_at = NOW() WHERE updated_at < created_at;
-UPDATE users SET nationality_id = FLOOR(1 + RAND() * (select count(*) from nationalities)); 
 
-DROP TABLE IF EXISTS payment_details;
+#
+# TABLE STRUCTURE FOR: communities_users
+#
 
-CREATE TABLE payment_details (
-  user_id int  NOT null primary key,
-  cardholders_name varchar(30) NOT NULL,
-  card_number BIGINT unsigned NOT NULL,
-  expiration_date datetime DEFAULT NULL,
-  CONSTRAINT user_id_payment_fk 
-  foreign key (user_id) references users(user_id) on delete cascade on update cascade
+DROP TABLE IF EXISTS `communities_users`;
+
+CREATE TABLE `communities_users` (
+  `community_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РіСЂСѓРїРїСѓ',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`community_id`,`user_id`) COMMENT 'РЎРѕСЃС‚Р°РІРЅРѕР№ РїРµСЂРІРёС‡РЅС‹Р№ РєР»СЋС‡'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РЈС‡Р°СЃС‚РЅРёРєРё РіСЂСѓРїРї, СЃРІСЏР·СЊ Р�?РµР¶РґСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏР�?Рё Рё РіСЂСѓРїРїР°Р�?Рё';
+
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 1, '2000-01-18 15:54:03');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 11, '1999-08-18 18:46:03');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 21, '2012-11-15 20:09:40');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 31, '1973-02-10 14:19:30');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 41, '2020-02-28 00:01:21');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 51, '1994-04-16 05:50:18');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 61, '1983-07-07 07:17:49');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 71, '2019-07-27 05:03:20');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 81, '1974-02-26 18:47:30');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (1, 91, '1975-04-04 04:55:15');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 2, '1981-01-13 16:03:04');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 12, '1979-06-12 10:27:06');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 22, '1986-06-11 15:46:10');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 32, '2011-06-12 13:35:07');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 42, '2003-12-17 23:09:11');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 52, '1970-07-28 16:30:54');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 62, '1979-02-24 12:28:52');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 72, '2019-05-26 11:59:48');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 82, '1972-11-17 08:14:10');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (2, 92, '1970-03-24 20:10:45');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 3, '1976-06-24 16:15:01');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 13, '2002-01-21 15:58:34');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 23, '1970-08-19 16:33:59');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 33, '1983-11-18 09:50:04');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 43, '1983-03-28 01:11:08');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 53, '2002-01-03 15:13:43');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 63, '1981-01-30 14:56:35');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 73, '2018-03-25 01:30:29');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 83, '1991-04-23 17:08:50');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (3, 93, '2008-10-05 10:06:38');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 4, '2018-10-13 07:05:05');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 14, '2007-10-28 07:57:58');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 24, '2001-04-15 11:41:04');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 34, '1983-02-17 01:15:51');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 44, '1982-06-04 23:27:28');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 54, '1970-09-09 08:24:06');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 64, '2003-01-13 17:34:51');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 74, '1988-06-07 12:20:12');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 84, '1982-06-07 13:03:02');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (4, 94, '1993-03-03 16:23:04');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 5, '1970-07-09 04:45:29');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 15, '2006-05-02 03:44:46');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 25, '1992-10-26 01:53:55');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 35, '1973-10-19 00:06:16');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 45, '2004-02-14 07:33:15');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 55, '1977-07-19 21:21:17');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 65, '1999-07-26 08:51:11');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 75, '2003-01-12 08:22:04');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 85, '2004-04-15 05:43:53');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (5, 95, '2006-02-01 14:41:19');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 6, '1972-03-06 09:52:14');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 16, '1999-04-19 13:08:15');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 26, '2018-04-16 11:34:57');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 36, '2008-06-19 22:21:05');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 46, '2006-06-22 06:04:03');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 56, '2011-07-08 21:24:14');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 66, '2006-09-06 11:49:42');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 76, '2002-07-11 03:48:39');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 86, '2020-10-03 23:33:59');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (6, 96, '2004-05-03 20:07:32');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 7, '1974-04-28 09:48:43');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 17, '2020-06-23 21:46:11');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 27, '1974-09-15 12:58:36');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 37, '1986-02-21 01:28:31');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 47, '2008-07-25 02:40:29');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 57, '1999-04-12 15:03:48');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 67, '1977-03-26 02:17:15');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 77, '1976-02-23 01:08:18');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 87, '1988-10-02 15:17:53');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (7, 97, '1978-07-05 01:34:56');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 8, '2020-03-27 01:56:44');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 18, '1986-09-19 12:01:44');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 28, '1991-05-31 14:30:14');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 38, '2003-01-15 17:10:35');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 48, '1984-11-10 15:30:12');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 58, '1998-07-19 09:14:32');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 68, '1978-03-16 18:51:27');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 78, '2012-01-12 07:37:22');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 88, '2016-06-13 22:12:11');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (8, 98, '1995-07-21 20:11:44');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 9, '1991-06-14 20:10:08');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 19, '1987-10-15 15:07:43');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 29, '1996-07-10 14:53:43');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 39, '1992-01-15 15:50:10');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 49, '1982-12-28 23:12:33');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 59, '2010-10-11 11:10:33');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 69, '1989-07-11 18:06:59');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 79, '1985-05-09 23:51:13');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 89, '1971-01-29 00:36:46');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (9, 99, '2001-01-25 16:27:07');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 10, '1982-02-13 22:30:47');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 20, '2004-01-30 04:04:13');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 30, '2007-11-06 02:17:09');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 40, '1976-06-28 06:38:39');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 50, '2019-05-03 00:04:19');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 60, '1985-04-16 00:57:56');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 70, '2019-12-17 18:17:41');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 80, '1984-08-03 10:25:37');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 90, '1970-10-29 03:34:11');
+INSERT INTO `communities_users` (`community_id`, `user_id`, `created_at`) VALUES (10, 100, '1981-09-21 21:03:12');
+
+
+#
+# TABLE STRUCTURE FOR: friendship
+#
+
+DROP TABLE IF EXISTS `friendship`;
+
+CREATE TABLE `friendship` (
+  `user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РёРЅРёС†РёР°С‚РѕСЂР° РґСЂСѓР¶РµСЃРєРёС… РѕС‚РЅРѕС€РµРЅРёР№',
+  `friend_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РїРѕР»СѓС‡Р°С‚РµР»СЏ РїСЂРёРіР»Р°С€РµРЅРёСЏ РґСЂСѓР¶РёС‚СЊ',
+  `friendship_status_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° СЃС‚Р°С‚СѓСЃ (С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ) РѕС‚РЅРѕС€РµРЅРёР№',
+  `requested_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕС‚РїСЂР°РІР»РµРЅРёСЏ РїСЂРёРіР»Р°С€РµРЅРёСЏ РґСЂСѓР¶РёС‚СЊ',
+  `confirmed_at` datetime DEFAULT NULL COMMENT 'Р’СЂРµР�?СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ РїСЂРёРіР»Р°С€РµРЅРёСЏ',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`user_id`,`friend_id`) COMMENT 'РЎРѕСЃС‚Р°РІРЅРѕР№ РїРµСЂРІРёС‡РЅС‹Р№ РєР»СЋС‡'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РўР°Р±Р»РёС†Р° РґСЂСѓР¶Р±С‹';
+
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (1, 1, 1, '1975-08-20 15:12:26', '1975-06-22 05:15:39', '1998-06-20 18:01:59', '2002-10-01 19:20:17');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (2, 2, 2, '1981-09-22 20:12:34', '1977-05-16 17:11:09', '1981-01-03 11:44:47', '1979-10-04 22:14:41');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (3, 3, 1, '1974-05-29 17:01:04', '1974-10-17 15:33:36', '1983-11-18 04:20:47', '1990-04-01 21:06:45');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (4, 4, 2, '2012-09-30 00:34:13', '2017-08-14 09:28:35', '1986-02-12 13:23:31', '1972-05-16 05:10:18');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (5, 5, 1, '1976-04-25 04:33:33', '2001-01-05 03:36:52', '1984-06-11 23:43:40', '1976-10-23 22:31:57');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (6, 6, 2, '1974-04-25 18:31:12', '2012-01-03 21:38:28', '1973-01-01 05:34:48', '2005-04-28 10:25:07');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (7, 7, 1, '1994-03-15 00:03:40', '1974-02-19 08:04:55', '1975-06-30 00:25:02', '2015-08-06 04:43:09');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (8, 8, 2, '2006-07-25 06:32:34', '1994-01-17 14:26:51', '2011-07-31 19:38:07', '2016-07-22 16:20:07');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (9, 9, 1, '1971-09-28 16:40:42', '1971-03-20 19:56:47', '1972-01-31 08:12:50', '1987-01-20 14:33:17');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (10, 10, 2, '2019-10-07 21:56:17', '2016-06-25 17:57:58', '1992-12-06 16:45:42', '2004-08-21 13:51:46');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (11, 11, 1, '2017-05-18 22:12:58', '2019-12-20 19:03:54', '2014-05-22 18:29:33', '2005-03-12 16:46:50');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (12, 12, 2, '1991-04-03 12:41:27', '1996-03-11 04:18:06', '2003-04-18 11:56:33', '1997-08-26 04:22:18');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (13, 13, 1, '1986-04-13 15:24:03', '2019-08-02 07:47:53', '1998-06-14 20:36:35', '2020-07-31 05:54:09');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (14, 14, 2, '1974-07-18 01:50:11', '1999-01-23 20:32:05', '1972-01-16 05:13:28', '1977-06-23 03:54:49');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (15, 15, 1, '2013-01-10 10:22:43', '2008-03-23 11:31:03', '1984-09-13 17:03:43', '2014-03-03 21:26:05');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (16, 16, 2, '1975-02-22 08:44:31', '2010-08-02 04:03:31', '2012-09-09 04:37:16', '1970-05-24 02:48:05');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (17, 17, 1, '1973-01-02 13:11:30', '1973-12-24 04:44:50', '2016-05-17 21:02:10', '2018-03-07 10:16:04');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (18, 18, 2, '1989-08-04 05:38:41', '2014-12-09 05:27:04', '1978-05-18 11:14:19', '2013-01-30 09:31:28');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (19, 19, 1, '1987-08-03 02:31:45', '1989-08-17 16:45:58', '1986-03-06 04:49:44', '1991-04-29 20:17:59');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (20, 20, 2, '1982-03-20 06:04:17', '1990-06-07 18:15:32', '1976-12-06 05:21:30', '2008-07-04 00:09:59');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (21, 21, 1, '1983-06-18 18:24:55', '1985-02-17 03:52:29', '1993-03-16 03:02:37', '1996-07-06 20:31:01');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (22, 22, 2, '1981-10-31 02:01:29', '1991-02-14 02:11:46', '1982-08-06 14:47:19', '1989-12-05 19:46:19');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (23, 23, 1, '2010-06-09 11:46:01', '2003-01-16 05:12:27', '1982-02-27 10:01:34', '1999-06-16 12:37:01');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (24, 24, 2, '1978-04-17 19:13:11', '1988-06-27 20:16:13', '1984-11-17 00:57:58', '1974-06-06 13:56:22');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (25, 25, 1, '2005-03-31 17:28:11', '1991-05-30 11:07:17', '1989-11-04 15:52:59', '2006-11-15 04:57:41');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (26, 26, 2, '2017-08-08 01:45:50', '2009-09-26 10:46:13', '2000-01-19 14:40:45', '1972-02-14 15:31:54');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (27, 27, 1, '1970-03-14 21:44:40', '2003-11-21 03:13:27', '1992-07-27 11:35:46', '2008-10-06 20:43:35');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (28, 28, 2, '2012-07-24 13:50:35', '2007-04-14 05:15:50', '1990-08-10 07:38:55', '1981-04-04 09:31:00');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (29, 29, 1, '1992-08-12 22:44:39', '2006-11-20 08:14:05', '2002-03-26 18:13:43', '1970-05-05 06:54:40');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (30, 30, 2, '1987-05-30 10:20:13', '1973-09-02 22:46:22', '2004-07-06 16:56:32', '1999-09-01 10:28:07');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (31, 31, 1, '2001-06-14 06:42:19', '2017-10-20 00:27:43', '1980-07-28 05:55:29', '1975-02-26 10:57:31');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (32, 32, 2, '1982-11-05 22:32:15', '1971-04-11 01:15:51', '1978-02-02 11:59:35', '1997-01-12 20:52:23');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (33, 33, 1, '2019-01-12 07:26:47', '1988-11-28 12:53:15', '1987-01-24 00:35:29', '1979-12-08 23:19:32');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (34, 34, 2, '1979-11-19 07:23:36', '1999-03-26 18:33:20', '1995-10-22 19:30:01', '1987-08-21 23:25:36');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (35, 35, 1, '1985-12-22 22:08:50', '1970-03-21 01:15:06', '1994-02-13 12:35:04', '1974-02-15 05:20:35');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (36, 36, 2, '1988-04-16 13:17:49', '2008-05-26 23:43:17', '2018-07-15 10:48:55', '1970-02-15 08:42:04');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (37, 37, 1, '1991-08-28 05:44:11', '2020-02-28 19:33:10', '2020-12-18 15:23:57', '2007-01-09 01:37:24');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (38, 38, 2, '1998-10-21 05:05:17', '1994-07-22 15:03:19', '1985-05-05 15:29:34', '1976-04-22 01:12:15');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (39, 39, 1, '2009-08-05 14:53:59', '1974-07-20 13:00:16', '1991-08-10 10:26:43', '1979-05-14 07:57:03');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (40, 40, 2, '1986-03-29 00:13:07', '2015-05-07 09:29:38', '2009-06-02 00:10:44', '1982-12-24 17:57:01');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (41, 41, 1, '2006-11-03 16:04:11', '1988-01-31 02:20:34', '1991-04-04 17:29:32', '1977-08-24 22:11:04');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (42, 42, 2, '1993-06-10 20:24:34', '2013-11-24 13:45:18', '1970-04-23 05:05:56', '2012-07-01 06:20:01');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (43, 43, 1, '1982-07-15 05:59:11', '2001-01-22 16:34:57', '1971-02-24 14:10:00', '2000-01-19 03:27:42');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (44, 44, 2, '1986-09-30 08:14:57', '2006-03-20 16:03:03', '1998-08-01 20:37:15', '1996-08-06 01:45:19');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (45, 45, 1, '1993-05-11 03:04:26', '1983-06-17 18:09:48', '1990-01-24 07:48:04', '1997-09-19 19:57:43');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (46, 46, 2, '2016-11-10 09:55:13', '2003-07-11 06:09:29', '1982-11-07 13:56:12', '1984-05-08 15:00:50');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (47, 47, 1, '1981-07-18 00:04:27', '1979-04-26 19:24:52', '2018-07-26 14:51:37', '1975-08-16 06:14:49');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (48, 48, 2, '1998-09-26 07:09:20', '2003-10-18 05:23:35', '1987-05-17 08:27:24', '2012-11-15 12:01:32');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (49, 49, 1, '1983-05-11 22:14:35', '2016-04-28 00:18:45', '1994-01-11 22:54:53', '1972-06-23 22:47:19');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (50, 50, 2, '2005-10-11 10:44:10', '1988-06-06 02:30:41', '2006-05-28 18:46:37', '1974-02-04 10:11:39');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (51, 51, 1, '1994-10-19 14:35:00', '1996-03-05 23:31:12', '1993-12-04 23:42:00', '2006-04-26 21:00:53');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (52, 52, 2, '2016-04-29 18:59:16', '1972-05-02 02:30:08', '1975-07-16 20:09:24', '2001-04-03 08:32:42');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (53, 53, 1, '1989-10-21 02:36:17', '2008-04-05 02:32:55', '2016-09-12 14:52:01', '2007-07-27 12:09:59');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (54, 54, 2, '1971-08-06 18:02:13', '1977-06-23 06:09:31', '1993-09-18 12:39:00', '1975-06-01 12:25:21');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (55, 55, 1, '2007-12-17 04:36:04', '2011-08-28 17:11:39', '1972-10-24 11:10:50', '1975-06-30 19:33:22');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (56, 56, 2, '1971-01-10 14:29:06', '1997-04-16 05:05:48', '1994-09-06 20:02:16', '1983-04-18 14:12:45');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (57, 57, 1, '2003-06-09 22:38:39', '1981-04-25 09:51:25', '1980-02-18 19:06:06', '1996-12-16 20:39:04');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (58, 58, 2, '2014-12-13 23:33:42', '2009-01-01 10:53:03', '2000-10-19 15:43:24', '2007-12-03 00:27:49');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (59, 59, 1, '1993-04-29 16:06:06', '2019-07-01 05:17:22', '2017-04-06 16:54:42', '2004-03-30 16:35:38');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (60, 60, 2, '1989-08-09 21:02:30', '1973-09-27 10:51:18', '2016-10-22 09:16:07', '1994-02-10 06:42:32');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (61, 61, 1, '1999-01-07 15:40:22', '1995-12-21 02:52:30', '2006-06-09 18:08:08', '2000-02-03 18:38:51');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (62, 62, 2, '1995-09-03 19:12:14', '2018-07-15 17:34:15', '2009-01-05 23:23:41', '2000-09-24 08:53:20');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (63, 63, 1, '2016-08-20 16:30:23', '1988-06-30 18:16:44', '1993-12-03 11:41:02', '1998-03-02 13:44:14');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (64, 64, 2, '2013-09-22 12:42:45', '1990-08-28 22:13:52', '1979-11-16 22:32:08', '1977-11-08 04:03:29');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (65, 65, 1, '1971-02-15 09:29:19', '2020-04-14 09:49:57', '1984-08-27 18:44:49', '2010-01-20 05:27:52');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (66, 66, 2, '2016-11-06 18:39:11', '2020-08-02 11:07:22', '1987-08-31 19:44:01', '1978-11-18 00:26:00');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (67, 67, 1, '1997-03-12 21:57:02', '1984-10-17 02:24:37', '2008-04-16 02:39:52', '2015-11-24 20:33:16');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (68, 68, 2, '2010-04-20 10:36:49', '1977-06-25 17:55:55', '2018-09-21 00:51:17', '2007-10-08 18:34:49');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (69, 69, 1, '1973-10-16 12:30:35', '2017-02-23 21:43:34', '1984-08-18 23:08:52', '2005-10-10 22:52:09');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (70, 70, 2, '2004-11-14 19:22:23', '1976-04-05 03:49:30', '2010-12-28 15:30:54', '2007-07-16 14:37:14');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (71, 71, 1, '1973-07-12 01:23:13', '1974-09-30 23:13:13', '2003-07-03 03:01:49', '2008-01-06 09:16:54');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (72, 72, 2, '1994-05-02 01:24:51', '1990-03-16 12:58:01', '2010-03-07 14:37:32', '1975-07-11 17:37:23');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (73, 73, 1, '2006-09-30 05:49:24', '2014-08-15 03:55:32', '1998-07-29 02:56:15', '1983-09-10 00:11:40');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (74, 74, 2, '1981-03-20 06:58:26', '1995-04-13 10:32:30', '1974-05-14 09:15:48', '1985-12-22 16:55:00');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (75, 75, 1, '1970-02-07 04:28:43', '1971-12-15 17:13:15', '1994-01-10 01:37:07', '1979-04-22 21:18:04');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (76, 76, 2, '2000-10-20 00:05:06', '1991-10-03 09:03:51', '2020-04-27 20:59:58', '1989-09-01 18:46:36');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (77, 77, 1, '1988-11-12 11:57:20', '1999-01-06 19:21:24', '2013-01-25 21:46:20', '1999-03-17 21:19:54');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (78, 78, 2, '2010-02-18 21:39:33', '2019-01-11 08:53:52', '1982-09-28 16:35:50', '1974-10-14 16:58:35');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (79, 79, 1, '1993-06-08 14:26:38', '1991-02-24 02:37:07', '2000-08-05 19:17:30', '1986-05-05 16:44:33');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (80, 80, 2, '2000-04-28 16:31:36', '2009-06-16 05:45:28', '1998-02-07 09:49:54', '2006-11-23 13:48:31');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (81, 81, 1, '1995-01-26 09:29:46', '1997-08-16 08:25:27', '2004-05-04 17:20:23', '1992-02-07 07:27:54');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (82, 82, 2, '1996-01-27 21:33:35', '1988-11-12 07:05:40', '2009-11-22 12:00:32', '1972-08-19 07:27:55');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (83, 83, 1, '1974-03-27 22:10:56', '2007-07-04 17:57:49', '2001-07-14 14:02:44', '2018-12-28 07:27:40');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (84, 84, 2, '2009-05-20 12:31:03', '1971-05-29 13:30:48', '2006-08-20 19:41:28', '2012-08-14 12:04:18');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (85, 85, 1, '2017-01-23 11:13:07', '1986-09-01 02:47:21', '1972-08-22 07:23:40', '2019-07-30 17:07:14');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (86, 86, 2, '1980-06-03 03:13:45', '2003-10-02 00:03:40', '2015-04-25 01:35:38', '1993-04-17 02:47:50');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (87, 87, 1, '1973-09-23 19:41:03', '1995-01-07 21:41:26', '2006-07-27 16:28:01', '1970-02-05 04:39:55');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (88, 88, 2, '1983-03-16 00:03:31', '2018-07-23 07:08:11', '2005-03-08 13:01:29', '2011-05-04 20:39:53');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (89, 89, 1, '1983-06-02 21:47:36', '1978-12-30 02:00:28', '2013-10-19 13:41:29', '1999-09-14 21:09:22');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (90, 90, 2, '2019-09-21 03:29:05', '1970-02-21 14:07:50', '2010-12-15 10:46:55', '1976-01-17 10:51:18');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (91, 91, 1, '2002-03-14 19:38:47', '1979-05-01 22:55:28', '1970-05-15 22:42:30', '1983-09-26 17:20:26');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (92, 92, 2, '1989-03-20 14:00:07', '2016-09-29 12:11:18', '1990-11-23 19:32:49', '2003-12-06 23:49:12');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (93, 93, 1, '1986-09-05 07:45:31', '1999-04-15 12:37:06', '1990-07-23 02:39:15', '1992-07-31 06:45:30');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (94, 94, 2, '1986-02-23 22:01:17', '1993-08-01 17:45:37', '2006-12-04 21:58:24', '1976-02-18 08:04:01');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (95, 95, 1, '1983-08-28 04:57:35', '1997-12-12 03:54:17', '1985-08-21 04:43:27', '2019-09-26 11:44:37');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (96, 96, 2, '2011-05-09 17:27:51', '1975-12-08 09:47:33', '1976-12-08 19:18:33', '2004-05-20 09:52:30');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (97, 97, 1, '1971-02-22 15:10:45', '1991-06-21 16:58:59', '1974-07-27 21:57:05', '1989-02-10 10:47:50');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (98, 98, 2, '1983-04-25 00:33:17', '2009-11-09 00:59:28', '1993-11-21 05:01:54', '2016-07-29 01:53:09');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (99, 99, 1, '1972-04-25 01:04:27', '2013-10-05 00:27:20', '2016-05-03 22:46:33', '2010-06-25 10:11:22');
+INSERT INTO `friendship` (`user_id`, `friend_id`, `friendship_status_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`) VALUES (100, 100, 2, '2005-12-02 01:20:55', '1974-01-02 19:02:23', '2012-01-29 07:14:39', '2000-03-30 10:16:26');
+
+
+#
+# TABLE STRUCTURE FOR: friendship_statuses
+#
+
+DROP TABLE IF EXISTS `friendship_statuses`;
+
+CREATE TABLE `friendship_statuses` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Р�РґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂРѕРєРё',
+  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РќР°Р·РІР°РЅРёРµ СЃС‚Р°С‚СѓСЃР°',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РЎС‚Р°С‚СѓСЃС‹ РґСЂСѓР¶Р±С‹';
+
+INSERT INTO `friendship_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES (1, '-', '2004-06-06 22:53:40', '1999-04-01 18:26:51');
+INSERT INTO `friendship_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES (2, '+', '2020-02-07 15:29:39', '2006-04-20 14:02:43');
+
+
+#
+# TABLE STRUCTURE FOR: media
+#
+
+DROP TABLE IF EXISTS `media`;
+
+CREATE TABLE `media` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Р�РґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂРѕРєРё',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РєРѕС‚РѕСЂС‹Р№ Р·Р°РіСЂСѓР·РёР» С„Р°Р№Р»',
+  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РџСѓС‚СЊ Рє С„Р°Р№Р»Сѓ',
+  `size` int(11) NOT NULL COMMENT 'Р Р°Р·Р�?РµСЂ С„Р°Р№Р»Р°',
+  `metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'РњРµС‚Р°РґР°РЅРЅС‹Рµ С„Р°Р№Р»Р°' CHECK (json_valid(`metadata`)),
+  `media_type_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° С‚РёРї РєРѕРЅС‚РµРЅС‚Р°',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РњРµРґРёР°С„Р°Р№Р»С‹';
+
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (101, 1, 'aut', 6, '7', 1, '2018-01-05 02:46:10', '1992-04-07 16:13:41');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (102, 2, 'neque', 7748585, '6', 2, '1983-05-14 07:23:39', '2019-04-04 16:28:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (103, 4, 'et', 53, '4', 4, '2014-05-11 15:21:31', '1993-11-08 16:35:14');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (104, 5, 'ut', 227735, '2', 5, '1993-09-26 09:05:44', '2007-02-08 11:37:49');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (105, 6, 'ea', 222717, '9', 6, '1975-02-05 10:13:51', '1985-01-26 07:37:07');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (106, 7, 'quos', 55, '7', 7, '2019-05-19 01:14:40', '1994-04-16 00:03:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (107, 8, 'et', 653555, '6', 8, '1986-07-29 04:16:11', '1997-04-09 02:50:05');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (108, 9, 'pariatur', 9158316, '4', 9, '1998-04-14 12:31:23', '2010-10-14 03:42:03');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (109, 10, 'ut', 266994364, '8', 10, '2004-02-11 01:24:14', '1979-06-28 22:41:37');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (110, 11, 'mollitia', 9, '7', 11, '1990-11-09 06:46:54', '2017-03-06 07:02:53');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (111, 12, 'eaque', 41404005, '6', 12, '1970-01-18 00:51:26', '1996-12-26 20:23:45');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (112, 13, 'reprehenderit', 2394, '2', 13, '1979-04-06 05:18:23', '1984-11-12 23:37:07');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (113, 14, 'sed', 177, '9', 14, '1979-02-15 07:59:47', '1994-09-23 04:18:38');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (114, 15, 'beatae', 946028, '9', 15, '2003-07-24 08:11:25', '1986-03-03 03:36:57');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (115, 16, 'non', 7, '1', 16, '2007-05-22 21:14:27', '1972-12-04 05:39:40');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (116, 17, 'vitae', 5763, '3', 17, '1980-06-17 01:31:19', '1973-10-21 18:48:37');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (117, 18, 'cum', 0, '5', 18, '1979-01-18 17:40:02', '2009-07-02 14:42:25');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (118, 20, 'et', 485019, '7', 20, '1974-12-31 03:30:48', '1983-08-07 06:01:51');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (119, 21, 'cumque', 55130, '6', 21, '1970-09-12 01:53:40', '2012-01-03 00:55:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (120, 23, 'possimus', 41948584, '4', 23, '1972-06-12 06:57:43', '1996-10-05 10:06:49');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (121, 24, 'ut', 80, '7', 24, '1978-02-03 21:16:24', '1991-10-22 07:38:35');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (122, 25, 'est', 455594469, '8', 25, '2006-09-12 19:13:29', '2002-04-27 01:22:44');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (123, 26, 'qui', 5, '4', 26, '2020-07-08 22:16:56', '1992-12-21 19:31:04');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (124, 27, 'recusandae', 73796, '4', 27, '2002-07-12 12:26:12', '1986-10-20 15:38:51');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (125, 28, 'praesentium', 77178, '6', 28, '1999-01-17 00:12:46', '1980-04-21 10:32:21');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (126, 29, 'soluta', 86982, '4', 29, '2005-07-22 19:29:35', '1988-01-22 06:36:55');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (127, 31, 'et', 55, '9', 31, '1992-05-03 01:46:38', '1999-01-27 01:19:23');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (128, 32, 'molestiae', 1370, '8', 32, '1978-01-03 15:13:13', '1999-05-25 21:35:52');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (129, 34, 'totam', 1, '1', 34, '1994-03-31 15:24:51', '2017-06-22 18:21:19');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (130, 35, 'voluptas', 9244, '6', 35, '2015-10-26 15:15:10', '1982-07-15 04:43:03');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (131, 36, 'reprehenderit', 638, '5', 36, '2018-06-26 20:27:38', '2005-06-01 13:52:25');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (132, 37, 'fugit', 324917357, '6', 37, '2012-12-25 02:08:25', '2009-03-13 02:59:27');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (133, 38, 'est', 648535, '6', 38, '1972-06-21 01:16:21', '2004-03-20 09:22:31');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (134, 39, 'non', 983672396, '8', 39, '1986-03-16 05:31:33', '1999-06-02 15:51:49');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (135, 40, 'iusto', 89769, '1', 40, '1999-07-12 23:29:28', '1974-11-24 02:32:38');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (136, 41, 'qui', 0, '7', 1, '1970-05-21 10:10:27', '1996-10-08 07:17:37');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (137, 42, 'debitis', 227107433, '3', 2, '1987-12-24 12:25:25', '1986-12-26 04:46:51');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (138, 43, 'quaerat', 90, '3', 3, '1999-05-22 15:30:41', '2006-09-03 03:26:28');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (139, 44, 'itaque', 83, '1', 4, '1999-07-08 16:35:38', '1983-09-28 22:02:12');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (140, 45, 'iste', 14691346, '2', 5, '2007-04-23 01:06:20', '2009-02-27 15:15:00');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (141, 46, 'qui', 935207014, '8', 6, '2005-08-23 19:15:22', '1974-01-21 20:18:52');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (142, 47, 'nemo', 793, '1', 7, '1987-01-31 04:59:22', '2012-12-07 00:28:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (143, 48, 'natus', 267961258, '3', 8, '2005-07-06 06:17:09', '1977-07-01 03:31:19');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (144, 49, 'ipsum', 0, '6', 9, '1986-08-28 06:34:45', '2003-07-09 12:46:26');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (145, 50, 'incidunt', 304476331, '7', 10, '2019-04-29 06:00:10', '2017-12-13 10:17:48');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (146, 51, 'optio', 0, '2', 11, '1995-04-13 09:28:02', '2010-10-10 17:45:47');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (147, 52, 'et', 55, '3', 12, '2003-06-07 13:52:11', '1991-09-03 12:53:38');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (148, 53, 'ea', 0, '7', 13, '1981-02-17 07:17:02', '1988-06-27 05:39:41');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (149, 54, 'facilis', 35, '4', 14, '1996-02-13 22:54:20', '1971-06-18 11:22:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (150, 55, 'laborum', 630558639, '4', 15, '1970-03-15 00:19:21', '2019-12-03 12:08:59');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (151, 56, 'ipsum', 1, '4', 16, '2004-01-11 16:32:29', '1998-01-13 07:24:30');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (152, 57, 'et', 1413, '3', 17, '1990-04-17 07:21:30', '1976-01-03 12:05:07');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (153, 58, 'eum', 79692059, '7', 18, '1982-12-30 04:44:55', '1976-12-01 00:52:56');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (154, 59, 'aliquid', 197, '2', 19, '1991-04-17 07:30:52', '2001-11-27 04:18:24');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (155, 60, 'et', 6336, '8', 20, '2001-12-04 16:10:41', '1971-11-29 16:49:07');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (156, 61, 'unde', 683494, '4', 21, '2008-01-26 00:56:04', '2001-02-07 11:00:42');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (157, 62, 'totam', 1875, '2', 22, '2015-05-06 13:17:10', '1995-03-12 20:28:23');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (158, 63, 'sit', 519394973, '7', 23, '2012-04-29 11:21:34', '2019-08-29 10:38:54');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (159, 64, 'sed', 41, '9', 24, '2019-07-04 12:17:48', '1990-03-08 15:12:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (160, 65, 'consequuntur', 42127, '8', 25, '1984-12-20 01:09:45', '1983-07-30 05:35:15');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (161, 66, 'quia', 0, '4', 26, '2006-11-11 04:18:00', '2017-10-12 19:37:06');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (162, 67, 'temporibus', 856686959, '4', 27, '1976-07-05 20:28:40', '2005-05-11 13:13:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (163, 68, 'natus', 28871611, '6', 28, '1983-04-17 20:15:53', '2012-04-26 18:06:47');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (164, 69, 'est', 7830446, '7', 29, '1970-08-03 09:41:31', '1987-09-03 15:12:46');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (165, 71, 'labore', 0, '4', 31, '2006-05-06 00:29:43', '1988-09-22 12:00:55');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (166, 72, 'est', 80, '1', 32, '2001-08-02 16:35:03', '2016-07-14 19:44:48');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (167, 73, 'minima', 5340275, '9', 33, '2015-12-12 05:28:07', '1987-03-08 13:32:01');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (168, 74, 'optio', 44, '4', 34, '1990-09-26 23:04:20', '1970-09-23 18:36:15');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (169, 76, 'eaque', 7, '4', 36, '1994-03-04 11:33:41', '2009-05-03 06:00:03');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (170, 77, 'iure', 8, '7', 37, '1973-03-11 20:38:35', '2007-05-03 19:44:10');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (171, 78, 'distinctio', 815743, '1', 38, '1985-09-23 05:06:23', '2020-08-28 17:40:48');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (172, 79, 'quod', 708, '1', 39, '1987-11-13 21:48:24', '1980-04-25 10:44:02');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (173, 80, 'voluptate', 431448610, '8', 40, '1971-02-23 13:24:17', '2003-08-04 18:27:22');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (174, 81, 'quibusdam', 6124929, '5', 1, '2001-05-13 10:03:17', '2015-09-12 14:48:43');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (175, 82, 'ratione', 610, '9', 2, '1981-02-28 02:19:35', '1991-11-02 15:03:30');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (176, 84, 'odio', 1089, '7', 4, '2005-09-27 16:04:02', '1997-04-22 00:12:45');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (177, 86, 'perferendis', 0, '4', 6, '1984-10-25 01:19:17', '1998-09-07 10:20:50');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (178, 88, 'quis', 743991, '1', 8, '1981-01-25 12:18:31', '1971-12-24 00:18:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (179, 89, 'autem', 7312711, '8', 9, '1993-02-26 16:33:06', '1984-01-18 08:18:25');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (180, 91, 'vitae', 4457913, '6', 11, '1973-12-24 21:38:01', '2002-05-04 01:40:43');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (181, 92, 'quidem', 3674516, '8', 12, '2003-07-31 03:28:47', '1997-03-15 14:06:09');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (182, 93, 'repellat', 57779, '4', 13, '1981-09-04 22:57:13', '1989-04-29 17:06:28');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (183, 94, 'est', 3, '1', 14, '1984-07-29 01:24:54', '2010-08-08 09:23:29');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (184, 95, 'unde', 805, '4', 15, '2014-12-22 13:14:35', '1972-04-21 04:43:19');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (185, 96, 'exercitationem', 89673, '6', 16, '2020-11-25 16:33:42', '1988-07-18 00:54:33');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (186, 97, 'dicta', 9270832, '1', 17, '1976-12-17 06:51:01', '1983-12-31 14:11:49');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (187, 98, 'ducimus', 5561, '3', 18, '2016-02-21 01:16:29', '2002-06-19 02:31:35');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (188, 99, 'aliquam', 6344, '4', 19, '1979-11-12 22:55:48', '1991-06-13 02:03:15');
+INSERT INTO `media` (`id`, `user_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (189, 100, 'enim', 6, '5', 20, '2000-08-06 07:19:28', '2004-03-14 11:51:13');
+
+
+#
+# TABLE STRUCTURE FOR: media_types
+#
+
+DROP TABLE IF EXISTS `media_types`;
+
+CREATE TABLE `media_types` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Р�РґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂРѕРєРё',
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РќР°Р·РІР°РЅРёРµ С‚РёРїР°',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РўРёРїС‹ Р�?РµРґРёР°С„Р°Р№Р»РѕРІ';
+
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (1, 'xwd', '1999-03-15 16:39:51', '2001-09-16 21:30:05');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (2, 'mj2', '1995-03-19 20:39:34', '1978-03-28 03:34:08');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (3, 'tex', '2003-07-22 01:25:11', '2004-12-28 22:58:42');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (4, '3dml', '2005-05-26 14:37:38', '2009-03-20 14:34:23');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (5, 'xbm', '2017-06-27 18:11:50', '1990-03-19 08:16:09');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (6, 'pkipath', '2014-01-28 17:58:52', '1978-02-18 01:55:19');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (7, 'viv', '2019-04-25 11:22:49', '1992-02-17 08:51:40');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (8, 'dsc', '1986-07-24 17:16:42', '1985-02-19 15:39:17');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (9, 'xlam', '2020-11-20 02:29:49', '1994-02-27 18:46:06');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (10, 'cst', '1989-08-27 06:03:13', '1971-12-26 20:58:57');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (11, 'flx', '1978-02-28 10:40:38', '1992-12-18 05:13:09');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (12, 'ogv', '1978-03-14 23:56:00', '1978-07-02 21:28:36');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (13, 'ttl', '2011-10-28 02:29:45', '1995-01-17 06:56:14');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (14, 'ecma', '1995-06-08 11:19:17', '1979-10-22 12:42:17');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (15, 'twd', '2002-04-10 00:14:39', '2005-04-10 05:57:49');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (16, 'vcf', '1974-05-29 10:10:09', '2017-05-15 00:56:45');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (17, 'ustar', '2017-08-31 00:32:26', '2003-02-22 23:16:34');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (18, 'wbxml', '2008-03-01 19:38:33', '2019-03-04 21:08:38');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (19, 'dot', '2016-04-08 19:24:33', '2015-09-26 12:31:10');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (20, 'txt', '2001-08-12 16:46:55', '1988-09-01 15:31:30');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (21, 'dotx', '1977-03-30 20:13:23', '1979-08-08 02:22:39');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (22, 'otc', '1994-03-22 13:27:10', '1995-01-08 20:45:51');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (23, 'swf', '1970-05-28 06:39:19', '1973-09-27 03:41:02');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (24, 'xsm', '2012-04-02 00:19:05', '1980-11-13 01:18:35');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (25, 'h264', '2000-08-17 17:08:50', '2003-06-01 21:36:39');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (26, 'movie', '1977-11-08 09:09:31', '1974-12-21 21:32:35');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (27, 'gnumeric', '1970-06-14 04:58:54', '1972-04-28 09:27:40');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (28, 'mdb', '1976-10-11 02:44:21', '1989-12-28 01:23:37');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (29, 'torrent', '2011-10-14 19:49:03', '1991-09-25 01:37:52');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (30, 'wmx', '1980-11-17 22:22:33', '2017-03-13 19:22:01');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (31, 'lzh', '2013-04-20 20:04:15', '1989-03-23 14:56:32');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (32, 'jar', '1990-11-23 02:31:01', '2020-01-14 06:53:49');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (33, 'icc', '1993-08-02 00:39:04', '2001-07-18 22:47:06');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (34, 'mlp', '2016-08-20 04:33:27', '1994-02-15 07:03:37');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (35, 'aac', '2018-01-06 17:23:55', '1993-09-13 05:55:51');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (36, 'stw', '1977-06-27 23:42:47', '2011-03-22 06:34:35');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (37, 'xop', '1988-10-24 13:13:33', '1985-06-02 12:26:43');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (38, 'odb', '1984-04-04 12:14:27', '2016-10-28 04:43:23');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (39, 'mime', '1986-09-26 23:57:01', '1979-08-16 11:56:22');
+INSERT INTO `media_types` (`id`, `name`, `created_at`, `updated_at`) VALUES (40, 'atom', '2011-08-03 06:39:40', '1996-03-12 19:18:26');
+
+
+#
+# TABLE STRUCTURE FOR: messages
+#
+
+DROP TABLE IF EXISTS `messages`;
+
+CREATE TABLE `messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Р�РґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂРѕРєРё',
+  `from_user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РѕС‚РїСЂР°РІРёС‚РµР»СЏ СЃРѕРѕР±С‰РµРЅРёСЏ',
+  `to_user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РїРѕР»СѓС‡Р°С‚РµР»СЏ СЃРѕРѕР±С‰РµРЅРёСЏ',
+  `body` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ',
+  `is_important` tinyint(1) DEFAULT NULL COMMENT 'РџСЂРёР·РЅР°Рє РІР°Р¶РЅРѕСЃС‚Рё',
+  `is_delivered` tinyint(1) DEFAULT NULL COMMENT 'РџСЂРёР·РЅР°Рє РґРѕСЃС‚Р°РІРєРё',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РЎРѕРѕР±С‰РµРЅРёСЏ';
+
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (1, 89, 39, 'Sed officiis ut saepe sed quia unde neque. Rem sint eos mollitia in quo aut. Dolor totam molestiae facere omnis et.', 1, 1, '2007-12-07 18:56:50');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (2, 93, 59, 'Magni esse enim ut qui temporibus. Laboriosam tenetur in in non aliquid dignissimos. Ut sit qui laborum nesciunt.', 1, 0, '1997-05-08 20:17:27');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (3, 40, 62, 'Consectetur consequatur quidem id voluptatem reiciendis delectus voluptas et. Id ducimus et quasi. Architecto tenetur in culpa quo. Et et sunt eum quidem est est.', 1, 0, '2006-09-17 05:16:58');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (4, 48, 48, 'Alias eos illo consequatur est. Sit quia ut quod ut dolorem eum vel autem. Modi sit enim inventore ab quia quia. Numquam esse exercitationem similique similique.', 1, 1, '1978-07-17 02:35:14');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (5, 12, 98, 'Sapiente sit a ex at commodi quas. Ut quia aut doloribus placeat. Maxime inventore occaecati et dolore aspernatur quod rerum.', 1, 1, '1980-05-03 05:30:24');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (6, 3, 12, 'Et delectus alias labore vel. Porro nemo maxime eligendi ad qui et. Sapiente quis facere minima. Voluptas laboriosam repudiandae quasi aliquid quisquam sed.', 1, 1, '1979-10-31 08:59:44');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (7, 19, 41, 'Dolor neque veritatis voluptatem numquam quod et. Iusto consequuntur laboriosam at dolorem aut. Fuga omnis corporis alias ut perspiciatis.', 1, 0, '1976-11-27 19:57:35');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (8, 52, 76, 'Recusandae pariatur itaque nihil iure. Culpa rerum iure qui sequi. Et atque dicta et ad dolorum.', 0, 1, '2009-01-03 07:04:53');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (9, 86, 41, 'Quos illum vitae iure dolor modi aut. Et et omnis nisi nobis numquam corporis. Consequatur architecto repudiandae amet magni ducimus ut. Facilis nihil ipsum sequi ut omnis officiis ipsum.', 1, 1, '1992-06-24 21:29:15');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (10, 53, 25, 'Nihil et odit est cumque quia. Totam et qui rerum. Ut cum fugit porro accusamus eum voluptas dolor. Voluptatem nostrum voluptas doloremque optio quia.', 0, 1, '1992-04-28 04:26:29');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (11, 26, 24, 'Laborum dignissimos dicta rerum ullam enim consequatur. Rerum voluptatibus iure eos commodi magni sapiente nostrum consequatur. Eaque soluta amet et id et qui voluptas.', 1, 0, '1998-07-17 06:25:54');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (12, 80, 77, 'Delectus aut alias sit sit molestiae voluptas. Minus possimus dolorem quo. Voluptatibus non pariatur consequatur est modi qui. Dolorum aliquam ullam dignissimos molestias ab et voluptatem.', 0, 0, '2012-07-15 20:36:54');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (13, 0, 19, 'Nisi reiciendis atque a voluptas. Quae et est accusamus. Autem nulla earum qui quo aut illo aspernatur officiis. Iusto sit pariatur tenetur temporibus velit placeat culpa.', 1, 1, '1990-04-25 09:29:32');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (14, 68, 63, 'Neque eveniet explicabo sint corrupti. Ea doloremque omnis sed dolorem consectetur omnis quia nobis. Voluptate aut quam ea tempore officia ea. Et cum blanditiis voluptate voluptas quia.', 1, 0, '1972-06-27 13:52:22');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (15, 86, 37, 'Accusamus dolorem dicta doloribus optio dolore tempora ducimus. Et sed nostrum consequatur. Enim voluptatem dolore perferendis repudiandae mollitia nesciunt. Autem corporis qui doloribus dignissimos. Dolor vel sint nemo sequi incidunt tempore quae aspernatur.', 1, 1, '1982-04-29 02:59:35');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (16, 68, 74, 'Eum veritatis ut quisquam quia iure reiciendis. Cumque quos distinctio et quae nihil mollitia debitis. Dolores quisquam quis aut natus impedit optio et. Sunt sed incidunt est laudantium ut perferendis ipsum sapiente.', 1, 0, '2000-05-03 16:49:06');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (17, 61, 58, 'Similique atque illum commodi consequatur eum aut et. Consequatur vitae voluptatem quos veniam nihil.', 1, 0, '1981-08-25 07:33:22');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (18, 82, 94, 'Et tempore dolor nemo labore et. Reprehenderit quisquam vel ipsam esse sequi quasi eaque. Velit corrupti beatae est. Voluptas quidem beatae repudiandae facere.', 0, 1, '1987-03-11 01:04:21');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (19, 47, 97, 'Molestiae nam aut reiciendis. Qui labore mollitia asperiores est qui. Nobis non corrupti deserunt nihil consequuntur labore.', 1, 1, '1985-12-08 03:16:11');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (20, 76, 31, 'Quidem et aperiam rerum molestiae accusamus sit. Officia rerum rerum vel voluptas voluptatem. Corrupti minus qui assumenda sit porro molestias earum.', 0, 1, '1992-12-17 05:01:18');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (21, 59, 54, 'Iste asperiores omnis aut omnis optio ipsum porro. Dolor veritatis ab qui. Ut ipsa voluptatem omnis esse dolorum harum et. Reprehenderit voluptatem ut quos vero laborum iste.', 1, 1, '1978-09-26 23:02:24');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (22, 84, 32, 'Unde reprehenderit ut deleniti ea repellendus aut. Maiores autem dolorum beatae dolore est qui et. Laudantium nisi voluptatem quia. Enim a enim eum et nihil deserunt.', 1, 1, '1989-12-23 08:26:31');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (23, 45, 41, 'Quisquam at eaque veniam. Quod officiis vel eos placeat. Voluptates deserunt velit aliquid delectus iusto.', 0, 1, '1998-05-21 15:04:09');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (24, 85, 78, 'Ex minima et natus sint ea. Sit nihil dolorem ut numquam ut. Veniam fugit eos autem rerum voluptas eum temporibus.', 1, 0, '1992-03-15 02:27:09');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (25, 1, 54, 'Numquam et eos ut alias exercitationem itaque. Odit accusantium et tenetur nobis ipsum ipsam.', 1, 0, '1992-03-20 14:41:21');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (26, 65, 58, 'Temporibus autem voluptate quibusdam rerum sed aut. Porro harum qui fugiat vitae debitis ipsum est. Voluptatum culpa molestiae voluptas quos.', 0, 1, '2009-07-07 11:31:03');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (27, 99, 65, 'Nisi nostrum temporibus quia. Quibusdam sed at voluptatum totam ea ea nesciunt. Autem maiores enim incidunt veritatis. Est quis temporibus ex eum.', 0, 0, '2011-06-05 14:00:16');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (28, 20, 53, 'Magni sit officiis provident. Sequi deleniti quasi illo aut facere. Placeat temporibus modi sed illo distinctio est aut. Iusto repellendus repellendus sunt culpa harum omnis.', 0, 1, '1973-12-23 18:07:53');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (29, 72, 66, 'Unde sed et occaecati voluptatem omnis labore sint. Nam a quia dignissimos sunt officiis. Enim libero nobis et et consectetur ea.', 1, 1, '2008-02-15 21:42:30');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (30, 69, 23, 'Ipsum et soluta ut provident ipsam explicabo odit. A deserunt dolores omnis nobis veritatis eos. Vel ut nobis atque odio. Impedit cumque placeat itaque hic.', 0, 0, '2004-11-01 00:33:17');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (31, 54, 97, 'Minima dicta delectus quod aut rerum. Ipsam sapiente blanditiis ratione laboriosam harum. Repellendus aut occaecati qui voluptatem earum accusantium accusamus.', 1, 0, '2004-01-03 19:02:02');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (32, 8, 4, 'Eum aut nisi qui voluptatem vitae totam dolorem a. Veniam rerum eius asperiores perferendis autem consequatur neque et.', 1, 1, '1999-12-08 04:24:43');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (33, 0, 68, 'Asperiores eos nihil eaque beatae ex. Assumenda ipsam eius temporibus consectetur laborum ullam est. Quaerat aliquid est architecto quas ut. Illo facere veniam est reprehenderit dolor et numquam.', 0, 1, '2019-10-30 07:38:56');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (34, 29, 92, 'Occaecati fugit aut aut laudantium. Non ullam voluptatem ab. Qui rerum a reprehenderit unde voluptatem. Nam explicabo maxime accusamus culpa quos laboriosam earum.', 1, 1, '1986-04-20 08:12:53');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (35, 22, 60, 'Excepturi minus odit blanditiis libero incidunt. Sit occaecati aut veniam reiciendis mollitia aliquam. Enim aspernatur rerum doloribus reiciendis dicta. Numquam velit ut ipsa commodi et repellat.', 1, 1, '1987-11-20 07:45:14');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (36, 59, 66, 'Velit cupiditate quos quis placeat. Omnis odio nihil sunt magnam. Cupiditate quo voluptatem beatae quia odit accusamus velit. Sit corporis ipsam error. Eius eligendi ut sit inventore vitae voluptatem accusamus explicabo.', 0, 0, '2014-09-09 14:29:13');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (37, 60, 55, 'Amet amet quam mollitia illum illum sunt reprehenderit. Et culpa qui asperiores necessitatibus tenetur. Aut earum voluptas perspiciatis eius sapiente error quae enim. Qui repellat nulla odit quasi doloremque. Quis in officia error voluptatibus omnis totam perspiciatis.', 1, 0, '2005-01-06 07:12:28');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (38, 73, 75, 'Sed nam aut eos sint ab nulla. Voluptas dolor est et itaque. Qui delectus ea voluptas qui soluta corporis.', 1, 0, '1987-04-05 00:42:39');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (39, 76, 28, 'Vel et eos sunt repellendus velit aut quidem. Molestiae qui ex sit odit modi animi.', 1, 0, '2020-05-17 05:06:01');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (40, 0, 63, 'Et ipsam sint quis voluptas rerum. Unde eligendi nulla sapiente maxime. Qui soluta quo et iste. Et a optio pariatur odio tenetur.', 0, 1, '2011-05-31 17:39:36');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (41, 97, 67, 'Enim quod libero neque qui voluptatem architecto aut. Dolores sapiente quia a voluptas molestiae sed. Ipsum et consectetur itaque ut provident mollitia.', 0, 0, '2005-10-17 23:41:48');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (42, 4, 53, 'Atque consequatur nihil autem sit qui quas. Et doloribus quae quibusdam suscipit ut eligendi est. Blanditiis id repudiandae magni voluptatum. Minus repudiandae fugit autem aut quo minus.', 0, 0, '2008-02-19 10:28:36');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (43, 77, 64, 'Totam qui quibusdam sapiente voluptatem dolor temporibus rerum. Facilis facilis omnis voluptatem inventore. Eius temporibus omnis ut est molestias aut. Sed voluptatem nam ratione alias.', 0, 1, '2005-02-17 07:30:38');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (44, 98, 97, 'Molestiae porro reprehenderit quibusdam et consequatur. Nulla perspiciatis veniam aliquam in numquam et. Et inventore voluptatem omnis alias laborum. Vel minima ea nobis.', 1, 1, '1985-04-10 21:25:24');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (45, 68, 10, 'Corporis nobis quis ex nemo. Deleniti aut est sed excepturi tempore et aut. Enim dolorem perspiciatis minima quae. In molestiae iste deleniti.', 0, 1, '2008-02-03 01:31:24');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (46, 81, 0, 'Vitae rerum sint fugiat et exercitationem. Accusantium corrupti quia cumque dolores dolorem consequuntur. Enim deleniti quos ea ab. Voluptatem quae aut ad laudantium.', 1, 1, '1972-06-05 09:46:44');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (47, 47, 57, 'Optio est aut quas quos in. Adipisci officiis sint quidem iste fugiat. Est doloribus est voluptatem labore aut. Soluta rerum tempore voluptatibus alias dolores sint magnam.', 0, 1, '2007-12-28 17:53:20');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (48, 60, 11, 'Eum at doloremque quae accusantium. Laboriosam animi itaque consectetur similique assumenda quis.', 1, 1, '1998-10-11 10:01:35');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (49, 47, 28, 'Dolores modi ratione alias esse doloremque vero aut. Sit excepturi sint quod ducimus id reiciendis maxime in. Distinctio aperiam voluptatibus est eligendi unde ut architecto.', 1, 0, '1971-02-25 05:58:15');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (50, 40, 3, 'Architecto nihil rerum provident. Ut saepe nostrum distinctio officia et ipsam sed eius. Temporibus omnis et illum rem.', 1, 1, '1972-07-14 08:12:40');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (51, 73, 77, 'Nesciunt et cumque commodi id. Aspernatur ad voluptatem reiciendis quasi est. Voluptatum ut autem ut possimus eum minus ut dolorem.', 0, 0, '1983-05-24 02:51:09');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (52, 63, 87, 'Ullam consequatur voluptas nihil enim iure corrupti animi. Asperiores iure laboriosam soluta quaerat.', 1, 0, '1994-06-12 09:05:21');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (53, 10, 17, 'Dicta architecto vero repellat est autem aut. Magnam dolores corrupti soluta quos in placeat sunt. Ut error provident at molestiae atque. Nihil nemo aliquam molestiae cum id ipsum.', 0, 1, '1992-09-24 00:11:17');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (54, 70, 70, 'Facilis et fugit reprehenderit aut nisi. Molestias sint temporibus natus non non suscipit. Consectetur aut recusandae qui soluta officiis consequatur.', 0, 1, '2019-03-27 04:30:26');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (55, 63, 87, 'Blanditiis eum odio provident similique. Ea enim impedit praesentium. Tenetur quisquam mollitia nesciunt tempora voluptas. Veniam reiciendis deserunt aut magni.', 0, 1, '2002-11-24 03:21:28');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (56, 79, 68, 'Iusto a qui veritatis voluptas assumenda soluta quia sit. Perferendis cumque nobis molestiae minus doloribus dolores. Quasi velit illum est qui sed quasi at.', 1, 1, '2000-01-23 23:22:20');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (57, 87, 69, 'Est exercitationem ab qui sint ducimus. Similique laudantium minima itaque sunt facere ut molestiae. Tempora et corporis ratione qui.', 0, 1, '2001-01-16 14:28:13');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (58, 16, 52, 'Reiciendis saepe incidunt aut deleniti dicta quae vero. Ipsa odio eos aliquam quaerat quisquam vel. Adipisci aut delectus eaque at alias veniam ipsa.', 1, 0, '1993-11-18 23:35:25');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (59, 24, 96, 'Eum corrupti iusto velit fugit incidunt at culpa dolorem. Nihil illum cum ad et. Accusamus id hic facilis. Libero qui voluptatem tempora dolor dicta.', 0, 1, '2019-01-18 09:50:50');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (60, 6, 71, 'Ipsam qui accusamus soluta veniam sint deleniti corporis. Facilis alias aut ullam eum libero eos enim. Exercitationem est nisi doloribus amet laudantium.', 1, 1, '1985-04-23 11:31:33');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (61, 99, 51, 'Id perspiciatis velit inventore sit odio in et. Adipisci quisquam sequi eum accusamus. Corrupti ipsa et eius sit eos harum ex. Eum ut consectetur occaecati sit aliquam minus.', 0, 0, '2018-06-21 11:45:47');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (62, 49, 91, 'Recusandae dolorem sit qui dolorum quia. Et consequatur saepe dolores. Asperiores aut optio consequatur.', 0, 0, '1978-03-07 08:38:43');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (63, 89, 34, 'Tempora temporibus dolorum ipsam ea. Aut possimus est atque sed rerum in facere a. Amet numquam voluptas placeat eos velit perferendis natus sit. Earum at ut aut veritatis ut.', 0, 0, '2017-08-17 06:32:40');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (64, 71, 57, 'Est nam asperiores commodi rem et voluptatibus. Qui ex fuga quis molestiae repellendus cupiditate doloribus. Molestiae debitis illo est inventore.', 1, 0, '2019-05-19 20:30:56');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (65, 64, 36, 'Ea ducimus accusamus ab est aut quo esse. Reprehenderit quia sed quam delectus quidem consequuntur quos velit. Provident eum sapiente nesciunt eum.', 0, 1, '2007-05-10 15:31:31');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (66, 82, 62, 'Quam optio temporibus eum dignissimos est consequatur. Sint doloribus quia dolores fugit est accusantium. Voluptas mollitia vitae esse rem architecto. Iure consequatur voluptatem voluptatem soluta quisquam.', 1, 1, '1994-11-23 08:13:44');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (67, 15, 23, 'Unde cumque totam in harum eos quod eum sit. Eligendi ipsa molestias dolorem qui et magnam. Est quisquam error tenetur nobis.', 0, 0, '1975-10-01 01:58:06');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (68, 60, 33, 'Aut ex libero eos tempora. Voluptas perferendis eligendi quae rerum repellendus ducimus. Hic praesentium quis laborum dolorem autem eveniet vero.', 1, 0, '1986-03-08 13:25:55');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (69, 27, 14, 'Reiciendis deserunt quia enim. Sed necessitatibus quia sit. Aspernatur facilis aut cum consequatur. Modi ipsa quae ducimus.', 1, 1, '1970-10-01 12:42:39');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (70, 63, 4, 'Eum odit fugit facere id earum autem vitae. Omnis voluptatem suscipit similique voluptas. Qui autem voluptatum cumque molestiae.', 0, 1, '1997-07-31 05:27:07');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (71, 42, 88, 'Nesciunt dolores a dolore ut rerum maxime. Autem possimus eos qui. Sunt et perferendis aliquid in.', 0, 1, '1986-12-05 09:10:52');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (72, 88, 89, 'Vero mollitia laboriosam autem dolores. Qui porro consequatur ipsam quis vitae. Ut in molestiae dolorem qui. Qui optio blanditiis voluptate sit.', 0, 1, '1977-05-11 22:39:18');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (73, 21, 49, 'Harum labore placeat et autem. Et quidem nihil ut dolor quia dignissimos. Ut doloremque quia fugit rerum voluptas eaque tempora.', 0, 1, '2016-02-16 18:51:14');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (74, 31, 6, 'Voluptatem deleniti quas dolorem sint. Tenetur at nostrum ipsum ut inventore ea.', 1, 1, '2005-08-02 04:43:48');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (75, 7, 72, 'Sint enim aspernatur tempora id culpa nisi modi. Id dolorum id voluptatem autem veniam. Inventore a neque doloribus sunt. Quidem qui beatae nihil ad dolorum molestiae nemo.', 1, 1, '1996-12-19 07:40:49');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (76, 67, 41, 'Autem omnis voluptatibus accusantium fuga. Fugit quod sint eum neque. Ab ex tenetur a deleniti quidem enim voluptatem animi.', 1, 0, '1974-12-15 22:19:16');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (77, 66, 24, 'Necessitatibus dignissimos sed vero molestias. Ea autem tenetur perferendis sed unde culpa. Omnis quam autem deleniti aliquam modi aut. Vel necessitatibus suscipit illo omnis eius distinctio asperiores doloribus.', 0, 1, '1995-03-09 23:58:20');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (78, 7, 3, 'Omnis odit dolorum non nemo in dolorum. Ex voluptatem laudantium est. Quo impedit ab consequatur autem.', 1, 0, '1987-06-12 06:36:25');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (79, 71, 55, 'Velit esse odit quos et rerum magni. Odio molestiae omnis eaque rerum voluptatibus quod porro. Aliquam non optio velit eos dolorum suscipit.', 0, 1, '2015-05-19 18:09:21');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (80, 19, 28, 'Quia culpa culpa necessitatibus cupiditate aliquam eligendi officia. Accusantium quia adipisci cum qui debitis in nisi.', 1, 1, '2010-04-14 23:28:46');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (81, 50, 5, 'Molestiae et rem molestiae repudiandae corrupti corrupti eveniet dolorem. Cum debitis in illum sed molestiae itaque ex. A voluptas dolores dolor earum provident.', 0, 1, '1990-10-04 00:38:53');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (82, 14, 6, 'Nobis soluta sed et voluptatum. Placeat ab provident ab consequuntur voluptas consequatur. Et id non dolorem labore doloribus sed. Veniam et eum quis et sed voluptas vel error.', 1, 0, '1980-03-18 02:52:31');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (83, 44, 48, 'Et dolorem consequatur alias voluptatum incidunt. Sit assumenda maiores error quos et officia dignissimos. Voluptates cum dolore itaque. Dolore quam velit autem autem minus doloremque.', 0, 1, '1990-09-22 14:23:14');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (84, 2, 25, 'Delectus adipisci officiis et delectus vero eos. Laboriosam vitae tenetur nesciunt magni. Ut beatae natus molestias rerum quo doloribus.', 0, 1, '1979-07-10 06:43:23');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (85, 35, 6, 'Magni hic maxime ipsam sit et possimus. Quo reprehenderit eveniet porro. Ex consectetur enim quasi repudiandae.', 0, 1, '1995-09-03 23:43:25');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (86, 2, 29, 'Qui non cumque atque laborum provident ipsam officiis et. Aut facere est et rem debitis possimus ad. Ut dignissimos rerum sunt omnis. Aspernatur a molestias perferendis.', 1, 1, '1982-01-27 07:18:01');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (87, 10, 7, 'Labore voluptas eos unde provident. Modi unde facilis voluptatum temporibus odio. Officiis facilis eveniet provident perspiciatis. Ut fuga non inventore est.', 0, 1, '2017-01-02 05:29:44');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (88, 43, 30, 'Nisi sint tempore incidunt iusto debitis voluptas repellat. Quis nisi consequuntur aut. Illo et et unde et. Numquam excepturi dolores qui debitis iure.', 1, 1, '2003-01-31 12:57:43');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (89, 59, 92, 'Nobis quia omnis sed vel animi molestiae odit in. Illum voluptas in iste facere vero. Illo tempore voluptas est repellat. Dolorum ut consectetur ex ducimus aut fuga.', 0, 0, '1995-06-06 11:50:52');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (90, 87, 39, 'Hic deserunt dignissimos qui. Provident quod ullam odio soluta explicabo vel. Quisquam sequi quia dolorem non debitis recusandae.', 0, 1, '1989-01-11 01:19:18');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (91, 37, 74, 'Et dolor dolorem voluptatem atque in quia. Unde quia fuga non. Et quidem voluptatem est. Dicta et nihil deleniti dolores natus.', 0, 1, '1981-03-25 23:55:05');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (92, 36, 96, 'Aspernatur necessitatibus dolores quia magni voluptate modi qui. Aspernatur hic velit quo est. Ut provident suscipit nisi eveniet et eos aut.', 0, 1, '2019-11-19 19:42:50');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (93, 23, 41, 'Est nulla maxime non placeat suscipit sapiente. Reiciendis laudantium recusandae minus molestias aliquid ut cumque. Reiciendis temporibus doloremque eaque tempora dolorem delectus amet. Ducimus placeat sit aut.', 0, 0, '1996-03-12 23:15:05');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (94, 19, 67, 'Dolor autem consequatur nesciunt cum ipsum nisi dolores. Optio nihil est consequatur accusamus eum.', 1, 1, '1996-06-15 09:15:56');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (95, 82, 64, 'Ea fuga velit quidem doloremque dolorem voluptas pariatur. Reprehenderit aut et aut. Voluptatem aperiam non sapiente. Illum odit unde eligendi in in. Adipisci numquam necessitatibus quia dolorum.', 0, 0, '1988-05-02 06:24:53');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (96, 63, 56, 'Et eius quo dolor ut temporibus esse. Sed nesciunt velit in rerum illum. Quo amet aut sint ab.', 0, 0, '1988-05-02 09:36:39');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (97, 34, 37, 'Nemo fuga cum nihil blanditiis corrupti. Praesentium fugit tempore deserunt quod voluptates. Quasi vel quam sunt non voluptatem. Id recusandae saepe nobis quos voluptas et eum.', 1, 1, '1995-04-13 18:38:02');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (98, 53, 49, 'Expedita temporibus ea sint voluptatum rerum ratione. Unde aut qui ipsa consectetur. Explicabo neque dolorem nam et. Consequatur alias odit et nostrum et molestiae facere enim.', 0, 0, '2019-03-04 23:53:06');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (99, 62, 39, 'Explicabo nam error fugit quibusdam. Consequatur harum asperiores error commodi. Consequatur corrupti ut est reiciendis amet nisi.', 1, 1, '1989-10-04 03:47:46');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `is_important`, `is_delivered`, `created_at`) VALUES (100, 88, 17, 'Laudantium debitis ea dolore facilis itaque amet incidunt. Fugit rerum voluptatibus facilis consequuntur est laudantium rerum. Eligendi eum maxime facilis ut molestiae pariatur sed.', 1, 1, '2008-07-27 16:11:07');
+
+
+#
+# TABLE STRUCTURE FOR: profiles
+#
+
+DROP TABLE IF EXISTS `profiles`;
+
+CREATE TABLE `profiles` (
+  `user_id` int(10) unsigned NOT NULL COMMENT 'РЎСЃС‹Р»РєР° РЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ',
+  `gender` char(1) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РџРѕР»',
+  `birthday` date DEFAULT NULL COMMENT 'Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ',
+  `city` varchar(130) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Р“РѕСЂРѕРґ РїСЂРѕР¶РёРІР°РЅРёСЏ',
+  `country` varchar(130) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'РЎС‚СЂР°РЅР° РїСЂРѕР¶РёРІР°РЅРёСЏ',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РџСЂРѕС„РёР»Рё';
+
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (1, 'm', '2011-06-23', 'Leanneborough', 'Saint Barthelemy', '2008-05-26 02:38:46', '1990-10-13 11:09:21');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (2, 'm', '1971-03-02', 'West Vivashire', 'Lao People\'s Democratic Republic', '2016-08-03 17:47:33', '1978-11-06 07:25:57');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (3, 'f', '1970-05-10', 'Albatown', 'Anguilla', '2019-09-05 23:15:29', '1970-08-13 09:13:06');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (4, 'm', '1986-06-01', 'East Camronview', 'Gibraltar', '1999-09-08 10:48:25', '1971-03-06 12:42:41');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (5, 'f', '1997-02-03', 'East Beatriceview', 'Papua New Guinea', '1989-10-17 22:26:26', '2009-10-23 15:36:10');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (6, 'f', '1979-02-06', 'Christaland', 'Samoa', '1996-06-25 22:09:34', '2015-04-16 01:23:25');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (7, 'f', '2002-01-29', 'Layneview', 'Fiji', '1985-03-09 01:34:59', '2005-11-30 23:25:48');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (8, 'f', '1991-04-16', 'Port Warren', 'South Georgia and the South Sandwich Islands', '2002-11-09 13:07:54', '1979-09-06 07:21:45');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (9, 'm', '2007-01-16', 'Lake Nelsonborough', 'Japan', '1985-04-13 13:12:14', '1999-02-01 23:37:53');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (10, 'm', '2007-11-20', 'South Tyra', 'Tajikistan', '1974-10-05 15:13:55', '1999-06-03 22:12:31');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (11, 'm', '1974-10-10', 'Rickeyfort', 'Peru', '1986-04-05 16:38:49', '1998-05-18 06:08:29');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (12, 'm', '1992-09-13', 'South Mylene', 'Bolivia', '1989-01-21 20:56:50', '2016-04-10 23:09:35');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (13, 'm', '1972-01-06', 'Lake Manleyburgh', 'Vietnam', '2003-01-19 12:51:17', '1992-11-30 14:28:38');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (14, 'f', '2014-01-09', 'Ortizfurt', 'Hungary', '1999-08-04 12:22:50', '2009-02-11 18:31:17');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (15, 'm', '1998-07-06', 'Jaymeland', 'Anguilla', '1976-11-17 08:05:33', '2009-08-27 00:39:50');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (16, 'm', '1985-01-03', 'New Lia', 'Malaysia', '1977-03-23 05:11:28', '1977-05-27 07:50:21');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (17, 'f', '1995-08-14', 'Ebertfurt', 'United States of America', '1996-05-13 11:53:21', '2000-12-08 02:56:32');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (18, 'm', '1999-03-06', 'Faheystad', 'Romania', '2012-11-29 09:24:18', '1990-09-20 15:45:32');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (19, 'f', '2014-11-10', 'West Archibaldbury', 'Uganda', '2001-01-28 16:24:53', '2012-06-13 05:09:14');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (20, 'm', '1988-07-18', 'Robertsview', 'Trinidad and Tobago', '1971-07-06 16:44:51', '2003-02-19 19:46:37');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (21, 'm', '1973-12-14', 'West Mable', 'Honduras', '1994-09-04 17:03:48', '2012-08-14 23:43:53');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (22, 'm', '2009-03-23', 'Sawaynfort', 'Rwanda', '1995-05-07 07:29:15', '1986-04-19 05:51:19');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (23, 'f', '1980-06-24', 'North Kurtis', 'Tuvalu', '1992-06-03 01:43:58', '1984-02-05 14:21:11');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (24, 'f', '1970-01-25', 'Edberg', 'Macedonia', '1975-01-22 11:00:45', '2001-09-18 22:32:18');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (25, 'm', '1978-12-19', 'Predovicmouth', 'Togo', '1985-09-05 03:23:59', '1996-10-02 23:10:50');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (26, 'm', '2000-02-03', 'Lueilwitzberg', 'Myanmar', '1974-05-18 15:08:11', '1987-07-12 01:23:37');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (27, 'f', '2016-10-13', 'Keelingchester', 'Haiti', '1982-04-25 10:16:38', '2002-12-09 08:34:36');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (28, 'f', '2015-10-29', 'New Jerryborough', 'Faroe Islands', '1987-11-01 01:35:48', '2005-03-21 12:15:51');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (29, 'f', '2007-10-30', 'West Hipolito', 'Gabon', '2020-07-18 02:12:09', '1974-10-08 10:03:19');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (30, 'f', '1994-04-14', 'Uptonport', 'United Kingdom', '1971-11-27 18:32:48', '1973-12-23 19:34:32');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (31, 'f', '2016-04-29', 'Port Moriahhaven', 'Norway', '1996-07-12 18:45:23', '1979-11-18 21:49:43');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (32, 'm', '2016-09-04', 'South Bridgettebury', 'Ghana', '1997-09-28 06:57:29', '1989-12-21 17:14:28');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (33, 'f', '1998-11-19', 'Whiteville', 'Falkland Islands (Malvinas)', '2009-03-05 11:50:18', '2017-01-09 22:42:26');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (34, 'f', '1997-02-24', 'Strosinstad', 'Slovakia (Slovak Republic)', '1998-11-14 01:06:54', '1992-05-16 00:32:13');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (35, 'm', '1983-02-27', 'West Alejandrin', 'Israel', '2001-02-12 01:37:16', '1982-04-09 13:58:23');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (36, 'm', '1977-11-23', 'Lake Wyman', 'Saint Martin', '1998-02-06 10:36:58', '2006-10-23 17:47:06');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (37, 'm', '2019-02-06', 'North Rebekafort', 'United States Virgin Islands', '1986-03-11 13:13:55', '1974-11-26 00:46:35');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (38, 'f', '2009-08-22', 'South Kiel', 'Nepal', '1978-03-05 23:27:22', '1971-09-12 17:03:30');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (39, 'f', '1999-08-26', 'South Lee', 'Antigua and Barbuda', '1991-06-17 13:09:47', '1978-08-11 22:01:13');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (40, 'f', '2001-09-23', 'Port Fred', 'Iceland', '1979-06-04 02:01:57', '1995-12-07 20:34:08');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (41, 'm', '1976-08-03', 'New Javonte', 'Kazakhstan', '1984-06-07 10:59:32', '1977-11-21 01:17:03');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (42, 'f', '1997-06-26', 'East Leonorafurt', 'Nepal', '2014-10-11 16:11:30', '1973-03-25 04:26:54');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (43, 'f', '2018-03-10', 'Howellton', 'Cambodia', '2018-11-29 13:46:21', '2012-10-23 03:40:16');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (44, 'f', '2018-11-18', 'East Mervin', 'Guadeloupe', '2017-12-13 05:23:05', '2005-07-21 13:45:22');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (45, 'f', '1972-07-17', 'Raynorbury', 'British Virgin Islands', '1988-04-30 19:38:16', '1996-02-27 03:00:56');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (46, 'm', '2019-04-08', 'New Everettshire', 'Argentina', '1984-08-16 14:49:07', '2009-09-19 23:46:36');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (47, 'f', '2013-12-11', 'West Perry', 'Lesotho', '1995-09-18 19:00:39', '2018-06-16 17:39:01');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (48, 'f', '1990-04-05', 'New Constanceberg', 'France', '1974-06-12 16:16:24', '1985-04-21 18:58:18');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (49, 'm', '1991-04-01', 'Denesikchester', 'Vietnam', '2000-06-30 06:39:42', '2018-02-05 02:43:59');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (50, 'm', '1992-04-10', 'Hardyside', 'Bouvet Island (Bouvetoya)', '2015-09-24 13:55:11', '1988-07-17 09:31:38');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (51, 'f', '1995-04-11', 'Lednerburgh', 'Zambia', '2004-11-03 17:18:36', '1996-06-17 07:05:38');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (52, 'f', '1972-04-03', 'Considinehaven', 'Jordan', '1972-02-16 11:34:51', '1970-06-16 01:20:26');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (53, 'f', '1993-08-23', 'West Athenahaven', 'Christmas Island', '2005-02-03 15:52:57', '1972-01-26 18:38:56');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (54, 'm', '1998-11-04', 'East Verlamouth', 'Paraguay', '1996-10-10 01:51:09', '2013-06-27 19:36:05');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (55, 'f', '2016-05-10', 'Wisozkstad', 'Ireland', '1976-10-13 12:03:11', '1989-09-02 09:18:28');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (56, 'm', '1996-11-20', 'Maxchester', 'Oman', '2012-08-22 17:43:12', '1991-01-24 13:09:39');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (57, 'm', '1993-06-03', 'Lake Baylee', 'Bolivia', '1990-11-30 03:33:26', '2014-03-08 17:43:41');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (58, 'f', '2012-11-12', 'McCulloughburgh', 'Korea', '1998-09-30 11:05:33', '1987-07-04 18:51:24');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (59, 'f', '1983-10-06', 'Harbermouth', 'French Southern Territories', '2012-01-28 11:58:34', '2008-03-30 09:02:22');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (60, 'm', '1994-08-19', 'Cheyennehaven', 'Mexico', '2013-09-20 21:19:27', '1988-07-27 19:46:37');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (61, 'f', '1997-04-30', 'Concepciontown', 'Moldova', '2012-04-01 04:39:57', '2015-06-29 08:56:44');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (62, 'f', '1997-11-16', 'Gradytown', 'Serbia', '2018-11-04 18:44:51', '1972-05-01 05:32:38');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (63, 'm', '1995-05-02', 'South Antwonport', 'New Caledonia', '1992-05-10 01:03:40', '2018-07-05 12:08:57');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (64, 'm', '1988-06-22', 'West Brennan', 'Jordan', '1992-06-17 14:27:42', '2003-10-12 14:24:13');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (65, 'f', '2000-09-27', 'Simonisshire', 'Mauritania', '1977-04-05 15:41:42', '1972-04-07 08:58:16');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (66, 'f', '1992-02-15', 'Lavernmouth', 'Jordan', '1991-06-13 06:17:30', '2012-07-02 14:14:24');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (67, 'm', '2011-06-09', 'Lake Finn', 'Egypt', '2018-08-27 08:14:52', '1977-10-31 14:23:58');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (68, 'f', '2004-08-29', 'Clareview', 'Japan', '1994-12-11 12:54:02', '2000-10-08 07:44:34');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (69, 'f', '2006-07-05', 'East Nedraborough', 'Solomon Islands', '2020-10-16 01:45:54', '1976-02-09 18:12:41');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (70, 'f', '1992-08-04', 'Fritschton', 'Slovakia (Slovak Republic)', '1972-12-23 00:27:01', '1990-04-15 05:24:36');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (71, 'f', '2018-11-26', 'Twilaburgh', 'Niger', '1991-08-02 14:11:45', '1994-08-04 07:49:56');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (72, 'm', '1972-03-02', 'New Chrismouth', 'Saint Vincent and the Grenadines', '2008-12-25 17:44:03', '1982-02-15 04:20:56');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (73, 'm', '1983-03-18', 'East Rudy', 'Mongolia', '2010-07-21 04:47:46', '1986-03-04 16:57:24');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (74, 'm', '2003-08-28', 'North Mortimer', 'Yemen', '1970-12-31 01:24:13', '1998-08-22 19:24:01');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (75, 'm', '1997-07-25', 'Prestonview', 'Marshall Islands', '1986-05-24 18:52:57', '1979-10-27 13:09:44');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (76, 'f', '2008-12-04', 'Corwinfort', 'Hungary', '1985-06-08 11:42:37', '1984-10-24 20:19:56');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (77, 'f', '2012-09-18', 'East Aiyana', 'Palestinian Territory', '2001-03-18 01:24:43', '2019-08-11 03:36:14');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (78, 'f', '1983-08-16', 'West Vickie', 'Andorra', '2013-08-14 04:00:18', '2016-12-11 04:57:45');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (79, 'f', '1992-09-26', 'Leopoldoville', 'Seychelles', '1993-10-25 16:15:37', '1971-05-23 12:56:51');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (80, 'm', '1986-01-08', 'North Clarabelleview', 'Nigeria', '2002-12-11 05:48:29', '2004-03-27 11:07:58');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (81, 'f', '1981-03-12', 'South Allieberg', 'Macedonia', '1996-04-07 00:30:14', '2011-07-18 06:36:46');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (82, 'm', '2001-09-08', 'Hellenside', 'Belize', '2005-09-23 00:37:47', '2015-12-06 18:05:05');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (83, 'm', '1976-08-04', 'New Clemmieton', 'Mauritius', '1973-01-05 22:42:11', '1986-09-11 02:06:02');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (84, 'm', '2006-08-28', 'East Elseberg', 'Kenya', '1974-05-15 20:27:03', '1977-02-21 02:05:50');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (85, 'm', '2015-02-15', 'East Nikitabury', 'Bulgaria', '2001-10-29 01:38:00', '1987-08-11 01:23:08');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (86, 'f', '2010-03-29', 'West Martinfurt', 'Antarctica (the territory South of 60 deg S)', '1975-04-13 20:06:12', '1977-05-14 08:12:45');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (87, 'f', '2007-02-19', 'Satterfieldstad', 'Egypt', '1978-01-10 03:59:33', '1989-09-19 09:15:45');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (88, 'f', '2020-11-30', 'Ettiehaven', 'Cocos (Keeling) Islands', '1972-04-07 10:33:25', '2006-03-15 20:23:24');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (89, 'm', '1998-11-19', 'East Javonte', 'New Zealand', '1995-10-18 20:50:58', '1991-08-19 13:55:08');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (90, 'f', '1995-06-06', 'Deloresmouth', 'Cyprus', '1975-05-25 12:15:44', '2012-05-22 21:35:14');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (91, 'm', '1997-09-24', 'Gutmannborough', 'Eritrea', '1994-07-31 13:30:20', '1985-11-15 16:25:44');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (92, 'm', '1976-09-18', 'West Ociechester', 'Libyan Arab Jamahiriya', '2014-12-31 01:00:02', '1976-12-02 07:07:22');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (93, 'm', '1978-10-26', 'Schusterland', 'Swaziland', '2002-02-27 18:37:18', '1998-06-23 14:30:16');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (94, 'f', '2016-09-13', 'Gleasonshire', 'Cambodia', '1988-02-15 03:05:49', '2015-10-18 09:13:24');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (95, 'f', '1983-11-09', 'Luettgenstad', 'French Guiana', '1970-10-29 03:14:24', '1984-06-10 00:00:03');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (96, 'f', '1972-01-20', 'Kianaville', 'Georgia', '1970-05-08 09:49:47', '1975-11-07 15:44:22');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (97, 'f', '1978-12-22', 'West Maggie', 'Uganda', '2007-06-12 10:46:55', '2006-07-03 05:44:19');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (98, 'm', '1988-08-11', 'Lake Robbhaven', 'Namibia', '1973-09-08 17:39:48', '2015-02-05 18:27:01');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (99, 'f', '1970-06-19', 'Murrayville', 'Cape Verde', '2015-08-28 18:59:36', '1997-11-26 15:32:52');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `city`, `country`, `created_at`, `updated_at`) VALUES (100, 'm', '1979-02-17', 'Yostside', 'Puerto Rico', '1996-05-31 18:37:14', '2015-11-05 08:11:22');
+
+
+#
+# TABLE STRUCTURE FOR: users
+#
+
+DROP TABLE IF EXISTS `users`;
+
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Р�РґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃС‚СЂРѕРєРё',
+  `first_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Р�Р�?СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ',
+  `last_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Р¤Р°Р�?РёР»РёСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ',
+  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РџРѕС‡С‚Р°',
+  `phone` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'РўРµР»РµС„РѕРЅ',
+  `created_at` datetime DEFAULT current_timestamp() COMMENT 'Р’СЂРµР�?СЏ СЃРѕР·РґР°РЅРёСЏ СЃС‚СЂРѕРєРё',
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Р’СЂРµР�?СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚СЂРѕРєРё',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `phone` (`phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='РџРѕР»СЊР·РѕРІР°С‚РµР»Рё';
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (1, 'Constantin', 'Quitzon', 'xmiller@example.net', '(658)421-5606', '1999-12-23 13:53:02', '1974-07-27 07:56:34');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (2, 'Andreanne', 'Rau', 'hassie53@example.org', '08054594849', '2008-05-28 13:01:46', '2020-09-28 17:49:41');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (3, 'Katharina', 'Lind', 'caleb.goldner@example.com', '783-261-3996x25420', '2014-01-27 15:29:03', '1975-11-22 06:01:54');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (4, 'Jaclyn', 'Torp', 'gleichner.genesis@example.net', '1-146-669-6731', '2014-07-06 22:20:57', '2007-04-01 04:55:36');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (5, 'Winona', 'Corwin', 'ptoy@example.com', '510.422.7752', '1974-11-01 08:15:31', '1989-12-20 22:12:55');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (6, 'Keyon', 'Adams', 'ihowell@example.com', '070.295.4318', '1980-10-29 23:21:29', '1999-06-07 17:23:58');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (7, 'Delilah', 'Kerluke', 'srowe@example.org', '1-705-181-6564x997', '2001-02-24 15:32:08', '1973-02-27 21:12:16');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (8, 'Serena', 'Barton', 'zieme.sebastian@example.org', '547-719-9918x3921', '1992-07-13 08:59:53', '1998-03-30 14:48:10');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (9, 'Scarlett', 'Aufderhar', 'isabel83@example.com', '+61(2)9422384524', '1980-11-06 18:11:48', '1995-02-10 02:43:34');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (10, 'Kathryn', 'Jacobi', 'giovanni94@example.com', '(168)139-2787x297', '2018-08-30 14:52:22', '1998-04-04 18:23:47');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (11, 'Kelli', 'Farrell', 'mo\'kon@example.com', '280-531-3380', '2004-01-19 05:05:15', '2006-03-13 12:34:17');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (12, 'Josiane', 'Funk', 'wilderman.earlene@example.com', '1-276-914-1403', '2016-11-19 23:59:17', '1982-04-17 00:24:46');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (13, 'Johnny', 'Roberts', 'monserrat.mcdermott@example.com', '244-598-7368x22983', '2017-04-28 05:06:58', '1971-12-27 03:40:50');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (14, 'Johnson', 'Hammes', 'kristoffer45@example.com', '245-058-9560x818', '1991-09-14 21:06:58', '2002-05-09 16:33:45');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (15, 'Susanna', 'Considine', 'sfahey@example.com', '668-825-2921', '1982-09-06 21:37:18', '2018-03-06 04:53:24');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (16, 'Izabella', 'Satterfield', 'forn@example.com', '(687)120-1631x049', '1992-10-24 09:21:33', '2017-03-13 21:34:31');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (17, 'Verlie', 'Lueilwitz', 'lempi.tromp@example.net', '895.391.8547x9246', '1970-02-18 05:57:26', '1975-09-15 11:31:06');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (18, 'Cloyd', 'Mann', 'wisoky.meda@example.net', '+92(9)9597663812', '1991-10-08 19:32:56', '2000-06-05 08:46:18');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (19, 'Jessica', 'Borer', 'fannie94@example.org', '+09(8)9095069206', '1996-02-12 18:06:10', '2011-03-04 17:45:30');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (20, 'Trycia', 'Bahringer', 'matteo74@example.org', '(141)805-8671', '2016-08-15 01:11:13', '2000-12-04 17:19:46');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (21, 'Micheal', 'Ritchie', 'florian74@example.net', '(230)781-4696x271', '2018-01-08 17:57:38', '1981-11-23 04:34:32');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (22, 'Maurice', 'Bogisich', 'earline.weimann@example.com', '641.533.8823', '2003-06-24 03:57:34', '2013-07-27 02:39:58');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (23, 'Carley', 'Orn', 'iwolff@example.com', '1-257-057-3987x5398', '1971-10-08 10:12:03', '1982-03-18 21:22:21');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (24, 'Alyce', 'Kunde', 'salma.durgan@example.org', '+00(8)8996015448', '1978-05-29 18:42:30', '1981-07-20 09:04:07');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (25, 'Claudine', 'Wisozk', 'payton31@example.org', '+49(4)8494273021', '1992-06-11 05:00:07', '1975-10-28 14:53:49');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (26, 'Armando', 'King', 'mitchell.forrest@example.net', '+66(8)2065627773', '2014-03-16 15:36:57', '2001-12-12 21:04:42');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (27, 'Jarrett', 'O\'Keefe', 'odell.mccullough@example.org', '05296350473', '1983-03-10 14:52:44', '1979-01-01 18:37:34');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (28, 'Kaylee', 'Mayert', 'ojones@example.net', '064.689.0304', '1981-06-16 14:37:54', '2010-03-09 06:58:04');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (29, 'Lamar', 'Kovacek', 'boehm.yessenia@example.com', '1-058-751-2696', '1974-08-19 20:25:41', '2000-02-23 04:31:19');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (30, 'Abigale', 'Mohr', 'felton.sipes@example.com', '603-203-7690', '2007-12-28 09:33:02', '1977-05-26 23:26:40');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (31, 'Margot', 'Lowe', 'berneice.cormier@example.com', '1-203-568-7938x4185', '2020-12-21 20:20:31', '2015-11-04 17:32:58');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (32, 'Elva', 'West', 'twiegand@example.com', '761-163-8700x2939', '1998-07-08 05:59:52', '1996-02-03 22:06:24');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (33, 'Katelin', 'Kassulke', 'pmetz@example.net', '789.646.4621x614', '1995-04-01 17:07:11', '2013-05-11 02:55:56');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (34, 'Tate', 'Ernser', 'ekozey@example.com', '1-280-075-0883', '2007-11-11 22:17:43', '2004-03-03 10:44:06');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (35, 'Kurt', 'Fisher', 'eugene.okuneva@example.org', '280.038.3971', '2003-11-07 00:15:59', '2020-11-06 15:44:12');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (36, 'Tatum', 'Langosh', 'harris.allene@example.com', '355.679.0125x17915', '2002-02-03 14:41:39', '1995-03-13 20:56:59');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (37, 'Karine', 'Altenwerth', 'corwin.paxton@example.net', '(896)159-6334x509', '1993-12-29 16:22:58', '1981-12-11 11:08:17');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (38, 'Paul', 'Hermiston', 'bradtke.rosina@example.com', '1-133-200-7136', '2015-11-01 19:56:19', '1994-01-27 20:08:33');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (39, 'Terrell', 'O\'Conner', 'weissnat.reynold@example.com', '(753)723-3344', '1972-10-21 09:08:48', '1988-03-12 21:13:35');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (40, 'Teresa', 'Watsica', 'montana.ullrich@example.com', '(554)801-1746x287', '1998-06-11 20:42:44', '1972-09-22 12:07:49');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (41, 'Angus', 'Lemke', 'jenkins.mauricio@example.com', '02463593867', '2002-10-04 16:55:43', '2011-04-02 22:00:49');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (42, 'Lisette', 'Hermiston', 'moen.bethany@example.com', '915-741-4025', '1990-07-25 05:36:27', '2007-11-10 21:42:06');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (43, 'Jamarcus', 'Graham', 'graham.matilde@example.com', '396.906.6228x9146', '2018-02-11 03:20:59', '1980-05-07 19:14:19');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (44, 'Veronica', 'Buckridge', 'marques.trantow@example.org', '(816)464-6767', '1980-03-21 07:12:12', '1978-12-19 10:11:26');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (45, 'Candido', 'Abernathy', 'sreichel@example.net', '(430)587-3669', '1973-06-07 20:00:54', '1996-09-28 16:46:59');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (46, 'Alexandra', 'Rogahn', 'izulauf@example.org', '1-377-485-4467', '1996-12-19 06:48:28', '1990-06-09 06:40:45');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (47, 'Josephine', 'Wilderman', 'matilda.bahringer@example.org', '837.565.9875', '1976-01-12 04:42:27', '2011-02-19 17:40:43');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (48, 'Kiley', 'Corkery', 'ortiz.jordi@example.com', '(754)570-3228x597', '1971-09-22 09:04:32', '2007-06-11 21:49:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (49, 'Ella', 'Hudson', 'wellington64@example.net', '1-414-184-0147', '1976-11-14 04:39:58', '1992-11-16 16:38:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (50, 'Edmund', 'Shields', 'lratke@example.org', '897.439.3338x7469', '1997-08-02 11:26:06', '2018-11-28 18:00:51');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (51, 'Bailey', 'Gulgowski', 'alanna.schmeler@example.com', '555.005.3143', '1987-09-20 06:18:51', '1989-08-13 05:36:54');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (52, 'Monserrate', 'Roob', 'hagenes.lou@example.net', '397.134.8783x8620', '2013-09-15 00:43:12', '1997-08-22 20:27:09');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (53, 'Rhiannon', 'Windler', 'heber.quitzon@example.com', '1-154-731-5401', '1995-11-01 22:59:07', '1985-05-18 11:01:34');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (54, 'Keeley', 'Smith', 'langworth.marvin@example.com', '517.244.2959x33509', '2009-06-03 19:53:20', '2005-04-19 01:46:11');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (55, 'Kyla', 'Graham', 'gibson.hildegard@example.net', '(888)860-2737', '1975-09-02 01:31:19', '2018-07-27 17:48:39');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (56, 'Ari', 'Lind', 'stephon64@example.com', '715.429.5002', '2003-06-18 07:38:13', '1991-06-17 01:21:57');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (57, 'Jayne', 'Gerhold', 'jacquelyn85@example.net', '(005)871-6230x688', '1992-05-17 14:06:50', '1973-07-11 05:47:53');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (58, 'Beau', 'Paucek', 'grayson29@example.org', '+78(3)6547167504', '1982-05-27 15:30:21', '1980-11-11 05:18:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (59, 'Shanelle', 'Schmidt', 'swill@example.net', '141.624.4623x481', '1989-07-24 03:47:54', '1981-10-05 02:20:56');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (60, 'Alfredo', 'Nikolaus', 'kkonopelski@example.com', '+57(9)7767269488', '2001-04-16 14:32:03', '1993-10-23 14:29:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (61, 'Frida', 'Botsford', 'milford60@example.org', '1-681-637-1667x665', '1975-01-20 23:31:11', '1986-06-02 07:46:58');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (62, 'Kianna', 'Brakus', 'omarvin@example.org', '(927)289-4605x134', '1975-10-26 03:29:53', '1971-07-29 20:05:55');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (63, 'Ransom', 'Morissette', 'elsa.torp@example.org', '109.893.5205x9857', '1983-05-08 15:32:54', '1990-10-12 16:40:20');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (64, 'Neoma', 'Keebler', 'lmohr@example.org', '07818775781', '1989-12-24 11:50:55', '1978-12-25 12:11:46');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (65, 'Candido', 'Hyatt', 'ceffertz@example.com', '(446)100-8362', '1995-08-26 23:48:40', '2017-07-13 07:41:41');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (66, 'Alene', 'Zieme', 'dubuque.gunner@example.net', '464-476-3300x7299', '1983-05-30 18:08:32', '2008-02-07 14:54:04');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (67, 'Idella', 'Schmidt', 'prussel@example.com', '579.582.4447', '2013-05-20 15:01:31', '2014-12-05 08:05:48');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (68, 'Taylor', 'Toy', 'zluettgen@example.org', '(677)840-7627x22135', '1977-11-18 20:17:33', '1985-04-08 08:31:35');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (69, 'Odell', 'O\'Connell', 'bogan.shyann@example.org', '1-888-758-1278', '1970-11-02 05:49:41', '1997-09-17 20:36:44');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (70, 'Madaline', 'Vandervort', 'lhowell@example.org', '1-804-888-3658x02420', '1974-08-12 01:57:46', '1976-01-07 06:57:07');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (71, 'Tod', 'Kutch', 'monserrat.o\'connell@example.org', '953.672.3942', '2019-07-03 11:28:58', '2001-06-24 21:18:42');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (72, 'Joannie', 'Streich', 'ruecker.henry@example.org', '1-371-892-9758', '1975-12-23 15:54:09', '1976-01-10 07:07:23');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (73, 'Madisyn', 'McGlynn', 'keebler.cameron@example.net', '068-443-4437x2082', '2014-08-15 03:39:10', '2018-08-01 00:02:34');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (74, 'Rosamond', 'Ernser', 'josefina.kovacek@example.org', '806.770.8622x662', '1974-08-13 02:57:28', '2008-10-21 21:47:20');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (75, 'Gregory', 'Kessler', 'murazik.jena@example.com', '1-186-173-7490x38511', '2016-11-11 20:21:47', '1980-01-05 05:09:35');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (76, 'Frida', 'Stracke', 'walker.amelie@example.net', '228-125-1837', '2003-05-16 09:21:44', '1997-12-04 20:50:13');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (77, 'May', 'Bailey', 'hilpert.newton@example.net', '02171478013', '1997-12-21 21:12:28', '1974-09-13 04:13:13');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (78, 'Kattie', 'Connelly', 'hauck.patricia@example.org', '1-356-139-9723', '1980-02-02 04:25:29', '2005-02-17 01:10:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (79, 'Gabe', 'Herman', 'wreichert@example.com', '+75(2)3153157502', '1977-12-02 13:21:37', '1970-08-08 11:07:23');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (80, 'Tatum', 'Keeling', 'rhettinger@example.com', '509.392.6576', '1973-10-23 03:57:30', '1972-03-24 18:03:44');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (81, 'Maryse', 'Hammes', 'ucarter@example.org', '343-679-7378x6327', '1976-04-01 07:46:53', '2017-03-19 06:09:52');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (82, 'Paolo', 'Bode', 'cartwright.gerardo@example.com', '1-197-168-5743', '1999-04-11 13:11:37', '2010-07-23 21:38:30');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (83, 'Art', 'Goldner', 'wboyle@example.org', '(316)353-1516x69375', '2015-04-17 23:26:56', '2014-09-16 14:34:32');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (84, 'Kiana', 'Hauck', 'mcclure.josianne@example.net', '(528)024-1998', '2003-06-02 14:17:30', '2004-01-22 08:13:45');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (85, 'Mary', 'Kshlerin', 'o\'conner.chaz@example.org', '381-876-2158x35552', '1997-01-14 14:18:46', '1970-05-15 13:41:40');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (86, 'Rebekah', 'Pfannerstill', 'vince.bergstrom@example.com', '(578)900-5922', '2000-10-02 01:56:45', '1984-02-05 09:29:05');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (87, 'Rhett', 'Pfannerstill', 'brad48@example.org', '265-269-9581x31589', '2020-11-08 17:43:13', '1988-07-11 22:05:04');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (88, 'Jarret', 'Little', 'magdalen59@example.net', '698-118-9755x62198', '2007-12-31 04:22:11', '2005-07-20 04:18:14');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (89, 'Beulah', 'O\'Kon', 'dalton32@example.com', '(093)394-2019x8762', '1999-07-14 00:00:33', '2020-10-06 09:33:02');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (90, 'Hershel', 'Schuppe', 'walsh.peggie@example.com', '09785125894', '2009-04-02 13:08:47', '2013-05-23 04:53:09');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (91, 'Evelyn', 'Moen', 'vmoore@example.org', '073.471.0756x727', '1995-02-08 20:27:58', '2019-08-09 06:30:01');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (92, 'Betty', 'Dicki', 'katrine.hoeger@example.com', '394-333-6136', '2020-12-01 20:34:25', '1979-08-18 06:30:14');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (93, 'Oceane', 'Powlowski', 'libby51@example.net', '(794)604-0743x418', '2013-09-11 12:32:48', '1972-12-06 05:04:20');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (94, 'Margarette', 'Medhurst', 'bulah.schulist@example.net', '775.679.2902x28136', '2000-08-23 02:40:54', '2010-10-19 22:01:29');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (95, 'Junius', 'Eichmann', 'dallas29@example.com', '(632)466-9035x251', '1991-06-18 02:25:51', '2013-02-08 02:39:47');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (96, 'Domenick', 'Bechtelar', 'charley.bahringer@example.com', '001-434-0417x90049', '2005-04-26 01:22:32', '2012-07-19 09:31:18');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (97, 'Hayden', 'Gutmann', 'iwindler@example.net', '217.103.3610', '2005-10-02 22:29:53', '1979-06-29 19:17:14');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (98, 'Edna', 'Jast', 'dora.feest@example.com', '380-977-6065x48844', '1980-01-06 02:07:00', '1977-02-27 09:57:49');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (99, 'Akeem', 'Walter', 'gaston93@example.org', '(055)562-5070', '2020-06-15 19:41:03', '1990-02-14 09:50:12');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (100, 'Garry', 'Lemke', 'schoen.kyler@example.com', '409-584-9112x669', '1984-10-16 14:12:48', '1973-12-29 13:27:19');
+
+show tables;
+
+#
+# TABLE STRUCTURE FOR: communities
+#
+desc friendship;
+
+alter table friendship drop column requested_at;
+
+desc profiles;
+
+# ���������� ���������� �������� � gender
+select distinct gender from profiles; 
+
+# ���������� ��� �������� � gender
+select gender from profiles; 
+
+alter table profiles modify column gender enum ('M','F')
+
+
+-- CRUD : CREATE (INSERT), READ (SELECT), UPDATE, DELETE
+
+# ������� ������ 10 ����� �� ������� users
+select * from users limit 10;
+
+# ����������������� ������ � ������� users;
+update users set updated_at = now() where updated_at  < created_at;
+
+# ������� ������ 10 ����� �� ������� users
+select * from profiles limit 10;
+
+# ������� ��������� ������� genders � ������ ������ � ���, �������� gender 
+create temporary table genders (name char(1));
+select *from genders;
+insert into genders values ('M'), ('F');
+
+# ��������� ������ ��������� ��������� �� genders
+update profiles set gender = (select name from genders order by rand() limit 1);
+
+
+# ������� ��������� ������� countries � ������ ������ � ���, �������� country 
+create temporary table countries (name varchar(50));
+select *from countries;
+insert into countries values 
+('Russia'),
+('China'),
+('the USA');
+
+# ��������� ������ ��������� ��������� �� countries
+update profiles set country = (select name from countries order by rand() limit 1);
+
+
+# ����������������� ������ � ������� profiles;
+update profiles set updated_at = now() where updated_at  < created_at;
+
+# ������� ������ 10 ����� �� ������� messages
+select * from messages limit 10;
+
+select * from users;
+
+select count(*) from users;
+
+# ������� ��������� ����� �� 1 �� 100 � from_user_id � to_user_id
+update messages set
+from_user_id = floor(1 + rand() *100),
+to_user_id = floor(1 + rand() *100);
+
+# ������� ������ 10 ����� �� ������� media
+select * from media;
+select count(*) from media;
+
+# �������� � ��������� � �������
+# truncate media;
+desc media;
+
+# ������� ��������� ����� �� 1 �� 100 � user_id
+update media set user_id = floor(1 + rand() *100);
+
+# ���������� ��� �������� � gender
+select user_id from media; 
+
+# �������� ������� ������ URL � filename
+create temporary table extensions (name varchar(10));
+delete from extensions;
+select *from extensions;
+insert into extensions values 
+('jpeg'),
+('avi'),
+('mpeg4'),
+('png');
+
+update media set filename = concat( 
+'http://dropbox.net/vk/',
+filename,
+'.',
+(select name from extensions order by rand() limit 1));
+
+# �������� �������� size
+update media set size = floor (10000 + rand() * 1000000)
+where size < 10000;
+
+# �������� �������� metadata
+# owner:
+update media set metadata = concat(
+'{"owner": "',
+(select concat(first_name, ' ',last_name) from users where id = user_id),
+'"}');
+
+
+select * from media_types;
+
+# ������� ������� media_types
+delete from media_types;
+desc media_types;
+select name from media_types;
+select count(*) from media_types; 
+
+# ������� �������� � media_types
+insert into media_types (name) values
+('image'),
+('gif'),
+('audio');
+
+# ��������� � �������
+truncate media_types;
+
+#��������� media_type_id
+update media set media_type_id = floor (1+ rand() * 4); 
+
+show tables;
+desc friendship;
+select * from friendship;
+
+# ����������������� ������ � ������� friendship;
+update friendship set updated_at = now() where updated_at  < created_at;
+
+# ������� ��������� ����� �� 1 �� 100 � friend_id � user_id
+update friendship set
+friend_id = floor(1 + rand() *100),
+user_id = floor(1 + rand() *100);
+
+select * from friendship_statuses;
+
+truncate friendship_statuses;
+
+insert into friendship_statuses (name) values
+('Requested'), ('Confirmed');
+
+update friendship set friendship_status_id = floor(1+ rand() *2);
+select * from friendship;
+
+select * from communities;
+
+delete from communities where id > 20;
+
+select * from communities_users;
+
+update communities_users set 
+community_id = floor(1+ rand() * 10);
+#user_id = floor(1+ rand() * 100);
+
+
+
+select *from users;
+
+# Create a table "likes'
+-- Таблица лайков
+DROP TABLE IF EXISTS likes;
+CREATE TABLE likes (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  target_id INT UNSIGNED NOT NULL,
+  target_type_id INT UNSIGNED NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (1, 'vitae', '4024007187397928', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (2, 'placeat', '375421208900254', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (3, 'quia', '4539475998420', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (4, 'eos', '4024007112321', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (5, 'voluptatibus', '4061666146136', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (6, 'sunt', '6011015817266880', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (7, 'quod', '5565446244757730', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (8, 'doloribus', '4539177365653', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (9, 'ipsam', '4716764488645', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (10, 'repellendus', '373192537254272', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (11, 'omnis', '4532607939433', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (12, 'distinctio', '5318242616269732', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (13, 'repudiandae', '4156798304073', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (14, 'recusandae', '5366715942560089', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (15, 'dolorem', '5463536889448398', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (16, 'occaecati', '4556947852852', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (17, 'quia', '4716113853240671', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (18, 'assumenda', '346702135730543', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (19, 'recusandae', '4485973858974300', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (20, 'nisi', '5208489570042222', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (21, 'deserunt', '4716548632709021', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (22, 'ipsa', '5570660922492750', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (23, 'eum', '4929268475946', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (24, 'eaque', '4539298760553695', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (25, 'commodi', '6011035249965707', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (26, 'accusamus', '5266990325217261', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (27, 'ea', '341052070087144', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (28, 'sit', '5595932083485514', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (29, 'distinctio', '5128828658902608', '0000-00-00 00:00:00');
-INSERT INTO `payment_details` (`user_id`, `cardholders_name`, `card_number`, `expiration_date`) VALUES (30, 'neque', '4532139683398742', '0000-00-00 00:00:00');
-
--- Update cardholders_name 
-update payment_details set cardholders_name = (select CONCAT(first_name, ' ', last_name) from users where payment_details.user_id = user_id);
--- Update card_number
-update payment_details set card_number =floor( rand()*(9999999999999999-1000000000000000));
-select * from payment_details;
-DROP TABLE IF EXISTS media_types;
-
-CREATE TABLE media_types (
-  media_type_id int NOT NULL auto_increment primary key,
-  type_media varchar(100) NOT NULL,
-  created_at datetime DEFAULT current_timestamp(),
-  updated_at datetime DEFAULT current_timestamp()
+-- Таблица типов лайков
+DROP TABLE IF EXISTS target_types;
+CREATE TABLE target_types (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL UNIQUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO media_types (type_media) VALUES ('video');
-INSERT INTO media_types (type_media) VALUES ('audio');
-INSERT INTO media_types (type_media) VALUES ('picture');  
+INSERT INTO target_types (name) VALUES 
+  ('messages'),
+  ('users'),
+  ('media'),
+  ('posts');
+ 
+select count(*) from users;
+
+-- Заполняем лайки
+INSERT INTO likes 
+  SELECT 
+    id, 
+    FLOOR(1 + (RAND() * 100)), 
+    FLOOR(1 + (RAND() * 100)),
+    FLOOR(1 + (RAND() * 4)),
+    CURRENT_TIMESTAMP 
+  FROM messages;
+ 
+ select * from posts;
+
+-- Создадим таблицу постов
+DROP TABLE IF EXISTS posts;
+CREATE TABLE posts (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  community_id INT UNSIGNED,
+  head VARCHAR(255),
+  body TEXT NOT NULL,
+  media_id INT UNSIGNED,
+  is_public BOOLEAN DEFAULT TRUE,
+  is_archived BOOLEAN DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+desc messages;
+
+alter table profiles drop foreign key profiles_user_id_fk;
+
+alter table profiles 
+	add constraint profiles_user_id_fk
+		foreign key (user_id) references users(id)
+	on delete cascade ;
+	-- on delete restrict ; zapret
+
+	
+select * from profiles;
+
+-- Для таблицы сообщений
+
+-- Смотрим структурв таблицы
+DESC messages;
+
+-- Добавляем внешние ключи
+alter table messages
+	drop foreign key messages_from_user_id_fk,
+	drop foreign key messages_to_user_id_fk;
+
+
+ALTER TABLE messages
+  ADD CONSTRAINT messages_from_user_id_fk 
+    FOREIGN KEY (from_user_id) REFERENCES users(id)
+    on delete cascade,
+  ADD CONSTRAINT messages_to_user_id_fk 
+    FOREIGN KEY (to_user_id) REFERENCES users(id)
+   on delete cascade ;
   
-CREATE TABLE media (
-   media_id int(10) auto_increment primary key,
-   filename varchar(100) NOT NULL,
-   size int(10) NOT NULL,
-   metadata JSON,
-   media_type_id int NOT NULL,
-   created_at datetime DEFAULT current_timestamp(),
-   updated_at datetime DEFAULT current_timestamp(),
-   CONSTRAINT media_type_id_fk 
-   foreign key (media_type_id) references media_types(media_type_id) on delete cascade on update cascade
-);
-
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (1, 'ut', 8717, '5', 1, '1989-08-28 17:53:51', '1981-10-12 18:21:46');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (2, 'eveniet', 7423, '7', 2, '1998-05-20 18:36:49', '2020-08-31 19:05:25');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (3, 'sed', 9250, '4', 3, '2011-06-24 23:06:04', '2000-08-14 11:15:41');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (4, 'eaque', 2625, '4', 1, '2018-02-11 23:48:20', '2004-01-10 15:15:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (5, 'quibusdam', 3348, '2', 2, '1995-01-30 22:28:14', '2002-04-28 06:44:26');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (6, 'iusto', 6735, '7', 3, '1972-05-18 03:32:09', '2002-05-08 23:16:25');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (7, 'qui', 1495, '9', 1, '1982-10-11 02:18:06', '1992-08-01 07:13:52');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (8, 'est', 2265, '5', 2, '2015-05-02 19:41:20', '1974-04-09 16:40:12');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (9, 'officia', 2298, '1', 3, '1986-04-01 05:30:52', '1970-08-12 19:36:28');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (10, 'nihil', 1703, '7', 1, '2017-09-13 16:46:41', '1990-01-02 21:14:16');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (11, 'eveniet', 1895, '2', 2, '2015-11-18 15:58:50', '1987-05-25 21:50:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (12, 'quo', 6990, '7', 3, '2017-03-17 19:22:45', '1993-08-09 22:55:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (13, 'nesciunt', 1112, '8', 1, '1990-07-10 18:10:37', '1983-05-11 22:11:51');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (14, 'sit', 1874, '2', 2, '1984-08-20 21:59:16', '1996-08-27 13:15:45');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (15, 'commodi', 1440, '4', 3, '1982-07-18 21:18:51', '1980-01-10 22:06:24');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (16, 'numquam', 1400, '8', 1, '2019-11-24 20:55:23', '2003-08-21 03:34:46');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (17, 'nostrum', 7922, '9', 2, '1996-02-07 03:02:03', '1977-03-03 06:24:55');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (18, 'ipsum', 9677, '8', 3, '1980-04-21 14:47:08', '1981-04-16 22:04:26');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (19, 'inventore', 7725, '6', 1, '2020-02-13 04:15:58', '1984-07-25 22:38:16');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (20, 'voluptatem', 8591, '4', 2, '2011-07-14 00:22:34', '2011-02-02 01:49:16');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (21, 'dicta', 7275, '9', 3, '2009-12-11 21:37:19', '2019-10-23 18:35:14');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (22, 'quis', 8875, '3', 1, '1999-09-17 01:06:54', '1980-11-10 18:54:21');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (23, 'autem', 3875, '9', 2, '1970-10-12 04:32:24', '1998-10-28 09:19:00');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (24, 'vel', 4034, '3', 3, '1980-07-03 22:16:14', '1986-11-12 07:49:55');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (25, 'occaecati', 9370, '3', 1, '1999-06-20 10:55:10', '1999-12-23 07:13:33');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (26, 'dolorem', 7955, '1', 2, '1991-10-04 00:31:02', '2005-11-14 04:36:32');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (27, 'cum', 8684, '2', 3, '1971-06-22 09:02:51', '1986-01-25 16:47:57');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (28, 'ut', 4631, '4', 1, '1978-02-27 07:21:23', '1979-12-07 06:15:24');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (29, 'et', 906, '7', 2, '1977-06-28 12:48:35', '2019-03-15 16:53:11');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (30, 'rerum', 2436, '1', 3, '1992-12-11 02:33:51', '2010-03-26 14:18:52');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (31, 'et', 9073, '2', 1, '2015-04-01 16:10:17', '2018-03-25 02:35:01');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (32, 'officia', 8132, '6', 2, '2005-03-08 22:19:55', '1996-09-29 13:40:20');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (33, 'ut', 8072, '3', 3, '1998-12-03 21:42:31', '1971-03-01 11:20:40');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (34, 'soluta', 2760, '5', 1, '1987-08-18 14:09:24', '2017-05-07 02:49:21');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (35, 'quaerat', 6832, '3', 2, '1982-03-19 00:49:22', '2015-11-19 09:42:11');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (36, 'natus', 7157, '9', 3, '1996-07-16 07:48:01', '1987-09-04 13:17:50');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (37, 'deleniti', 2890, '3', 1, '2001-01-16 07:57:37', '2014-06-19 08:20:14');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (38, 'id', 6403, '2', 2, '1999-07-10 05:32:50', '2006-07-21 17:49:23');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (39, 'ipsam', 7542, '4', 3, '1987-09-21 17:45:55', '2015-03-02 01:27:22');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (40, 'perferendis', 7982, '9', 1, '1998-02-23 04:02:09', '1988-10-09 18:36:30');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (41, 'est', 9765, '9', 2, '2005-08-07 21:31:58', '1973-11-21 15:20:31');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (42, 'eligendi', 6185, '3', 3, '1973-08-31 02:57:43', '2019-12-11 10:00:52');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (43, 'eveniet', 3123, '4', 1, '2017-04-25 16:46:24', '1985-09-11 13:20:10');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (44, 'dignissimos', 4082, '9', 2, '1977-08-20 06:06:55', '2004-07-02 04:41:20');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (45, 'aut', 9379, '9', 3, '1979-07-07 23:53:54', '1993-05-26 15:49:44');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (46, 'totam', 1581, '3', 1, '1994-06-02 21:42:41', '2018-02-25 16:01:52');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (47, 'et', 6091, '7', 2, '1970-09-03 11:22:54', '2001-05-21 15:01:46');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (48, 'accusamus', 6032, '6', 3, '1992-06-10 20:01:43', '1985-08-15 01:52:20');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (49, 'in', 3041, '7', 1, '2018-06-17 05:21:02', '1986-01-29 13:46:50');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (50, 'nihil', 2077, '7', 2, '2012-11-01 09:16:52', '1972-07-31 17:30:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (51, 'explicabo', 6444, '9', 3, '2006-08-29 22:44:53', '1991-02-14 19:34:32');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (52, 'voluptatem', 6038, '9', 1, '1973-09-02 08:32:39', '2018-11-08 17:43:57');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (53, 'qui', 3694, '3', 2, '1980-05-25 14:42:36', '1985-03-19 17:40:27');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (54, 'eveniet', 4039, '2', 3, '1991-03-04 23:19:09', '1992-01-19 08:39:35');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (55, 'et', 7307, '3', 1, '1979-06-26 00:46:04', '1996-06-08 09:40:59');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (56, 'quia', 4353, '3', 2, '2012-05-09 03:45:31', '1972-11-08 01:36:10');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (57, 'repellendus', 9703, '3', 3, '2006-06-17 00:07:10', '2004-09-05 19:53:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (58, 'modi', 5488, '4', 1, '1989-04-04 19:17:46', '2020-03-09 10:03:03');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (59, 'consequatur', 9607, '5', 2, '1998-03-03 14:38:50', '1984-01-21 22:00:53');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (60, 'dolorem', 4779, '2', 3, '1977-03-06 06:24:18', '2011-07-26 04:58:02');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (61, 'voluptatem', 8197, '1', 1, '1983-03-13 11:53:01', '1986-07-13 03:39:29');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (62, 'maiores', 7497, '2', 2, '2019-03-26 08:05:50', '2015-03-31 02:37:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (63, 'commodi', 3918, '7', 3, '1979-07-06 02:53:54', '1974-04-18 22:29:22');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (64, 'dolore', 4158, '9', 1, '1995-01-23 15:15:48', '2005-10-15 04:18:34');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (65, 'ullam', 2066, '7', 2, '1974-08-13 13:14:17', '1989-05-29 05:06:30');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (66, 'qui', 4516, '2', 3, '1979-09-13 12:59:55', '2010-10-24 15:32:46');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (67, 'mollitia', 8846, '7', 1, '2016-06-11 13:02:39', '2015-11-25 22:19:51');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (68, 'autem', 9107, '3', 2, '2012-06-18 17:40:05', '1999-04-23 19:12:28');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (69, 'voluptas', 5900, '6', 3, '1985-03-17 15:23:34', '1985-05-11 10:20:16');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (70, 'non', 7323, '3', 1, '2013-04-18 23:45:53', '1990-03-31 14:21:05');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (71, 'rerum', 3093, '4', 2, '1971-12-28 00:43:20', '2014-07-05 16:35:44');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (72, 'eius', 7359, '4', 3, '2012-06-26 02:57:30', '1985-08-30 04:21:15');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (73, 'nam', 8082, '3', 1, '2015-09-10 10:56:27', '1982-05-22 11:39:58');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (74, 'voluptatem', 125, '7', 2, '1972-05-06 22:16:25', '1984-07-11 00:51:31');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (75, 'animi', 5003, '5', 3, '1970-07-16 14:53:13', '1991-05-01 13:37:22');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (76, 'ex', 5009, '1', 1, '1984-03-31 09:39:16', '1971-06-05 05:25:50');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (77, 'facilis', 9945, '3', 2, '1975-07-15 06:22:57', '2020-04-21 18:32:01');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (78, 'harum', 8989, '8', 3, '1998-11-01 03:54:55', '1993-11-04 16:03:22');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (79, 'doloribus', 8389, '1', 1, '2017-02-05 18:55:42', '1995-01-23 07:19:29');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (80, 'sit', 1966, '3', 2, '2009-05-09 10:21:53', '1998-01-03 17:09:47');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (81, 'voluptas', 9106, '2', 3, '2019-08-21 11:50:13', '1973-09-27 20:42:43');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (82, 'culpa', 1379, '2', 1, '1982-02-04 13:13:05', '1987-01-12 21:02:39');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (83, 'accusantium', 8713, '2', 2, '1986-07-01 02:15:15', '1982-03-13 11:51:50');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (84, 'rerum', 8223, '3', 3, '2016-05-15 14:38:36', '1994-11-03 08:43:39');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (85, 'eum', 2337, '3', 1, '1972-04-29 02:34:09', '1980-11-26 06:56:38');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (86, 'eum', 1881, '1', 2, '1996-04-09 15:33:29', '1993-05-12 13:02:17');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (87, 'velit', 5158, '5', 3, '1990-05-07 20:15:48', '1996-03-12 21:27:26');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (88, 'ducimus', 9300, '6', 1, '1972-02-02 22:06:13', '2020-05-31 19:54:41');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (89, 'minima', 4284, '8', 2, '2011-09-23 07:00:02', '2011-12-31 18:52:11');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (90, 'tenetur', 7235, '6', 3, '1975-05-24 02:08:20', '2008-02-24 17:40:35');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (91, 'quia', 1146, '3', 1, '2005-01-03 08:56:12', '1988-05-14 17:06:24');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (92, 'maxime', 1609, '3', 2, '1990-02-07 14:51:39', '2020-09-30 04:31:36');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (93, 'ut', 3288, '5', 3, '1992-09-15 15:55:20', '2006-02-24 16:19:29');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (94, 'voluptas', 5472, '7', 1, '1973-03-30 15:06:05', '1970-02-13 23:43:03');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (95, 'consequatur', 8615, '5', 2, '1987-07-09 01:31:25', '2000-10-02 15:52:23');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (96, 'quisquam', 2577, '4', 3, '2018-10-11 06:00:03', '1982-01-20 19:14:45');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (97, 'fugit', 900, '8', 1, '1976-09-25 10:24:22', '2019-07-31 18:21:19');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (98, 'beatae', 7152, '1', 2, '1983-06-09 02:07:30', '1978-08-28 11:22:02');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (99, 'qui', 3257, '1', 3, '1985-02-19 14:02:21', '1986-04-12 20:20:58');
-INSERT INTO `media` (`media_id`, `filename`, `size`, `metadata`, `media_type_id`, `created_at`, `updated_at`) VALUES (100, 'quam', 7326, '5', 1, '1979-01-25 04:24:27', '1971-09-17 03:35:37');
-
-UPDATE media SET metadata = CONCAT('{"owner":"', 
-  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE media_id = user_id),
-  '"}');  
-
-DROP TABLE IF EXISTS `extensions`;
-CREATE TEMPORARY TABLE extensions (name VARCHAR(10));
-INSERT INTO extensions VALUES ('jpeg'), ('avi'), ('mpeg'), ('png');
-UPDATE media SET filename = CONCAT(
-  'http://dropbox.net/booking/',
-  filename,
-  '.',
-  (SELECT name FROM extensions ORDER BY RAND() LIMIT 1)
-);
-UPDATE media SET updated_at = NOW() WHERE updated_at < created_at;
-
-DROP TABLE IF EXISTS hotels;
-
-CREATE TABLE hotels (
-  hotel_id int NOT NULL auto_increment primary key,
-  hotel_name varchar(100) NOT NULL,
-  street_hotel varchar(100) NOT NULL,
-  city_hotel varchar(100) NOT NULL,
-  country_hotel varchar(100) NOT NULL,
-  year_of_construction datetime NOT NULL,
-  prepayment ENUM ('Yes','No') NOT NULL,
-  price int NOT NULL,
-  type_card varchar(100) NOT NULL,
-  rating int(10) default 0,
-  media_id int NOT NULL,
-  created_at datetime DEFAULT current_timestamp(),
-  updated_at datetime DEFAULT current_timestamp(),
-  CONSTRAINT media_id_fk 
-  foreign key (media_id) references media(media_id) on delete cascade on update cascade
-);
-
-
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (1, 'Dach LLC', '8265 Esta Light', 'Connellyshire', 'Western Sahara', '1985-06-28 18:17:02', 'Yes', 21785, 'MasterCard', 532402698, 1, '1973-06-01 12:42:19', '1973-10-18 10:03:27');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (2, 'Osinski-Donnelly', '327 Lowe Plaza', 'Smithstad', 'Haiti', '1987-10-02 17:32:22', 'Yes', 16095, 'American Express', 279, 2, '2008-10-20 12:05:11', '1986-01-11 02:54:23');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (3, 'Harber PLC', '805 Meda Harbors', 'West Oma', 'Djibouti', '1971-11-17 11:29:23', 'Yes', 13560, 'MasterCard', 920910, 3, '2000-10-02 08:47:41', '1981-08-07 21:28:51');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (4, 'Hoeger-Anderson', '9243 Senger Harbor', 'Jaskolskiview', 'Jordan', '2016-07-13 05:21:44', 'No', 31437, 'Visa', 851778, 4, '2011-12-31 09:32:01', '1997-10-09 13:24:27');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (5, 'Boyer and Sons', '774 Carley Trail', 'Kristofferfort', 'Cocos (Keeling) Islands', '1995-01-11 08:02:04', 'Yes', 35529, 'Visa', 0, 5, '2012-05-05 12:14:03', '2019-09-25 12:48:20');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (6, 'Bosco, Ledner and Weber', '0209 Hintz Path', 'North Gregstad', 'Germany', '2003-03-20 22:01:50', 'Yes', 35744, 'Visa', 86002, 6, '1995-05-15 01:47:55', '1990-05-27 12:25:08');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (7, 'Nienow-Greenfelder', '248 Feest Isle Apt. 762', 'Madisonton', 'Kyrgyz Republic', '2016-08-23 14:55:38', 'Yes', 10807, 'Visa', 7, 7, '1999-11-14 10:20:12', '1987-11-11 04:10:51');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (8, 'Lehner Group', '111 Ophelia Oval Apt. 775', 'Hermistonville', 'Moldova', '1994-02-10 20:50:58', 'No', 9661, 'MasterCard', 77407, 8, '1972-07-08 11:58:05', '2020-11-11 10:26:52');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (9, 'Watsica Ltd', '4739 Connelly Street Apt. 417', 'West Ruby', 'Puerto Rico', '2006-08-31 22:40:58', 'Yes', 4617, 'Visa', 52, 9, '2013-03-21 21:13:31', '2001-11-09 02:34:11');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (10, 'Dach, Monahan and Hammes', '81664 Jorge Harbors', 'Kiehnside', 'Holy See (Vatican City State)', '2011-01-24 09:46:19', 'Yes', 28047, 'Visa', 65765, 10, '1981-01-17 15:37:46', '1976-11-11 14:23:35');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (11, 'O\'Kon, Champlin and Kunde', '838 Estel Wells Apt. 953', 'Danykastad', 'Malta', '2003-08-19 02:58:55', 'No', 34869, 'Visa', 787629, 11, '2003-02-28 06:10:41', '2016-09-27 12:58:46');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (12, 'Morissette Ltd', '106 Osinski Island', 'Wuckertmouth', 'Palau', '2020-05-25 23:17:52', 'No', 29503, 'Visa', 842667794, 12, '1994-04-04 20:02:50', '2009-06-06 21:47:26');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (13, 'Conn, Renner and Price', '94763 Heaven Row', 'Lake Lionelmouth', 'San Marino', '1987-02-06 02:15:54', 'No', 22902, 'Visa', 46889276, 13, '2001-01-01 09:29:25', '2000-04-18 09:43:30');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (14, 'Aufderhar, Franecki and Rolfson', '762 Gleichner Summit', 'Danykamouth', 'Kenya', '1994-07-13 21:26:40', 'Yes', 25634, 'Visa', 733858, 14, '2011-10-10 03:00:12', '1991-04-04 17:23:24');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (15, 'Buckridge LLC', '092 Berniece Key Apt. 604', 'Abernathyton', 'Saint Vincent and the Grenadines', '1979-07-20 19:41:35', 'No', 17130, 'MasterCard', 49, 15, '2013-01-28 17:25:31', '2010-04-03 02:44:02');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (16, 'Murray, Sawayn and White', '548 Tracy Common Apt. 324', 'New Einarbury', 'Nauru', '2018-11-12 12:39:47', 'Yes', 3340, 'American Express', 6367848, 16, '2007-12-12 15:43:03', '1984-04-09 12:09:59');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (17, 'Shanahan-Abbott', '474 Stracke Harbor Suite 831', 'North Jazlyn', 'Macao', '1991-09-23 02:52:07', 'No', 10201, 'Discover Card', 5171, 17, '2006-08-11 03:11:20', '1981-03-05 17:13:13');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (18, 'Konopelski-Weimann', '282 Noemi Bypass', 'South Mohamed', 'Macao', '1977-05-21 02:30:55', 'No', 33928, 'Visa', 1377797, 18, '2016-12-24 05:56:00', '1987-05-17 04:20:23');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (19, 'Kertzmann Ltd', '379 Randal Mountains', 'Pricefurt', 'Gambia', '1982-07-08 16:47:52', 'No', 29126, 'Visa', 341727, 19, '2020-11-28 19:47:15', '1977-04-08 04:11:35');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (20, 'Donnelly, Reinger and Altenwerth', '18019 Runte Trail', 'Pinkieland', 'Canada', '1984-06-15 05:39:50', 'Yes', 38102, 'Visa', 421, 20, '2010-08-03 02:53:38', '2016-12-05 17:20:37');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (21, 'Armstrong PLC', '7359 Phyllis Crossroad Apt. 551', 'West Madalineville', 'Slovakia (Slovak Republic)', '1987-04-25 12:40:44', 'Yes', 35375, 'MasterCard', 7, 21, '2003-01-16 21:46:37', '1981-07-18 22:32:57');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (22, 'Bahringer Inc', '6365 Schamberger Villages', 'East Xavierside', 'Nauru', '1977-02-12 07:56:09', 'No', 31838, 'Visa', 901862, 22, '1995-09-05 09:10:43', '1980-03-02 09:10:30');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (23, 'Harber Ltd', '817 Paucek Loop', 'South Gene', 'Burundi', '1997-05-27 03:09:21', 'No', 25211, 'MasterCard', 79068202, 23, '1987-03-21 16:20:27', '2011-02-18 16:18:43');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (24, 'Parker-Davis', '8760 Bartell Port', 'West Andreane', 'Vietnam', '1985-05-27 07:48:52', 'No', 25816, 'MasterCard', 20, 24, '1989-04-26 14:08:57', '1971-08-15 02:40:16');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (25, 'Powlowski, Treutel and Kub', '3787 Zena Corners Apt. 163', 'Blockland', 'Israel', '1990-04-25 07:34:55', 'No', 31883, 'Visa', 5, 25, '1974-11-09 21:03:01', '2008-01-29 06:33:58');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (26, 'Howell-Windler', '48479 Lockman Ville', 'Port Makenna', 'Madagascar', '1979-03-03 05:51:50', 'Yes', 33714, 'Visa', 84, 26, '1974-12-15 02:00:09', '2000-02-06 22:38:32');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (27, 'Pfannerstill, Pacocha and Pouros', '96454 Francesco Walk', 'East Elisabethfurt', 'Cayman Islands', '2004-05-15 16:20:35', 'Yes', 1636, 'Visa', 4, 27, '1976-05-12 11:54:54', '1997-12-24 10:10:42');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (28, 'Frami Ltd', '7093 Borer Oval', 'Buddychester', 'Montserrat', '1980-07-31 06:04:54', 'No', 39966, 'Visa', 0, 28, '2002-07-15 22:49:57', '1999-09-26 12:11:33');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (29, 'Johnston and Sons', '157 Jonathon Drive Suite 905', 'Daishaland', 'Ethiopia', '1989-02-18 22:39:45', 'Yes', 12817, 'MasterCard', 3808, 29, '1973-11-12 20:41:38', '2007-06-09 19:00:12');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (30, 'Tillman, Fadel and Effertz', '35821 Altenwerth Cove Suite 188', 'Koelpinborough', 'Belgium', '2014-07-17 11:31:06', 'Yes', 11189, 'Visa', 97309583, 30, '2017-02-25 13:25:23', '2016-09-12 20:42:53');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (31, 'Zemlak-Pagac', '025 Schinner Crescent Suite 003', 'Langworthshire', 'United Kingdom', '1993-12-29 02:55:14', 'No', 38208, 'Discover Card', 0, 31, '1978-11-19 06:17:32', '1972-07-11 10:03:15');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (32, 'Kerluke, Abernathy and Kozey', '621 Clare Island', 'South Darianaland', 'French Guiana', '1992-04-13 22:36:13', 'No', 2797, 'Visa', 1344124, 32, '2006-12-08 04:22:20', '2001-01-03 02:04:38');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (33, 'Parisian-Lockman', '6354 Bahringer Camp Suite 866', 'Kendrickbury', 'Nauru', '1972-01-22 05:47:55', 'Yes', 2481, 'MasterCard', 15052, 33, '2002-05-14 06:46:10', '2000-03-04 01:32:40');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (34, 'Spencer-Cormier', '76049 Alessandra Station Suite 354', 'West Leonor', 'Saint Martin', '2009-11-12 09:02:39', 'No', 27633, 'Visa', 6, 34, '1998-04-15 19:40:12', '1995-05-24 10:15:11');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (35, 'Berge-Morar', '58121 Tromp Prairie', 'East Shainachester', 'Saint Helena', '1993-11-22 22:50:47', 'Yes', 14483, 'Visa', 999628, 35, '1994-02-18 18:23:23', '1989-05-29 00:00:32');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (36, 'Gleason Ltd', '264 Jakubowski Harbor Suite 515', 'Port Leliamouth', 'Poland', '1990-10-06 05:20:30', 'No', 15374, 'MasterCard', 4871908, 36, '1993-09-03 15:14:34', '1994-01-13 06:19:15');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (37, 'Heathcote, Sipes and Crooks', '5429 Damaris Shoals', 'Bryceland', 'Jersey', '2001-10-14 00:58:09', 'No', 2658, 'Visa', 0, 37, '1995-01-22 12:22:32', '2017-06-19 09:10:40');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (38, 'D\'Amore and Sons', '9076 Auer Summit', 'South Kristaside', 'Burundi', '2013-07-13 16:45:32', 'Yes', 33794, 'MasterCard', 11, 38, '1999-05-04 16:43:01', '1991-12-25 07:26:34');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (39, 'Schulist-Gerhold', '2977 Bednar Greens Apt. 082', 'Athenaton', 'British Indian Ocean Territory (Chagos Archipelago)', '1997-02-06 10:43:01', 'Yes', 36026, 'MasterCard', 57, 39, '2002-05-06 10:29:00', '1971-03-26 14:36:50');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (40, 'McLaughlin, Nitzsche and Kassulke', '7955 Kreiger Port Suite 997', 'Jonesfurt', 'Cuba', '1975-08-31 19:44:05', 'Yes', 15026, 'American Express', 0, 40, '2009-09-24 02:18:45', '2013-02-01 22:30:38');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (41, 'Renner-Pacocha', '570 Lesch Forges Apt. 635', 'Calebury', 'Netherlands Antilles', '2014-06-05 01:53:21', 'Yes', 32976, 'MasterCard', 0, 41, '1973-11-12 19:07:47', '2005-04-10 20:38:52');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (42, 'Kunze-Hilll', '604 Lindsay Stravenue', 'South Jamirfurt', 'Slovakia (Slovak Republic)', '2001-01-18 07:33:35', 'No', 28997, 'MasterCard', 223, 42, '2019-07-10 17:58:29', '1998-02-27 18:50:38');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (43, 'Rath-Becker', '183 Steve Meadows Apt. 049', 'Lake Florian', 'Chile', '1985-09-30 11:30:50', 'No', 7929, 'American Express', 7126, 43, '2014-04-23 17:15:18', '2020-03-02 10:09:31');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (44, 'Rodriguez, Stracke and Effertz', '134 Elroy Viaduct Suite 296', 'South Bryanamouth', 'Reunion', '1979-09-06 04:47:36', 'Yes', 39021, 'MasterCard', 42189, 44, '2017-11-11 15:00:18', '1990-09-17 17:02:41');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (45, 'Carroll LLC', '6515 Shields Harbors Apt. 954', 'East Mortimer', 'Papua New Guinea', '1998-01-27 03:11:46', 'No', 12908, 'Visa', 55222220, 45, '1979-08-02 04:53:15', '1970-12-02 11:19:41');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (46, 'Brakus, D\'Amore and Weissnat', '09097 Felix Pines', 'Amelieton', 'Czech Republic', '2000-12-02 09:15:42', 'No', 39730, 'Visa', 5, 46, '1976-07-22 00:39:29', '2015-07-11 00:28:09');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (47, 'Conroy, Kunze and Zulauf', '3836 Roderick Vista Suite 436', 'North Twila', 'South Georgia and the South Sandwich Islands', '2019-03-02 06:24:49', 'Yes', 156, 'Visa', 3, 47, '1974-12-21 07:29:16', '2006-06-01 03:19:22');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (48, 'Rau PLC', '2864 Reinger Rapids', 'Ritchietown', 'Bahamas', '1986-10-28 19:56:35', 'Yes', 22448, 'MasterCard', 41557, 48, '1982-10-17 10:29:25', '2014-04-09 15:05:18');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (49, 'Hirthe, Stanton and Effertz', '969 Donnelly Route', 'Lexusmouth', 'Spain', '1996-01-17 08:50:37', 'No', 34534, 'MasterCard', 28, 49, '2019-11-04 03:41:33', '1970-05-25 19:03:11');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (50, 'Murray-Kuphal', '13831 Fahey Stravenue Apt. 856', 'North Arlie', 'Bermuda', '1992-08-24 01:24:45', 'No', 6967, 'American Express', 2516166, 50, '2006-08-01 23:10:06', '1987-10-28 08:45:02');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (51, 'Kuvalis-Breitenberg', '806 Deven Fork', 'East Kallieburgh', 'Kazakhstan', '1971-05-09 17:12:34', 'Yes', 27160, 'Visa', 6864337, 51, '1997-09-28 10:37:53', '2015-03-27 14:46:21');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (52, 'Hartmann-Willms', '55888 McKenzie Mountains', 'Cydneyville', 'Burkina Faso', '1977-03-23 04:12:15', 'No', 30329, 'Visa', 8014971, 52, '1996-05-21 16:25:47', '1991-04-07 18:19:07');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (53, 'Powlowski LLC', '547 Madie Landing', 'Trevorbury', 'Vietnam', '1982-10-27 03:26:55', 'Yes', 23310, 'Visa', 97, 53, '1974-01-18 07:14:26', '2019-09-13 01:04:00');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (54, 'Conroy-Balistreri', '9773 Cortney Tunnel Suite 688', 'Port Lizeth', 'Bahamas', '1994-06-24 05:46:46', 'No', 8770, 'American Express', 229914965, 54, '1970-05-25 12:35:32', '1998-09-23 21:47:31');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (55, 'Deckow, Romaguera and Powlowski', '3512 Wisoky Underpass Suite 118', 'New Oran', 'Central African Republic', '1971-09-22 18:11:56', 'No', 36151, 'Visa', 1, 55, '1985-09-20 11:03:11', '2020-12-23 17:34:15');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (56, 'Wiza, Schuppe and Legros', '343 Brad Parkways Apt. 087', 'East Marcellamouth', 'British Virgin Islands', '1980-08-19 21:08:44', 'No', 24852, 'Visa', 2141, 56, '1983-08-16 13:51:53', '1995-01-27 23:18:56');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (57, 'Beatty-Dickens', '389 Raynor Rue', 'Leestad', 'Uzbekistan', '2011-09-15 00:01:48', 'No', 9001, 'Discover Card', 221410753, 57, '2018-02-08 07:22:14', '2010-01-23 00:43:04');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (58, 'Lind, Torphy and Herman', '73865 Joseph Run', 'Watsonberg', 'Cyprus', '1996-05-09 09:42:58', 'Yes', 688, 'MasterCard', 431, 58, '1988-07-15 23:37:57', '1997-11-21 01:49:59');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (59, 'Heaney-Spencer', '8724 Travis Curve Suite 968', 'Port Daphne', 'Saint Martin', '2009-01-22 12:39:12', 'Yes', 14193, 'Visa', 45098, 59, '1993-03-12 14:53:15', '1997-10-16 16:11:21');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (60, 'Hagenes, West and Mosciski', '16182 Yost Course', 'New Tatyana', 'Suriname', '2006-07-15 08:06:29', 'No', 1472, 'MasterCard', 584, 60, '1974-01-07 11:12:13', '1970-01-15 23:26:32');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (61, 'Dach Group', '3389 Krista Junction Suite 991', 'O\'Haraview', 'Tonga', '1973-11-20 18:56:59', 'Yes', 37211, 'MasterCard', 664686123, 61, '1975-02-18 06:03:53', '2013-05-28 13:19:03');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (62, 'Little Inc', '0062 Fay Dam', 'Christelleland', 'Afghanistan', '1981-06-29 01:18:01', 'No', 12087, 'MasterCard', 658, 62, '1999-02-03 00:24:38', '1980-04-09 04:21:37');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (63, 'Labadie LLC', '49140 Melba Brook Apt. 985', 'Port Jerald', 'Denmark', '2001-04-20 03:59:12', 'Yes', 2242, 'MasterCard', 0, 63, '1985-02-28 10:40:35', '2007-09-14 04:44:48');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (64, 'Sporer-Kertzmann', '543 Cronin Street', 'New Edythe', 'Slovenia', '1984-10-20 11:15:03', 'No', 8586, 'MasterCard', 271028, 64, '2019-01-04 03:01:45', '2005-06-23 06:21:25');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (65, 'Wilkinson-Halvorson', '11089 Tyra Alley Suite 404', 'West Jaidenview', 'Bulgaria', '2005-09-21 10:38:09', 'No', 14279, 'MasterCard', 0, 65, '1984-10-10 02:42:14', '2019-09-14 23:29:47');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (66, 'McKenzie, Abbott and Osinski', '126 Wilma Way Suite 555', 'Jeanetteville', 'Kyrgyz Republic', '2019-03-03 12:52:49', 'Yes', 3275, 'Visa', 80844808, 66, '2002-06-13 22:45:39', '1996-02-16 11:54:28');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (67, 'Grimes-Blanda', '0288 Ebba Mills Apt. 156', 'Lake Adelinestad', 'Saint Martin', '2019-11-07 16:31:22', 'No', 12012, 'MasterCard', 554205884, 67, '1996-05-15 15:36:33', '1985-01-13 18:01:20');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (68, 'Runolfsson-Goodwin', '1386 Stokes Common Apt. 989', 'East Daren', 'French Polynesia', '2018-01-21 19:42:31', 'No', 27289, 'Visa', 0, 68, '1975-03-15 18:46:38', '1995-11-09 05:07:00');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (69, 'Senger and Sons', '4853 Geovanni Vista Apt. 079', 'Rodgerport', 'Gabon', '1979-12-10 16:04:59', 'No', 30568, 'Visa', 719, 69, '1999-09-06 10:21:28', '1972-10-05 15:37:57');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (70, 'Grimes Ltd', '0729 Cremin Greens', 'Shanonborough', 'Slovakia (Slovak Republic)', '1973-01-02 02:19:33', 'No', 25974, 'MasterCard', 56, 70, '2012-01-18 23:10:31', '2012-01-18 14:32:55');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (71, 'Hackett Group', '308 Stoltenberg Drive', 'Elwinmouth', 'Togo', '2004-07-15 14:05:05', 'No', 385, 'Visa', 9521, 71, '2007-04-01 20:38:17', '1971-11-06 02:52:12');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (72, 'Upton-Dooley', '765 Camilla View', 'Janyberg', 'Turkey', '2012-07-24 17:48:28', 'Yes', 16021, 'Visa', 83891, 72, '2013-10-02 13:13:33', '1976-06-09 08:32:07');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (73, 'Wintheiser Inc', '574 Jakubowski Parkways Apt. 695', 'Weldonchester', 'Mayotte', '1991-09-01 02:33:13', 'Yes', 28003, 'MasterCard', 7, 73, '2015-06-06 20:27:03', '1980-12-22 03:37:14');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (74, 'Skiles-Padberg', '59008 Florencio Curve', 'Lake Teagan', 'Brunei Darussalam', '1984-07-17 05:22:56', 'No', 13707, 'MasterCard', 92, 74, '1985-09-17 16:24:11', '1978-11-23 11:32:56');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (75, 'Blanda, Auer and Ward', '061 Gottlieb Mission', 'Ernieshire', 'Armenia', '1991-06-07 00:17:12', 'Yes', 31113, 'MasterCard', 41834466, 75, '2009-05-12 17:09:09', '2009-02-09 03:34:34');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (76, 'Rath-Renner', '478 Monahan Cape', 'Anibalville', 'Italy', '1980-08-20 14:04:01', 'No', 3930, 'MasterCard', 91267, 76, '2000-11-18 12:16:36', '2018-11-16 20:53:34');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (77, 'Gislason-Kling', '39530 Elian Wall Suite 744', 'Elizaborough', 'Norfolk Island', '1972-05-21 15:33:26', 'No', 12817, 'MasterCard', 54540664, 77, '2002-12-22 09:00:24', '2015-06-30 02:51:32');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (78, 'Hermann, Vandervort and Bergstrom', '922 Adrian Harbor Suite 077', 'Wunschmouth', 'Myanmar', '1989-09-18 14:35:14', 'No', 24309, 'Visa', 910960661, 78, '1976-01-22 11:21:48', '1982-05-24 14:02:47');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (79, 'Douglas, Sauer and Franecki', '6868 Frankie Extension Suite 850', 'Tateton', 'Tanzania', '1991-01-24 22:41:14', 'No', 290, 'American Express', 0, 79, '1982-02-28 15:48:00', '1998-12-18 07:45:20');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (80, 'Willms LLC', '470 Goyette Roads Apt. 717', 'North Maymie', 'Saint Martin', '2014-06-01 00:30:32', 'No', 39399, 'MasterCard', 57282, 80, '1985-09-10 22:56:29', '1982-10-18 12:07:29');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (81, 'Hilll Ltd', '9909 Emmalee Branch', 'Cartwrightville', 'Palau', '2003-12-29 08:08:41', 'No', 23383, 'Visa', 36758752, 81, '1978-06-26 03:21:43', '2012-01-03 08:48:15');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (82, 'Feeney, Altenwerth and Bruen', '04153 Eileen Crest Apt. 804', 'West Christellechester', 'Poland', '1977-03-12 18:38:29', 'No', 29460, 'MasterCard', 8, 82, '2003-02-18 12:20:41', '1975-12-14 10:13:55');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (83, 'McLaughlin, Hegmann and Kub', '47370 Weimann Rapid Apt. 940', 'East Wilfrid', 'Maldives', '1988-11-15 03:05:31', 'No', 16778, 'Discover Card', 22736, 83, '1972-01-11 19:12:39', '1983-08-05 07:42:14');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (84, 'Koss-Senger', '6725 Rylan Lake', 'Deontaetown', 'Switzerland', '2018-09-07 16:16:31', 'Yes', 12630, 'MasterCard', 98, 84, '2015-09-28 15:25:30', '2015-05-30 04:22:05');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (85, 'DuBuque Ltd', '740 Sauer Meadows Apt. 581', 'North Diamondbury', 'Guinea', '1979-07-21 07:51:47', 'Yes', 34882, 'American Express', 616012442, 85, '2006-06-03 22:58:30', '1991-01-29 20:46:21');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (86, 'Schuster PLC', '5960 Cummings Wall Suite 701', 'North Madisyn', 'Tunisia', '2006-01-28 00:21:18', 'Yes', 8931, 'American Express', 64, 86, '1994-10-08 14:12:11', '2012-09-16 22:33:26');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (87, 'Huel-Koch', '8353 Miller Cape', 'Madieberg', 'United States of America', '2013-07-05 01:20:11', 'Yes', 15084, 'Visa', 0, 87, '2008-08-10 03:02:56', '1987-07-11 14:18:02');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (88, 'Lakin Group', '329 Watsica Springs', 'North Elvera', 'Greenland', '2007-09-13 16:04:28', 'No', 33889, 'Discover Card', 48117129, 88, '1993-03-27 06:00:29', '2015-10-05 08:35:17');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (89, 'Mann-Mueller', '7782 Aniyah Overpass Suite 140', 'Port Silasport', 'Cocos (Keeling) Islands', '1970-01-10 23:09:31', 'No', 20344, 'Visa', 9, 89, '1977-02-10 07:13:17', '1997-01-29 04:14:11');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (90, 'Christiansen, Legros and Leffler', '263 Elyssa Pike', 'Champlinberg', 'Tokelau', '2009-11-30 06:21:17', 'Yes', 18614, 'MasterCard', 55768595, 90, '1982-07-18 04:59:07', '2009-01-02 05:15:37');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (91, 'Rice PLC', '99774 Shane Rest Apt. 783', 'West Karlie', 'Cote d\'Ivoire', '1992-01-31 22:36:48', 'No', 29177, 'Discover Card', 0, 91, '1984-03-04 03:10:41', '2001-10-05 23:25:15');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (92, 'Cole, Kassulke and Hermann', '4066 Archibald Parks Suite 753', 'Agustinahaven', 'Costa Rica', '1979-01-09 21:16:23', 'No', 10458, 'American Express', 797947, 92, '1974-05-23 15:02:51', '2006-06-09 16:14:56');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (93, 'Monahan, Jones and Collier', '30999 Cathrine Well', 'Lake Rosina', 'Suriname', '1977-03-14 06:51:01', 'No', 31760, 'Visa', 38713635, 93, '1977-10-17 20:54:12', '1981-02-09 09:21:01');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (94, 'Collier, Bogisich and Kuvalis', '676 Mayer Drive Apt. 730', 'Port Aida', 'Italy', '1974-11-14 03:11:57', 'No', 9525, 'Visa', 0, 94, '1993-07-07 23:34:19', '1973-08-27 05:18:19');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (95, 'Rutherford PLC', '378 Bo Lane', 'North Claudiastad', 'Netherlands', '1999-05-10 07:53:58', 'Yes', 14933, 'MasterCard', 490896, 95, '1997-12-18 11:47:25', '1977-10-19 02:12:18');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (96, 'Cummerata-Douglas', '27082 Bernadine Well', 'Port Dawson', 'Bahamas', '1995-04-20 16:03:17', 'Yes', 36859, 'Visa', 0, 96, '1986-08-14 01:13:30', '1975-09-09 06:27:05');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (97, 'Jacobs LLC', '0566 Juliana Tunnel', 'New Keelybury', 'Western Sahara', '1996-07-03 02:46:16', 'No', 36067, 'Visa', 8241, 97, '2005-04-04 01:29:03', '1986-05-10 20:52:31');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (98, 'Kovacek, Watsica and Bashirian', '15330 Durward Pine Apt. 591', 'Langstad', 'Mexico', '2009-11-26 22:55:13', 'No', 21683, 'MasterCard', 86900515, 98, '2009-02-19 17:54:10', '2016-02-14 23:47:16');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (99, 'Funk, Harris and Torp', '1995 Ebert Shoals Apt. 618', 'Hesselchester', 'Isle of Man', '1993-03-17 06:01:30', 'Yes', 28507, 'Visa', 83, 99, '1972-07-26 00:52:06', '1977-09-08 15:09:07');
-INSERT INTO `hotels` (`hotel_id`, `hotel_name`, `street_hotel`, `city_hotel`, `country_hotel`, `year_of_construction`, `prepayment`, `price`, `type_card`, `rating`, `media_id`, `created_at`, `updated_at`) VALUES (100, 'Roob, Rowe and Bechtelar', '7518 Ronaldo Streets Suite 403', 'Queenieside', 'Gambia', '2011-05-03 23:53:41', 'No', 18783, 'Visa', 708639, 100, '2008-09-15 03:39:56', '1985-06-12 01:58:48');
-
-update hotels set rating = 0;
-
-DROP TABLE IF EXISTS `hotels_included`;
-
-CREATE TABLE hotels_included (
-   hotel_included_id int NOT null primary key,
-   wifi BOOLEAN,
-   animal_id BOOLEAN,
-   age_limit BOOLEAN,
-   safe BOOLEAN,
-   patio BOOLEAN,
-   conditioner BOOLEAN,
-   parking_lot BOOLEAN,
-   kid_bedroom BOOLEAN,
-   family_room BOOLEAN,
-   cafe BOOLEAN,
-   nature BOOLEAN,
-   beach BOOLEAN,
-   public_transport BOOLEAN,
-   airport_near BOOLEAN,
-   CONSTRAINT hotel_id_fk 
-   foreign key (hotel_included_id) references hotels(hotel_id) on delete cascade on update cascade
-);
-
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (2, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (3, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (4, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (5, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (6, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (7, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (8, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (9, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (10, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (11, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (12, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (13, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (14, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (15, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (16, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (17, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (18, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (19, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (20, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (21, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (22, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (23, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (24, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (25, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (26, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (27, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (28, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (29, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (30, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (31, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (32, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (33, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (34, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (35, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (36, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (37, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (38, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (39, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (40, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (41, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (42, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (43, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (44, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (45, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (46, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (47, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (48, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (49, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (50, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (51, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (52, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (53, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (54, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (55, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (56, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (57, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (58, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (59, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (60, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (61, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (62, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (63, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (64, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (65, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (66, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (67, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (68, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (69, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (70, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (71, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (72, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (73, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (74, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (75, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (76, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (77, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (78, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (79, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (80, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (81, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (82, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (83, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (84, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (85, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (86, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (87, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (88, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (89, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (90, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (91, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (92, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (93, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (94, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (95, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (96, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (97, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (98, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (99, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0);
-INSERT INTO `hotels_included` (`hotel_included_id`, `wifi`, `animal_id`, `age_limit`, `safe`, `patio`, `conditioner`, `parking_lot`, `kid_bedroom`, `family_room`, `cafe`, `nature`, `beach`, `public_transport`, `airport_near`) VALUES (100, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1);
-
-
-DROP TABLE IF EXISTS `reviews`;
-
-
-CREATE TABLE bookings (
-  booking_id int NOT null AUTO_INCREMENT primary key,
-  user_id int NOT NULL,
-  hotel_id int NOT NULL,
-  created_at datetime DEFAULT NULL,
-  arrival_day datetime DEFAULT NULL,
-  check_out_day datetime DEFAULT NULL,
-  count_days int unsigned DEFAULT NULL,
-  business_trip boolean,
-  count_adult int(5) NOT NULL,
-  count_child int(5) NOT NULL,
-  count_animal int(5) NOT NULL,
-  review_id int default NULL,
-  CONSTRAINT user_id_booking_fk 
-  foreign key (user_id) references users(user_id) on delete cascade on update cascade,
-  CONSTRAINT hotel_id_booking_fk 
-  foreign key (hotel_id) references hotels(hotel_id) on delete cascade on update cascade
-);
-
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (1, 1, 1, '2003-01-08 22:34:19', '1981-12-04 23:26:55', '2005-02-04 19:30:41', 0, 0, 6, 641465507, 0, 1);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (2, 2, 2, '1998-10-02 07:20:54', '1983-02-26 07:13:47', '1974-08-07 11:11:49', 206, 1, 27577054, 904722611, 2897821, 2);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (3, 3, 3, '2010-05-28 21:47:21', '1992-08-27 08:09:07', '1986-10-08 14:55:17', 734819, 1, 0, 3577713, 485, 3);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (4, 4, 4, '1992-03-04 06:52:47', '1978-11-29 01:30:52', '1974-01-30 06:23:56', 49125, 0, 2515301, 73, 0, 4);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (5, 5, 5, '2002-07-27 00:18:25', '1991-04-16 02:24:00', '1986-12-20 09:15:40', 750012124, 0, 51774981, 6, 9537, 5);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (6, 6, 6, '1995-08-21 06:02:25', '1992-07-14 03:30:28', '2008-01-21 14:17:52', 253, 1, 0, 152, 676042799, 6);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (7, 7, 7, '1996-03-16 22:04:29', '2020-11-16 05:19:54', '2018-04-23 21:22:36', 0, 1, 688, 1588445, 272, 7);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (8, 8, 8, '1973-10-06 17:02:38', '1970-11-15 20:40:53', '1973-06-21 21:33:39', 29580, 0, 0, 9146494, 5, 8);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (9, 9, 9, '1986-09-13 23:57:13', '1975-11-06 13:08:43', '2008-02-12 10:20:30', 52612, 1, 429, 31684, 9691, 9);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (10, 10, 10, '1992-01-19 20:18:19', '2009-11-08 04:33:54', '1999-01-16 06:38:44', 1, 1, 923115, 42, 5131, 10);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (11, 11, 11, '1997-04-30 01:26:18', '1976-11-10 11:08:40', '1995-08-24 00:26:22', 95261, 1, 207, 608, 0, 11);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (12, 12, 12, '1977-05-22 15:14:36', '1979-10-19 16:39:11', '1975-05-07 09:38:59', 708, 1, 8454028, 209, 0, 12);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (13, 13, 13, '1977-03-23 16:46:18', '1970-06-27 09:39:53', '2019-12-20 12:04:55', 338053, 0, 66921, 926104, 543364388, 13);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (14, 14, 14, '1987-10-02 23:34:47', '1995-03-27 06:13:03', '1989-05-30 22:37:00', 28654, 0, 322, 32959, 900789426, 14);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (15, 15, 15, '2001-01-11 01:09:16', '2009-11-27 09:57:59', '1977-07-28 19:48:35', 967, 0, 2173, 71937379, 337620308, 15);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (16, 16, 16, '2019-03-22 14:15:06', '1977-04-10 22:09:36', '1996-12-27 19:51:06', 4234347, 1, 375483568, 194, 5120931, 16);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (17, 17, 17, '2009-02-18 14:48:25', '2015-09-21 04:57:13', '2020-05-09 12:50:17', 78370263, 0, 50295842, 19903368, 5, 17);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (18, 18, 18, '1976-11-26 08:41:27', '1978-05-24 09:55:03', '2003-06-19 03:41:48', 2393, 0, 920712, 833744, 960238, 18);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (19, 19, 19, '1971-12-24 06:38:20', '1985-03-06 16:11:21', '2005-01-12 03:43:33', 0, 0, 4710665, 4019915, 6372, 19);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (20, 20, 20, '2000-06-08 04:11:11', '1976-05-03 18:54:54', '2015-01-22 12:56:30', 0, 1, 70552809, 32631344, 6205794, 20);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (21, 21, 21, '2008-02-18 04:31:35', '1990-02-27 23:53:43', '1998-10-23 09:51:15', 0, 0, 50, 63032, 0, 21);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (22, 22, 22, '1985-06-30 05:10:03', '2020-12-04 05:04:30', '1990-12-02 10:50:11', 6385427, 0, 82, 57, 75472, 22);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (23, 23, 23, '2010-07-09 14:50:01', '2018-01-13 11:01:00', '1991-06-17 11:33:02', 2, 1, 0, 384665, 814232463, 23);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (24, 24, 24, '2009-09-06 11:54:32', '1987-12-12 13:19:14', '1990-11-17 08:13:36', 255, 1, 9838, 18838, 55964, 24);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (25, 25, 25, '2013-09-27 09:37:07', '2013-07-05 20:41:38', '2000-01-07 11:21:49', 696, 0, 86, 83224480, 0, 25);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (26, 26, 26, '2001-07-17 13:18:57', '2002-04-24 03:01:47', '2005-11-26 05:31:08', 379, 1, 31516, 2788, 6, 26);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (27, 27, 27, '2004-06-23 18:35:12', '1980-11-25 00:57:12', '1995-12-06 09:52:43', 6184443, 1, 393424016, 883180, 9041, 27);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (28, 28, 28, '2002-07-09 22:52:55', '2014-03-29 22:40:27', '1980-04-22 15:36:08', 0, 0, 175107161, 9714220, 580637, 28);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (29, 29, 29, '1973-09-14 22:34:36', '1974-08-12 09:51:11', '1989-10-09 07:35:15', 395296942, 0, 0, 331, 909807, 29);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (30, 30, 30, '1998-07-27 19:35:45', '1997-11-23 18:09:52', '1981-06-19 06:19:20', 7, 1, 119074, 688925, 13867, 30);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (31, 1, 31, '1992-04-11 05:34:40', '2012-01-07 23:50:49', '2019-06-02 04:44:50', 92962959, 1, 2239, 96066, 3485, 31);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (32, 2, 32, '2005-09-20 06:16:46', '2008-01-20 14:55:30', '1992-11-10 05:34:47', 9, 0, 810171411, 7173, 7098801, 32);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (33, 3, 33, '1972-09-23 23:23:55', '1987-11-06 12:35:20', '1979-12-14 00:55:36', 0, 1, 4608, 37554082, 57935, 33);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (34, 4, 34, '1993-10-25 04:25:29', '2017-09-28 20:49:52', '1986-04-14 04:41:43', 493871468, 1, 30923375, 544714, 3863139, 34);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (35, 5, 35, '1970-04-10 23:53:33', '2007-06-16 09:28:52', '2017-03-29 09:12:26', 120774241, 0, 2, 52, 97021, 35);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (36, 6, 36, '1979-10-30 04:59:29', '2011-08-28 21:19:48', '1984-03-14 18:21:39', 176, 0, 29725, 8, 6379, 36);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (37, 7, 37, '2008-08-19 00:49:38', '1973-02-22 17:40:14', '1987-09-02 16:18:39', 649912, 0, 15390665, 451, 78321191, 37);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (38, 8, 38, '1975-11-11 12:29:28', '2006-10-06 06:05:14', '1999-09-27 16:18:51', 5288, 1, 485485, 84852711, 630, 38);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (39, 9, 39, '1980-05-14 23:03:57', '1990-02-16 02:12:58', '1971-07-29 09:45:23', 53180142, 0, 7, 12138, 367888132, 39);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (40, 10, 40, '2001-02-26 22:30:02', '1973-04-07 12:36:41', '1993-07-27 16:03:21', 562, 0, 41057588, 23222776, 75478, 40);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (41, 11, 41, '2000-06-20 11:25:31', '1988-01-31 06:18:47', '2020-09-26 05:42:57', 23406, 0, 16847, 9, 891279, 41);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (42, 12, 42, '2002-08-28 23:36:48', '2004-01-05 01:54:03', '1988-12-22 17:59:07', 6470, 1, 2, 85, 0, 42);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (43, 13, 43, '2020-11-30 09:03:09', '1985-01-30 06:56:26', '1982-11-02 06:10:38', 567976, 1, 6, 2059525, 8, 43);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (44, 14, 44, '2016-12-20 10:18:31', '1979-09-27 00:06:19', '2020-05-11 19:52:03', 93, 1, 22, 0, 9081904, 44);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (45, 15, 45, '2017-09-11 03:54:45', '1988-03-27 00:42:08', '1988-05-20 05:16:22', 987493, 1, 2, 91, 159002, 45);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (46, 16, 46, '1984-03-22 12:05:39', '1988-11-23 17:06:28', '1999-01-03 11:40:48', 2794526, 1, 712220615, 7898, 1793832, 46);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (47, 17, 47, '2005-10-19 13:29:10', '2017-06-01 20:39:23', '1986-12-31 23:26:25', 4707743, 0, 96486, 59230972, 291447, 47);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (48, 18, 48, '1992-07-05 20:41:56', '1974-06-23 14:21:43', '2011-09-21 18:29:53', 63, 1, 871, 21, 8636457, 48);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (49, 19, 49, '1973-04-14 07:16:07', '1988-02-27 14:13:40', '1990-01-06 02:12:38', 51166438, 0, 0, 133662, 36, 49);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (50, 20, 50, '2002-11-28 02:11:03', '2016-11-04 06:01:00', '2003-12-02 18:49:05', 5, 0, 303714882, 7776, 3686, 50);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (51, 21, 51, '1987-03-17 12:14:12', '1999-03-14 09:32:16', '2012-03-13 23:37:02', 381, 1, 20476704, 3984, 588550, 51);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (52, 22, 52, '2019-12-02 19:34:21', '1996-09-27 08:26:34', '1996-04-08 18:33:56', 9, 0, 2985677, 68979, 34, 52);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (53, 23, 53, '2012-09-28 19:07:50', '2011-04-04 00:01:57', '1971-03-06 15:20:50', 5661037, 1, 354204, 52648682, 434884, 53);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (54, 24, 54, '1972-03-11 02:11:57', '2012-06-27 20:26:35', '2013-08-13 07:12:38', 9, 1, 1393824, 524328660, 561783164, 54);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (55, 25, 55, '2000-09-18 10:19:13', '1974-12-25 13:47:46', '2015-08-31 10:43:25', 334342, 1, 72, 786122, 82701, 55);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (56, 26, 56, '2014-02-13 02:34:02', '2020-10-04 04:03:09', '1973-04-24 01:50:47', 2166, 0, 4388, 731, 1, 56);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (57, 27, 57, '1993-01-18 01:13:54', '1989-12-24 01:24:36', '1993-05-07 08:23:29', 7, 1, 1315, 760422, 468106, 57);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (58, 28, 58, '1972-12-26 07:12:16', '1995-09-30 15:32:12', '2013-06-16 05:34:08', 27018, 0, 74, 659901, 681850, 58);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (59, 29, 59, '2016-01-29 19:09:29', '2020-07-12 16:30:35', '1977-09-22 03:26:56', 4197014, 1, 822427453, 0, 10454, 59);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (60, 30, 60, '2008-06-20 05:06:20', '1995-10-03 16:33:22', '2016-10-24 03:46:29', 0, 0, 25, 83483547, 709734, 60);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (61, 1, 61, '1993-06-17 19:31:33', '1994-08-16 09:28:23', '1997-01-11 11:13:27', 682465, 0, 98, 144310125, 987179, 61);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (62, 2, 62, '1979-05-23 04:29:48', '1985-11-20 05:37:29', '2015-01-25 03:30:59', 70, 0, 483, 60, 28237, 62);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (63, 3, 63, '1970-01-08 00:35:45', '2010-04-07 10:41:26', '2014-08-05 09:56:54', 162194545, 0, 761327, 65505673, 63326323, 63);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (64, 4, 64, '2017-12-14 01:36:59', '1985-08-05 05:21:58', '1987-05-04 04:20:52', 5888276, 0, 0, 59612150, 318, 64);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (65, 5, 65, '1980-05-09 21:14:06', '1987-04-30 20:29:19', '1997-10-22 12:00:18', 747, 0, 48, 91220, 207953, 65);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (66, 6, 66, '1985-06-20 16:32:07', '2012-11-14 03:20:44', '2001-08-13 04:08:56', 7, 0, 91, 6615, 323287, 66);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (67, 7, 67, '2005-02-23 22:25:27', '2016-06-18 14:01:51', '2014-11-23 05:19:37', 5964, 1, 7, 44787, 563186, 67);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (68, 8, 68, '2015-06-04 09:35:52', '1978-10-13 09:48:29', '1984-06-11 16:31:47', 8085730, 1, 89650, 7416631, 76887, 68);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (69, 9, 69, '1982-07-21 21:55:39', '2005-05-03 11:13:14', '2017-10-30 13:01:55', 92272, 1, 66683253, 748273, 889205079, 69);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (70, 10, 70, '2000-01-20 08:47:32', '1975-07-29 01:47:01', '1978-12-11 07:04:49', 1232, 0, 75, 2975019, 5, 70);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (71, 11, 71, '1979-07-22 06:44:07', '1972-08-22 23:54:40', '1993-08-10 16:29:44', 87, 0, 70863094, 758873, 7544398, 71);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (72, 12, 72, '1991-12-01 17:24:25', '1977-06-10 14:54:16', '1986-11-20 17:35:36', 158513, 1, 665031, 7658422, 462646, 72);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (73, 13, 73, '1971-03-23 20:58:17', '1977-07-09 06:50:27', '2007-09-19 09:56:55', 56930, 0, 1929, 3766, 6203846, 73);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (74, 14, 74, '1984-11-26 23:45:54', '1973-05-01 14:07:16', '2006-02-13 11:32:01', 98728919, 0, 34365384, 3249, 45, 74);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (75, 15, 75, '2017-05-17 23:42:41', '1996-02-12 05:43:27', '2007-04-27 14:13:04', 520147, 1, 8839, 7, 0, 75);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (76, 16, 76, '2019-07-31 11:28:37', '2011-06-13 15:23:14', '1973-06-16 04:49:34', 0, 0, 118636, 3457329, 599, 76);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (77, 17, 77, '1985-08-08 16:45:40', '2003-06-19 12:13:07', '2015-10-10 05:25:44', 98, 0, 767077256, 8, 66420, 77);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (78, 18, 78, '1975-07-14 05:26:25', '1973-08-25 22:55:28', '1972-02-11 22:46:47', 5, 1, 618064, 53520, 546, 78);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (79, 19, 79, '1972-12-09 05:53:46', '2019-02-20 06:19:31', '2017-09-06 01:15:59', 5425848, 1, 8653715, 28462, 9784, 79);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (80, 20, 80, '1980-07-13 23:02:46', '1985-10-15 11:09:33', '2000-04-10 19:18:25', 1, 1, 9, 3140632, 1, 80);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (81, 21, 81, '1970-05-31 11:02:51', '1971-01-22 01:08:24', '2018-01-02 08:46:52', 3, 0, 190494, 55784712, 9646, 81);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (82, 22, 82, '1987-07-30 16:25:10', '1976-05-08 04:02:31', '1993-04-15 10:07:11', 47701, 1, 68427, 9818609, 53968792, 82);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (83, 23, 83, '1991-04-06 18:45:21', '1975-05-15 02:53:32', '1986-04-26 05:12:11', 357642, 0, 8162369, 583925679, 4, 83);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (84, 24, 84, '1998-03-12 14:50:17', '2006-02-08 05:06:49', '1983-02-28 10:12:55', 276239, 1, 84, 331548459, 5, 84);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (85, 25, 85, '1973-04-08 19:27:57', '2013-07-04 22:28:02', '2009-11-26 06:45:34', 68376680, 0, 7344, 7896, 849366, 85);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (86, 26, 86, '2005-03-17 22:34:19', '1987-09-24 17:04:05', '1987-07-27 18:00:51', 165, 0, 0, 2674, 5924768, 86);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (87, 27, 87, '1992-06-04 13:48:51', '2009-03-19 06:57:13', '1978-11-09 00:56:45', 46197, 0, 47, 721848573, 584267855, 87);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (88, 28, 88, '2020-12-06 15:50:49', '2018-11-07 21:46:38', '2017-04-25 23:30:07', 51546, 1, 1490112, 905413, 90, 88);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (89, 29, 89, '1981-06-23 22:21:27', '2003-06-02 23:04:34', '1970-01-16 09:17:56', 797949, 1, 28, 470469036, 2, 89);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (90, 30, 90, '2010-08-11 01:01:29', '1971-07-27 18:49:40', '1998-04-07 01:52:51', 51, 1, 77, 130064288, 23363552, 90);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (91, 1, 91, '2006-09-23 15:02:59', '1986-12-23 13:58:55', '1980-07-26 11:03:51', 287431116, 1, 91029, 556249, 8, 91);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (92, 2, 92, '1977-01-06 03:58:39', '1980-08-23 13:02:24', '2017-03-26 05:42:11', 9200507, 0, 3255, 4, 5, 92);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (93, 3, 93, '1994-07-31 01:31:26', '1986-10-30 17:22:58', '1996-07-16 23:42:39', 1588981, 1, 61856251, 2049, 0, 93);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (94, 4, 94, '2012-03-30 07:14:22', '2010-02-02 00:32:35', '1990-08-30 00:24:34', 0, 1, 397985798, 50, 533062, 94);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (95, 5, 95, '1994-03-25 07:45:07', '1976-02-01 14:02:30', '2010-09-28 18:36:08', 497848109, 0, 1481, 92, 0, 95);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (96, 6, 96, '2010-10-20 03:54:49', '1981-11-15 06:02:51', '1983-10-07 10:41:07', 319594, 1, 62, 946, 57, 96);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (97, 7, 97, '1995-09-05 04:01:46', '1971-11-08 00:25:03', '1979-08-24 17:15:42', 19926, 1, 93672, 828546757, 60, 97);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (98, 8, 98, '2014-08-02 22:10:16', '1990-04-18 13:57:45', '1984-02-27 19:56:14', 648, 1, 8459554, 27, 66, 98);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (99, 9, 99, '1993-03-31 11:46:59', '1992-05-04 13:41:02', '1970-10-25 08:12:12', 50355, 1, 0, 9, 8, 99);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (100, 10, 100, '2002-12-28 09:23:19', '2007-06-30 20:36:30', '2016-01-07 16:13:01', 0, 0, 83972551, 54, 80894521, 100);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (101, 11, 1, '1989-01-15 10:39:48', '1992-03-12 14:55:20', '2004-05-24 00:51:32', 2486, 1, 63, 36, 463715, 101);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (102, 12, 2, '1985-01-09 05:42:53', '2010-12-09 20:44:27', '1980-01-03 18:35:35', 14, 1, 54615447, 6640492, 4, 102);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (103, 13, 3, '1997-02-21 05:59:04', '1978-02-23 08:57:37', '1978-11-12 05:59:20', 977242, 0, 0, 64, 67907258, 103);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (104, 14, 4, '1997-12-03 19:14:22', '2011-02-24 06:27:58', '1993-04-04 08:27:12', 3108075, 0, 46881, 88075140, 306, 104);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (105, 15, 5, '1970-07-19 22:35:00', '2005-11-04 22:30:12', '1987-07-18 10:14:26', 142, 1, 650188, 203, 78188, 105);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (106, 16, 6, '1990-01-23 22:48:58', '1987-04-17 13:58:24', '1980-07-28 19:25:59', 466, 0, 324504249, 1252924, 0, 106);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (107, 17, 7, '1994-10-04 01:10:51', '1994-06-02 04:34:00', '1989-06-29 02:07:08', 0, 1, 239590677, 492219991, 484624217, 107);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (108, 18, 8, '1985-10-29 05:49:50', '2015-12-31 05:52:36', '2002-10-20 10:33:37', 1278429, 0, 58978, 174462, 191, 108);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (109, 19, 9, '2006-11-28 19:36:54', '1978-04-07 04:07:16', '1979-10-04 20:37:39', 472, 1, 619878984, 283, 2, 109);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (110, 20, 10, '1975-10-24 14:14:51', '1992-09-24 18:32:08', '1992-12-12 16:33:03', 40181096, 1, 88066, 6541, 1811653, 110);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (111, 21, 11, '1970-12-15 17:29:43', '1984-12-18 03:10:30', '1998-08-21 22:38:17', 597309, 0, 81, 154915951, 489971680, 111);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (112, 22, 12, '2020-12-18 03:07:12', '1978-12-09 12:34:17', '2011-05-24 10:37:45', 0, 0, 2562010, 1143, 64, 112);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (113, 23, 13, '1989-04-30 06:52:04', '1974-06-16 04:09:37', '2010-03-20 00:34:53', 787, 1, 842101, 951905, 719313, 113);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (114, 24, 14, '1999-08-26 16:06:25', '1994-05-29 08:11:46', '2004-03-26 12:23:53', 24034072, 0, 1, 36420824, 26573, 114);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (115, 25, 15, '1988-04-19 18:33:52', '1975-05-03 14:34:56', '2013-01-18 09:46:02', 898525, 1, 25, 952500, 48402, 115);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (116, 26, 16, '1999-02-17 05:08:54', '1998-05-05 02:52:44', '2012-10-09 06:21:31', 0, 1, 2, 45464402, 41, 116);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (117, 27, 17, '2002-09-18 09:51:49', '2001-07-12 09:08:47', '2016-01-13 04:17:10', 234787493, 0, 94, 613842, 586, 117);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (118, 28, 18, '2007-06-29 11:38:55', '2012-03-07 22:43:16', '2001-04-07 00:27:56', 6950785, 0, 0, 350908932, 866, 118);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (119, 29, 19, '1970-06-17 18:27:32', '1975-10-29 18:32:35', '1990-10-25 04:47:20', 53258, 1, 8980, 51, 3425, 119);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (120, 30, 20, '1988-03-09 11:57:41', '2014-06-20 12:19:17', '1978-05-15 17:30:58', 49, 0, 78602, 85, 77900443, 120);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (121, 1, 21, '1996-05-27 22:30:03', '2000-03-23 20:26:29', '2005-08-02 09:31:59', 6034, 0, 1, 81, 313083, 121);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (122, 2, 22, '2006-02-28 21:58:06', '2005-11-24 07:48:13', '2016-03-20 08:32:26', 0, 0, 95711740, 0, 198323318, 122);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (123, 3, 23, '1989-10-24 00:58:00', '2019-08-29 12:12:34', '1980-09-02 15:56:00', 89, 1, 3310259, 11051, 9360242, 123);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (124, 4, 24, '1991-08-22 07:40:40', '2001-08-08 07:53:00', '2002-04-25 19:18:27', 326056, 0, 90412, 787583585, 49235, 124);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (125, 5, 25, '2014-12-25 09:55:28', '1970-03-05 10:20:08', '1981-09-10 13:32:23', 6, 0, 20223822, 840094, 495, 125);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (126, 6, 26, '2004-10-31 10:53:58', '2005-03-08 16:17:18', '2016-08-07 22:19:20', 152010, 1, 0, 5192, 564347, 126);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (127, 7, 27, '1997-12-02 06:53:31', '1970-12-06 13:54:39', '2009-04-11 12:27:52', 12780, 1, 8037933, 954000122, 6932, 127);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (128, 8, 28, '1991-09-30 05:27:11', '1985-02-25 13:21:03', '1972-03-23 13:57:25', 9192, 1, 65988, 50, 2871783, 128);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (129, 9, 29, '2018-05-06 12:09:58', '1998-11-29 02:35:44', '1991-06-14 09:27:46', 0, 1, 67731, 6942, 0, 129);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (130, 10, 30, '1985-01-26 17:58:52', '2014-12-18 17:11:32', '1990-01-22 01:16:50', 1248, 0, 8493, 7, 85, 130);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (131, 11, 31, '1999-01-12 02:32:07', '1994-01-14 02:01:16', '1975-02-06 01:53:50', 0, 0, 0, 810335894, 8402, 131);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (132, 12, 32, '2016-04-14 23:07:33', '2014-03-04 09:52:13', '2009-03-18 01:07:28', 293900, 1, 6, 471056, 824, 132);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (133, 13, 33, '1994-09-29 04:03:23', '1983-12-29 20:06:15', '1992-09-01 01:26:24', 55, 0, 1843334, 3535400, 732, 133);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (134, 14, 34, '1979-07-29 21:21:01', '2004-12-16 19:47:20', '2000-07-30 09:36:16', 8820, 0, 69563794, 0, 58003432, 134);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (135, 15, 35, '2011-04-28 13:44:36', '1981-06-01 08:33:32', '2019-01-20 13:37:27', 871610, 1, 9141709, 519211128, 209, 135);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (136, 16, 36, '1981-03-31 03:42:59', '1988-02-03 06:47:15', '1992-02-12 06:52:29', 0, 0, 43752766, 642, 551082094, 136);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (137, 17, 37, '2005-07-26 03:47:32', '1987-03-19 17:03:24', '1997-01-03 07:31:29', 8, 0, 3863, 0, 526700, 137);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (138, 18, 38, '2009-11-18 06:02:48', '2016-08-30 09:47:40', '2012-05-28 07:44:58', 0, 1, 6339, 134211, 9, 138);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (139, 19, 39, '1970-02-01 01:08:24', '2012-02-27 01:31:47', '2008-08-06 14:12:32', 451442872, 0, 44, 2, 498929, 139);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (140, 20, 40, '2007-04-14 04:13:43', '2000-05-14 01:47:56', '1994-09-28 20:30:44', 8266, 0, 50, 41062, 9813, 140);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (141, 21, 41, '2000-05-21 05:26:10', '1994-06-24 09:47:49', '2013-06-21 04:12:45', 0, 1, 393166, 44209102, 2540, 141);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (142, 22, 42, '2018-09-13 23:46:21', '1991-06-01 09:52:06', '1984-04-17 07:12:29', 553, 1, 40169, 3, 714317063, 142);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (143, 23, 43, '1989-03-17 10:05:26', '1972-09-01 09:38:35', '2019-05-01 10:41:44', 1008, 0, 0, 5202, 8665201, 143);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (144, 24, 44, '1998-09-22 11:16:13', '1987-05-01 10:59:04', '1971-10-25 11:55:53', 256, 0, 360, 99901755, 39969660, 144);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (145, 25, 45, '2017-06-12 18:52:27', '1995-08-31 21:39:46', '1994-08-16 19:45:29', 102808, 1, 42460836, 82, 5, 145);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (146, 26, 46, '2016-03-12 23:43:58', '2004-10-29 00:40:48', '2004-11-28 04:05:10', 48, 0, 401141030, 536672872, 327, 146);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (147, 27, 47, '1998-10-13 10:34:08', '1989-08-12 11:56:32', '2002-03-26 01:41:23', 0, 1, 96296184, 75197, 0, 147);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (148, 28, 48, '2008-01-05 18:53:36', '2010-07-11 20:19:59', '2000-09-27 10:08:54', 584, 1, 307, 339, 72283301, 148);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (149, 29, 49, '2009-09-28 14:14:04', '1979-02-12 23:52:28', '1995-12-01 15:01:04', 552119, 0, 0, 6048042, 31, 149);
-INSERT INTO `bookings` (`booking_id`, `user_id`, `hotel_id`, `created_at`, `arrival_day`, `check_out_day`, `count_days`, `business_trip`, `count_adult`, `count_child`, `count_animal`, `review_id`) VALUES (150, 30, 50, '2002-02-07 19:17:50', '1972-07-03 06:57:45', '1983-07-20 18:13:15', 663663076, 1, 877001, 0, 84243930, 150);
-
-UPDATE bookings SET user_id = FLOOR(1 + RAND() * 30);
-UPDATE bookings SET hotel_id = FLOOR(1 + RAND() * 100);
-update bookings set created_at = arrival_day - interval (1 + RAND() * 12) month;
-update bookings set check_out_day = arrival_day + interval (1 + RAND() * 30) day;
-UPDATE bookings SET count_days= DATEDIFF(check_out_day,arrival_day);
-UPDATE bookings SET count_adult = FLOOR(1 + RAND() * 3);
-UPDATE bookings SET count_animal = FLOOR(1 + RAND() * 1);
-UPDATE bookings SET count_child = FLOOR(1 + RAND() * 2);
-
-alter table bookings drop column review_id;
-
-drop table  if exists reviews;
-CREATE TABLE reviews (
-   review_id int auto_increment primary key,
-   hotel_id int not null,
-   rating int(10),
-   body text NOT NULL COMMENT 'Текст сообщения',
-   created_at  datetime DEFAULT null,
-   CONSTRAINT hotel_id_reviews_fk 
-   foreign key (hotel_id) references bookings(hotel_id) on delete cascade on update cascade
-);
-
-
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (1, (select hotel_id from bookings order by rand() limit 1), 5, 'Assumenda eveniet quis quam repudiandae mollitia. Nemo quia sequi sunt repellat et est expedita. Pariatur vitae quasi non blanditiis veniam qui.', '1982-03-29 08:58:23');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (2,  (select hotel_id from bookings order by rand() limit 1), 4, 'Modi qui dignissimos non molestiae. Reprehenderit autem maiores occaecati optio.\nSapiente voluptatibus quia eaque animi. Sit sed magnam neque quae. Possimus qui aut dolorum sequi.', '2003-07-19 16:49:41');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (3,  (select hotel_id from bookings order by rand() limit 1), 6, 'Voluptatem repellendus praesentium eum voluptatem quam et. Voluptatem quisquam aut magnam vel ipsum velit qui. A ipsum impedit debitis dolorem delectus.', '1986-03-04 15:14:06');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (4,  (select hotel_id from bookings order by rand() limit 1), 6, 'Aperiam rerum soluta reprehenderit vero. Quaerat inventore fugiat voluptas repellendus dignissimos. Voluptatibus nam maiores molestias eos. Optio provident cupiditate ut placeat labore quis at.', '2019-07-24 19:15:59');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (5,  (select hotel_id from bookings order by rand() limit 1), 10, 'Tempore et consectetur voluptas ducimus illum unde. Similique qui facilis non et molestiae autem necessitatibus.', '1984-12-26 12:19:04');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (6,  (select hotel_id from bookings order by rand() limit 1), 7, 'Deleniti nisi iure assumenda. Maxime blanditiis dolor qui nulla esse. Explicabo sint ea dolores vitae.', '2006-07-19 13:57:03');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (7,  (select hotel_id from bookings order by rand() limit 1), 9, 'Id sunt velit cumque nihil expedita at voluptas. Ut debitis omnis molestiae voluptates. Rerum dolorem nostrum quam voluptas voluptas. Ex aut sapiente eius sunt aliquid dolor aut et.', '2012-11-02 05:41:24');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (8,  (select hotel_id from bookings order by rand() limit 1), 7, 'Similique ut ratione ipsa et ratione nostrum dolorem in. Reiciendis et provident repudiandae soluta aperiam. Repellat quis culpa dignissimos ea nemo et. Commodi fuga nobis a ex quas.', '1983-01-07 15:49:24');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (9,  (select hotel_id from bookings order by rand() limit 1), 4, 'Illo voluptas aut sint ea delectus delectus. In nesciunt porro molestias. Voluptate quod dolorem quasi eos. Porro facere doloribus dolore amet nostrum omnis.', '1974-02-13 00:26:03');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (10,  (select hotel_id from bookings order by rand() limit 1), 3, 'Explicabo harum iure dolor. Earum praesentium optio id ut et odio rerum. Exercitationem ea laboriosam fuga deserunt.', '2019-03-23 02:22:38');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (11,  (select hotel_id from bookings order by rand() limit 1), 4, 'Atque consequatur sed harum. Pariatur perspiciatis rerum voluptatem doloremque laborum doloribus. Nihil dolorem voluptate voluptatem a ad. Voluptas in commodi exercitationem quam quae.', '1995-09-02 09:26:50');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (12,  (select hotel_id from bookings order by rand() limit 1), 3, 'Qui ex distinctio rerum corporis sint ex perferendis. Odio perferendis quidem sunt quae porro sint ipsa. Expedita exercitationem ducimus quo dolorem. Delectus voluptatem et sit provident aut labore.', '1982-08-18 09:42:25');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (13,  (select hotel_id from bookings order by rand() limit 1), 7, 'Sed iste quia vitae unde quis pariatur voluptatem. Laborum est debitis nobis facilis similique. Ea facere repellendus tenetur blanditiis voluptas aperiam.', '1975-11-13 22:07:30');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (14,  (select hotel_id from bookings order by rand() limit 1), 5, 'Qui vero vitae doloribus. Blanditiis nobis unde consequatur vel. Laboriosam velit voluptas possimus maiores quisquam. Impedit consequatur animi nulla qui.', '1982-03-05 12:29:17');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (15,  (select hotel_id from bookings order by rand() limit 1), 6, 'Mollitia incidunt est molestiae consectetur atque at. Consequatur quo neque culpa dicta minus et. Eius qui et qui impedit quod commodi. Voluptas consectetur omnis nostrum doloribus.', '1979-08-17 06:48:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (16,  (select hotel_id from bookings order by rand() limit 1), 2, 'Dolor beatae iusto necessitatibus inventore eligendi occaecati ut. Labore quia molestias autem. Qui sint inventore ut dolores quia maxime. Non qui nulla id voluptatem itaque.', '1991-03-09 00:07:28');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (17,  (select hotel_id from bookings order by rand() limit 1), 7, 'Quo aut enim ea autem debitis. Sint nisi totam ipsa sunt deserunt corrupti. Rerum nulla ea officiis non et est est.', '1995-09-25 05:19:18');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (18,  (select hotel_id from bookings order by rand() limit 1), 9, 'Reiciendis esse suscipit perspiciatis adipisci id. Vel aliquam recusandae explicabo. Voluptatum facere qui rerum ea voluptatem consequuntur. Saepe et velit dolorem est modi et asperiores.', '2008-06-14 03:45:09');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (19,  (select hotel_id from bookings order by rand() limit 1), 5, 'Aperiam eos deleniti explicabo aliquid. Molestias quia non quis voluptatem. Cum cupiditate consequatur aut autem repellendus.', '1981-02-15 07:48:08');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (20,  (select hotel_id from bookings order by rand() limit 1), 8, 'Aut quas quisquam nulla libero pariatur. Voluptates nihil reiciendis libero. Autem eos quos perferendis non et aspernatur laborum magnam. Porro modi sint quia sunt tempora voluptatem.', '1991-01-17 11:58:21');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (21,  (select hotel_id from bookings order by rand() limit 1), 4, 'Omnis commodi dolorum quia. Doloremque est error occaecati necessitatibus vero sapiente sit doloribus. Voluptatem tempora aut optio architecto. Distinctio laboriosam rem quia ut voluptas est tempora.', '1983-01-22 10:59:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (22,  (select hotel_id from bookings order by rand() limit 1), 3, 'Temporibus iste temporibus soluta distinctio. Libero eos temporibus deserunt. Ducimus delectus praesentium et a laudantium et.', '2001-02-07 06:32:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (23,  (select hotel_id from bookings order by rand() limit 1), 2, 'Culpa dolor quis sequi vero suscipit earum. Sed vitae ipsam aut. Nobis reprehenderit incidunt eligendi fugiat consequatur voluptatem eos. Quis quos in ut qui qui.', '2014-02-07 04:17:51');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (24,  (select hotel_id from bookings order by rand() limit 1), 2, 'Qui illo nesciunt aut sint. Voluptas quasi dignissimos expedita. Hic voluptas molestiae quod inventore voluptates blanditiis repellat. Et dolor et cupiditate earum.', '2005-09-28 04:39:49');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (25,  (select hotel_id from bookings order by rand() limit 1), 7, 'Id reprehenderit id optio provident id sunt hic perferendis. Et tempora qui quisquam et. Dolores deserunt earum sapiente voluptatem exercitationem eligendi.', '1995-05-01 01:11:27');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (26,  (select hotel_id from bookings order by rand() limit 1), 8, 'Earum blanditiis tempore rerum necessitatibus rem ratione. Voluptatibus ea deleniti ab sit voluptatem soluta aut. Consequatur dolores facere et maxime adipisci facilis odit.', '1998-11-30 00:36:45');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (27,  (select hotel_id from bookings order by rand() limit 1), 3, 'Quia quidem totam vel soluta et nihil sint maiores. Accusamus quidem corporis sint veritatis ad repudiandae. Porro voluptatem assumenda eaque repellat quis.', '2003-11-06 19:19:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (28,  (select hotel_id from bookings order by rand() limit 1), 4, 'Non et nam labore aut aliquid. Non eius iste mollitia harum architecto quae. Et provident aperiam autem excepturi culpa odio omnis. Repudiandae vero est quis repellat atque.', '2016-07-25 13:38:14');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (29,  (select hotel_id from bookings order by rand() limit 1), 1, 'Eius quibusdam voluptatem autem nesciunt. Consectetur voluptatem voluptatem quam.\nMaiores ut ut ipsa velit autem ipsa. Est eius consequatur porro. Harum laboriosam et blanditiis illo nobis aut est.', '1992-06-13 05:49:53');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (30,  (select hotel_id from bookings order by rand() limit 1), 9, 'Quas eum eum et molestias porro exercitationem et. Aspernatur architecto nam porro hic corporis aut. Laudantium aperiam est totam aut.', '2013-09-05 10:20:46');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (31,  (select hotel_id from bookings order by rand() limit 1), 9, 'Atque quae sapiente qui placeat. Et nam amet omnis doloremque. Sunt adipisci autem molestiae id.', '1978-03-25 12:41:43');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (32,  (select hotel_id from bookings order by rand() limit 1), 8, 'Ut vel exercitationem magni. Hic non est voluptatem. Temporibus necessitatibus qui omnis possimus et est.', '1992-01-02 13:45:53');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (33,  (select hotel_id from bookings order by rand() limit 1), 1, 'Quasi deleniti esse quis vero rerum. Corporis et voluptatum ut saepe id est et.', '2009-10-23 22:00:35');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (34,  (select hotel_id from bookings order by rand() limit 1), 2, 'Aut laborum rerum quis deserunt. Eligendi delectus et velit voluptas vero magni corporis. Nostrum ducimus totam tempore. Et quas quae qui illo laudantium fugit temporibus.', '2006-05-17 07:41:50');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (35,  (select hotel_id from bookings order by rand() limit 1), 10, 'Inventore mollitia doloremque assumenda optio aut esse. Qui at doloremque quo quisquam quia qui cumque. Et exercitationem voluptatem quis quam rerum.', '2018-10-13 08:07:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (36,  (select hotel_id from bookings order by rand() limit 1), 3, 'Quod sit enim vel sequi aut autem qui. Aspernatur corporis molestias exercitationem occaecati eos quia aut. Repudiandae porro commodi veniam aperiam voluptatibus. Molestiae quia vitae quam.', '2000-05-29 15:04:22');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (37,  (select hotel_id from bookings order by rand() limit 1), 7, 'Labore nulla rem dolorem. Molestias expedita debitis hic debitis. Temporibus quis laboriosam et molestias maiores.', '1991-12-25 17:03:49');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (38,  (select hotel_id from bookings order by rand() limit 1), 2, 'Eos dolorem delectus delectus aliquid voluptatem assumenda cumque. Exercitationem eum voluptatum nihil odio.', '2010-10-16 08:15:43');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (39,  (select hotel_id from bookings order by rand() limit 1), 5, 'Dignissimos id nobis sed veniam. Saepe possimus ut et cupiditate molestias. Possimus quam vel quia deleniti ea amet.', '1981-06-05 22:15:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (40,  (select hotel_id from bookings order by rand() limit 1), 8, 'Dolor mollitia distinctio aut non repellat. Consequuntur corporis quia ut. Laudantium commodi enim et natus earum ab.', '1980-08-12 10:34:06');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (41,  (select hotel_id from bookings order by rand() limit 1), 5, 'Praesentium non iure eveniet animi corporis ipsa accusamus. Qui autem totam est occaecati ducimus velit itaque. Consequatur similique velit vero ea tempora. Iure quas dolor hic architecto.', '1996-07-25 10:22:30');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (42,  (select hotel_id from bookings order by rand() limit 1), 4, 'Voluptatem suscipit molestiae est ut. Sint omnis impedit nulla ut voluptate. Quidem aspernatur vero ducimus praesentium deleniti quia pariatur.', '1985-03-10 13:44:34');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (43,  (select hotel_id from bookings order by rand() limit 1), 2, 'Eius minima dignissimos ut accusamus et asperiores facilis. Voluptatem nam cum atque facere consequuntur quia. Unde corporis ut consequatur suscipit suscipit.', '2010-04-29 03:05:14');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (44,  (select hotel_id from bookings order by rand() limit 1), 9, 'Rerum dignissimos saepe praesentium at quos. Dolore corporis provident animi laborum est sed. Esse fuga reprehenderit cum eum ea esse. Quae numquam perspiciatis aliquid est qui.', '2000-03-07 16:49:52');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (45,  (select hotel_id from bookings order by rand() limit 1), 1, 'Et earum quae omnis temporibus sit fugit accusantium vel. Explicabo corrupti assumenda dicta. Officiis neque perspiciatis natus ab consectetur. Animi qui eum qui eius.', '1972-01-01 02:31:20');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (46,  (select hotel_id from bookings order by rand() limit 1), 2, 'Earum aut optio animi sed est. Natus eius at asperiores impedit ut voluptas. Natus vitae quasi saepe et qui.', '1992-05-09 12:20:22');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (47,  (select hotel_id from bookings order by rand() limit 1), 7, 'Voluptates cupiditate est quia aut consequatur placeat. Voluptatem rerum non unde nemo quia. Illo velit qui iure. Deleniti tempore totam sunt autem.', '1994-10-13 13:55:56');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (48,  (select hotel_id from bookings order by rand() limit 1), 5, 'Ut perferendis aut rerum illum saepe. Hic optio temporibus ipsa sunt inventore. Ab et culpa sit enim veniam. Voluptas error impedit tempore et.', '1989-08-14 18:34:03');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (49,  (select hotel_id from bookings order by rand() limit 1), 10, 'Accusantium molestias omnis quam vel. Et quasi dignissimos dignissimos doloribus sed. Quo consequatur quaerat et delectus molestiae. Eveniet dolores vel consequatur dolor in ex voluptas.', '2005-07-23 12:20:14');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (50,  (select hotel_id from bookings order by rand() limit 1), 5, 'Ullam vitae et ut velit qui dolorum. Facere minima dolor molestiae natus.', '2008-08-16 18:42:28');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (51,  (select hotel_id from bookings order by rand() limit 1), 1, 'Tempora et ipsum in qui rerum laudantium amet. Commodi rem occaecati optio occaecati. Accusantium ab quos aut optio ut aut laboriosam.', '2001-01-31 05:55:04');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (52,  (select hotel_id from bookings order by rand() limit 1), 3, 'Dicta eos quia architecto dolorem est hic tenetur. Et doloremque voluptas minima et. Dolorem et consequatur odio repudiandae.', '1983-07-24 23:21:29');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (53,  (select hotel_id from bookings order by rand() limit 1), 3, 'Explicabo nihil et non eveniet ea quia ipsam molestiae. Ullam quis eligendi sed impedit. Praesentium enim id ducimus voluptate aut ea.', '1972-03-05 16:27:19');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (54,  (select hotel_id from bookings order by rand() limit 1), 5, 'Qui cum veritatis dignissimos aperiam. Velit harum sit maxime. Necessitatibus iusto eveniet esse sit eius autem dolores. In et commodi nemo sunt cupiditate tempora.', '1986-06-16 23:01:43');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (55,  (select hotel_id from bookings order by rand() limit 1), 6, 'Et porro ipsa molestiae doloribus et voluptatum doloremque praesentium. At nemo aut culpa sint non sapiente eius. Voluptate excepturi doloremque molestiae qui blanditiis nesciunt.', '2013-03-10 11:29:59');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (56,  (select hotel_id from bookings order by rand() limit 1), 3, 'Quaerat expedita consequatur harum modi. Ad aperiam id unde fuga est. Facere quaerat assumenda delectus velit. Aut unde sed deserunt possimus dolorem aut temporibus.', '1978-09-25 04:07:23');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (57,  (select hotel_id from bookings order by rand() limit 1), 9, 'Harum illo et eius id sed vel debitis. Sunt accusantium aut velit veritatis assumenda. Repellendus harum molestiae ut aliquid ex. Accusantium adipisci accusamus praesentium laboriosam.', '2011-10-28 07:23:52');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (58,  (select hotel_id from bookings order by rand() limit 1), 4, 'Et est quas ea. Perspiciatis exercitationem perferendis ut.\nAt eveniet tenetur deserunt voluptatem repellendus. Modi architecto facere commodi ut. Doloribus voluptatem et autem et.', '2012-05-18 09:41:46');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (59,  (select hotel_id from bookings order by rand() limit 1), 2, 'Quam quam aliquam placeat voluptatem sed sed est. Tenetur dignissimos dolores enim aut sequi voluptas. Qui non dolore quae ea quia. Aut ullam consequatur dolorem cum et et beatae repellendus.', '2019-03-20 11:21:59');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (60,  (select hotel_id from bookings order by rand() limit 1), 9, 'Mollitia quasi enim ut fugiat. Magni perferendis at voluptatem eligendi sed occaecati. Saepe dolorum nobis maxime quasi id vel aliquam.', '2020-03-13 22:54:23');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (61,  (select hotel_id from bookings order by rand() limit 1), 6, 'Illum accusantium eum harum corporis laboriosam ea in. Quo repellendus eius est consequuntur. Ducimus voluptatum odit est porro cupiditate sit. Error impedit saepe officiis quos iusto esse.', '1988-04-09 21:18:04');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (62,  (select hotel_id from bookings order by rand() limit 1), 5, 'Mollitia et nam provident omnis est. Autem et doloremque aut alias. Nulla quia eum rem odit omnis ut rerum.', '1998-12-16 07:48:28');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (63,  (select hotel_id from bookings order by rand() limit 1), 1, 'Ipsa beatae et aut asperiores. Doloribus quia magni aut minus laudantium quo molestiae. Eum est laboriosam optio harum omnis sed.', '1983-02-10 22:30:38');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (64,  (select hotel_id from bookings order by rand() limit 1), 3, 'Quo dolor ut unde. Maxime maxime quis numquam magnam. Earum iste a vitae quam.', '2014-10-23 03:38:50');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (65,  (select hotel_id from bookings order by rand() limit 1), 4, 'Deserunt mollitia at ut minus. Numquam eos accusantium quae. Debitis repellendus voluptatibus fugit voluptates velit vero totam. Voluptatibus dolore eligendi quis minima reiciendis et.', '1992-11-16 03:01:47');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (66,  (select hotel_id from bookings order by rand() limit 1), 5, 'Quibusdam qui molestiae ut vel at. Deserunt eius et ut rem. Tempore vero adipisci ullam id. Repudiandae sed quod delectus est.', '1991-11-11 16:36:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (67,  (select hotel_id from bookings order by rand() limit 1), 10, 'Sunt eveniet reiciendis voluptate impedit repellat. Ut odit architecto ratione itaque. Error et sint voluptatum laboriosam officiis aliquid laborum.', '1978-07-02 17:15:29');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (68,  (select hotel_id from bookings order by rand() limit 1), 5, 'Commodi qui quo unde quo non placeat. Voluptatem nemo necessitatibus rerum temporibus. Harum enim reiciendis praesentium.', '1975-12-26 08:16:35');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (69,  (select hotel_id from bookings order by rand() limit 1), 2, 'Perspiciatis dicta ut in qui expedita nesciunt. Dolor vel odit nemo ut perspiciatis. Deleniti id aut placeat deserunt dolores accusantium maiores.', '2001-11-03 04:28:58');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (70,  (select hotel_id from bookings order by rand() limit 1), 4, 'In aperiam possimus eos placeat. Illo ipsa aut blanditiis et. Et nemo fugiat nostrum sit omnis quia.', '2004-06-06 20:17:49');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (71,  (select hotel_id from bookings order by rand() limit 1), 9, 'Quia repudiandae dolor non nam ut odio. Et quia ea harum eum non modi labore. Omnis dolorem nemo dolore voluptatem. Asperiores culpa sed aliquam voluptas esse cumque ut.', '1997-02-23 15:36:25');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (72,  (select hotel_id from bookings order by rand() limit 1), 5, 'Ut dolorum et fugit quia libero. Delectus eum blanditiis ut ullam itaque. Totam iusto quia accusamus.', '1972-10-03 06:17:55');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (73,  (select hotel_id from bookings order by rand() limit 1), 6, 'Laboriosam molestiae impedit illum ipsum consequatur est exercitationem. Quod sint laudantium dolorem sunt.', '1997-09-03 11:02:54');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (74,  (select hotel_id from bookings order by rand() limit 1), 9, 'Saepe et nesciunt fugiat libero repellendus molestias ut. Ut laborum fuga ullam magni dolores. Autem quidem sequi repellendus qui.', '2016-01-05 20:18:02');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (75,  (select hotel_id from bookings order by rand() limit 1), 6, 'Aspernatur est sit delectus at doloribus. Aperiam itaque aut quis. Pariatur non ex pariatur maxime velit porro rerum cupiditate.', '2014-03-02 01:11:17');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (76,  (select hotel_id from bookings order by rand() limit 1), 4, 'Dicta excepturi aliquam dolores tenetur tenetur. Quidem necessitatibus necessitatibus ullam assumenda exercitationem. Ad praesentium quam quibusdam voluptatem corporis et a.', '2014-12-03 16:04:12');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (77,  (select hotel_id from bookings order by rand() limit 1), 1, 'Magnam quia minima omnis est explicabo quis. Quod eum et laboriosam et illo.', '1983-09-17 08:40:10');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (78,  (select hotel_id from bookings order by rand() limit 1), 6, 'Quis quia sapiente voluptates sint. Qui autem quis impedit est optio est et. Id sunt officia voluptatem quod provident est. Nemo maiores libero et perspiciatis quod.', '1991-12-01 06:20:11');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (79,  (select hotel_id from bookings order by rand() limit 1), 2, 'Temporibus ut quia odit quasi. Numquam perspiciatis aspernatur dolor qui. Architecto animi quisquam aliquam.', '1978-08-22 18:55:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (80,  (select hotel_id from bookings order by rand() limit 1), 7, 'Commodi qui dolorem porro aliquid. Dolorem ea laudantium et quam quisquam aut porro.', '1986-07-24 04:46:43');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (81,  (select hotel_id from bookings order by rand() limit 1), 5, 'Aperiam qui consequatur modi tenetur. Sit illum accusamus corporis deleniti totam. Commodi atque dicta ratione pariatur quae. Laudantium dignissimos laudantium rerum natus eligendi similique quia.', '2011-08-06 08:38:42');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (82,  (select hotel_id from bookings order by rand() limit 1), 8, 'Ea ut laborum ut quia placeat. Debitis quae occaecati tempore quia illum placeat placeat qui. Eveniet ducimus id sed iste soluta vel. Voluptas voluptate dolor ipsa cum sunt laboriosam.', '1980-08-24 22:43:36');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (83,  (select hotel_id from bookings order by rand() limit 1), 3, 'Amet est quaerat facilis dolorum veniam. Qui corporis est quasi aut et est corporis qui. Et molestias non nam labore veniam. Amet facere doloribus incidunt autem quia.', '2008-05-12 02:24:27');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (84,  (select hotel_id from bookings order by rand() limit 1), 9, 'Quaerat pariatur accusantium earum esse. Occaecati possimus optio consectetur quibusdam. Perferendis non tempore modi et.', '2008-02-17 22:53:02');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (85,  (select hotel_id from bookings order by rand() limit 1), 1, 'In optio dolorum quo ut culpa voluptas animi. Corrupti eveniet ab quam sunt voluptates dolorum. Quos consequatur necessitatibus beatae. Ipsa corporis id consectetur dolorum qui sunt placeat.', '1983-08-31 21:39:55');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (86,  (select hotel_id from bookings order by rand() limit 1), 4, 'Odio omnis mollitia facilis iure est. Est itaque accusamus facilis recusandae enim. Inventore ut et magnam ipsum. Ut dolores ut praesentium numquam ad distinctio non quibusdam.', '2008-11-12 05:40:39');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (87,  (select hotel_id from bookings order by rand() limit 1), 4, 'Est hic error quam commodi recusandae. Consequatur repellat eveniet incidunt perferendis et. Explicabo ut quibusdam tempora nostrum repellat.', '2010-02-16 14:57:03');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (88,  (select hotel_id from bookings order by rand() limit 1), 7, 'Repudiandae ab dolor dolorem incidunt. Quo et ullam nam doloribus. Molestiae veritatis ipsam nihil voluptatibus voluptatem impedit qui. Odio id tempora modi et.', '1977-01-16 11:21:46');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (89,  (select hotel_id from bookings order by rand() limit 1), 1, 'Nesciunt qui minus a illum quam. Earum explicabo ut reprehenderit illum dolor dolores sunt. Sit consectetur vel fugit accusantium aut. Sed nemo qui qui rerum sint ea. Perspiciatis harum aut esse.', '1973-04-03 20:48:57');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (90,  (select hotel_id from bookings order by rand() limit 1), 9, 'Esse sit quod officiis vitae temporibus exercitationem. Aliquid nesciunt molestiae et aperiam est. Modi reiciendis ducimus at omnis ut. Cum enim beatae vel excepturi voluptas tempore omnis.', '1978-07-01 05:48:43');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (91,  (select hotel_id from bookings order by rand() limit 1), 4, 'Est minus maiores cumque magni rerum illo. Nobis possimus fuga magni iure facilis iusto. Et et impedit cumque accusamus est. Velit delectus sequi ut aut.', '2014-09-25 02:13:54');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (92,  (select hotel_id from bookings order by rand() limit 1), 8, 'Eius aut reiciendis placeat voluptates. Ab dolor omnis distinctio voluptas.\nRepudiandae blanditiis quibusdam dolor. Animi nihil occaecati blanditiis magnam. Eos voluptatem nihil cumque.', '1985-12-05 18:42:31');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (93,  (select hotel_id from bookings order by rand() limit 1), 10, 'Inventore et alias rerum in. Dolores voluptatum error suscipit illo. Esse dignissimos incidunt et.', '2006-07-17 10:49:20');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (94,  (select hotel_id from bookings order by rand() limit 1), 1, 'Temporibus est laboriosam facilis. Tempora dolorem nulla rerum necessitatibus. Veritatis commodi qui et enim.', '2013-05-04 20:23:56');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (95,  (select hotel_id from bookings order by rand() limit 1), 8, 'At pariatur beatae ut velit. Quia iure praesentium et quo quia aliquid. Voluptate hic assumenda et consequatur delectus officia repellat esse. Dolor unde illo nemo voluptatibus est officiis.', '1998-10-30 20:46:58');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (96,  (select hotel_id from bookings order by rand() limit 1), 1, 'Minus a enim dolores eaque. Quia exercitationem sit accusantium aut harum. Dignissimos sit et et neque mollitia ea nulla atque.', '1990-04-09 05:45:19');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (97,  (select hotel_id from bookings order by rand() limit 1), 8, 'Quia alias ullam quam officia veniam id odit ipsum. Autem ad fugiat sunt non aliquid ratione consequatur. Possimus at voluptas ut asperiores voluptas harum. Velit consequatur quae ipsam ratione eum.', '1983-06-08 19:59:42');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (98,  (select hotel_id from bookings order by rand() limit 1), 8, 'Non minus non odit nulla. In tempore autem nihil quis vitae.', '1970-04-06 10:44:51');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (99,  (select hotel_id from bookings order by rand() limit 1), 3, 'Numquam aut qui consequuntur. Quaerat exercitationem iure cum accusamus nam ab cumque quo. Odit ipsa consequatur sequi. Itaque quas aut placeat ea.', '1973-02-10 19:25:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (100,  (select hotel_id from bookings order by rand() limit 1), 4, 'Eum aut suscipit ex quae cumque. Expedita dicta qui voluptatibus qui similique officia.', '1994-04-29 03:12:15');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (101,  (select hotel_id from bookings order by rand() limit 1), 3, 'Eveniet eius consequuntur inventore minima qui consequuntur possimus. Blanditiis consequatur non ullam. Sed vel excepturi distinctio et qui impedit. Qui quae neque velit natus sit totam delectus.', '1972-04-14 19:49:29');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (102,  (select hotel_id from bookings order by rand() limit 1), 5, 'Vel nobis cumque provident doloribus veritatis et omnis. Voluptatum aut minus ullam inventore et placeat.', '1976-07-20 07:36:36');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (103,  (select hotel_id from bookings order by rand() limit 1), 4, 'Fuga a id et eos placeat magni non. Atque laboriosam expedita porro ad enim aliquam aliquam. Recusandae reiciendis vero nisi soluta molestias iure quos.', '2019-02-27 05:18:40');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (104,  (select hotel_id from bookings order by rand() limit 1), 1, 'Atque aspernatur qui voluptas. Voluptatibus dignissimos assumenda quae facilis. Sed eveniet animi perspiciatis aut est. Sapiente fugit omnis labore in consequatur eius.', '1990-01-05 13:51:47');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (105,  (select hotel_id from bookings order by rand() limit 1), 7, 'Nostrum ut nam ipsam. Rem magnam tempore voluptatem laudantium sequi. Facere eligendi exercitationem fuga adipisci amet voluptas nihil.', '2010-06-19 03:44:32');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (106,  (select hotel_id from bookings order by rand() limit 1), 4, 'Consectetur quos quia perferendis earum. Et voluptas numquam qui distinctio sint eligendi porro. In maxime cum temporibus. Dicta qui id itaque reprehenderit id.', '1971-11-15 09:37:20');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (107,  (select hotel_id from bookings order by rand() limit 1), 7, 'Aperiam fugit sed iure. Optio est nobis ex ut. Amet ut et odio saepe non repudiandae.', '1977-03-28 09:56:35');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (108,  (select hotel_id from bookings order by rand() limit 1), 4, 'Possimus soluta ut quos dolorum dolor consequatur recusandae. Est voluptas qui repudiandae repellat in consequuntur ut. Nam mollitia itaque velit facere nihil aut.', '1989-06-04 17:45:28');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (109,  (select hotel_id from bookings order by rand() limit 1), 2, 'Et voluptatem nihil quo amet ut nemo eum. Cum accusamus ipsum neque nisi dicta ullam. Iste aut ea dolorem. Est beatae atque molestias et alias aut. Quas odit minima molestiae ratione.', '1999-01-14 15:13:29');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (110,  (select hotel_id from bookings order by rand() limit 1), 10, 'Velit eaque delectus ut qui. Nemo eos dolor illum sunt doloribus ea. Eos exercitationem fuga nisi ut ducimus.', '2014-11-22 23:24:54');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (111,  (select hotel_id from bookings order by rand() limit 1), 4, 'Alias voluptas voluptatem quis. Itaque fugiat odio dolores quo. Quasi quis consequuntur quia nulla alias. Et sit nisi tempora nobis voluptatem sit.', '1992-02-29 10:14:13');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (112,  (select hotel_id from bookings order by rand() limit 1), 10, 'Ut rem neque ex commodi eos. Consequatur cumque cupiditate omnis labore debitis dolor enim. Ut aspernatur est sequi ducimus.', '2020-02-22 07:06:12');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (113,  (select hotel_id from bookings order by rand() limit 1), 9, 'Deleniti qui quidem laboriosam modi. Ut nobis aut quam.', '2009-11-09 00:43:02');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (114,  (select hotel_id from bookings order by rand() limit 1), 1, 'Enim amet et est tempore. Aut omnis qui tempore nulla praesentium. Ipsam temporibus ut dicta architecto libero nam.', '1976-03-06 18:54:45');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (115,  (select hotel_id from bookings order by rand() limit 1), 1, 'Quae reprehenderit id et odit non eveniet. Vel sequi qui rem. Expedita consequatur qui unde dolor dolore eius itaque iure.', '2019-09-22 14:19:24');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (116,  (select hotel_id from bookings order by rand() limit 1), 8, 'Nobis molestiae voluptatem soluta modi consequatur. Deleniti non totam eos voluptates voluptas. Aliquid est est nisi aut. Sequi in repellat explicabo quae nostrum excepturi eligendi.', '2016-09-05 11:06:20');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (117,  (select hotel_id from bookings order by rand() limit 1), 3, 'Necessitatibus dicta vero cum voluptatem sint laboriosam. Et aliquam sed qui et sint laboriosam. Dignissimos pariatur deserunt voluptate nihil reprehenderit totam enim. Impedit labore aliquam in et.', '2006-12-27 06:44:19');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (118,  (select hotel_id from bookings order by rand() limit 1), 7, 'Tempora rerum eveniet qui. Minima quidem impedit consequatur labore veritatis quidem. Doloribus magni voluptatem ut pariatur aperiam voluptatem cumque voluptas. In quos corporis quo voluptatem.', '1972-03-07 05:50:40');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (119,  (select hotel_id from bookings order by rand() limit 1), 6, 'Et et similique aspernatur aut voluptatum corporis. Cupiditate vero quia eveniet officia dolorem dolorem. Maiores autem ut dignissimos suscipit.', '1975-03-10 20:11:29');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (120,  (select hotel_id from bookings order by rand() limit 1), 4, 'Laboriosam rem sequi repellat esse voluptatum sapiente. Porro eos rerum nihil numquam sunt ut officiis amet. Libero qui aut maxime delectus non dolorem fugiat harum. Minus dolores voluptate fugit.', '2018-06-01 23:54:09');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (121,  (select hotel_id from bookings order by rand() limit 1), 4, 'Voluptatem saepe et vel corrupti. Aut eum expedita vero dolor et. Unde expedita aliquid veritatis aspernatur voluptatem temporibus voluptas. Iure veritatis impedit modi eos fuga amet placeat.', '2003-02-04 21:11:53');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (122,  (select hotel_id from bookings order by rand() limit 1), 7, 'Voluptatem voluptatem quaerat voluptatem ratione. Et autem illo est est quia ullam quae. Quasi id sapiente cumque minus necessitatibus soluta aperiam. Voluptate rerum qui ipsam hic maiores.', '1989-02-18 20:10:49');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (123,  (select hotel_id from bookings order by rand() limit 1), 3, 'Unde debitis corrupti aut. Labore tempora et nobis sequi. Iste qui nesciunt quae exercitationem est. Nisi molestiae enim doloribus aliquid officia itaque.', '2013-05-29 16:56:23');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (124,  (select hotel_id from bookings order by rand() limit 1), 8, 'Et consequuntur cum omnis ipsum. Omnis est consequatur eum provident odio est. Eos dicta et molestias. Inventore et necessitatibus dolor est molestiae aut culpa magni.', '1981-04-22 08:29:57');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (125,  (select hotel_id from bookings order by rand() limit 1), 1, 'Maiores praesentium saepe ullam ducimus et ab. Excepturi ab et omnis hic ut modi beatae. Minus dolorem alias occaecati animi deserunt iure.', '2013-11-22 14:51:30');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (126,  (select hotel_id from bookings order by rand() limit 1), 6, 'Non accusantium dolores et quo qui quam molestias. Praesentium eius est molestiae. Quis maiores facere voluptatem in harum. Temporibus velit dolorem recusandae et aspernatur expedita.', '2016-11-28 14:18:42');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (127,  (select hotel_id from bookings order by rand() limit 1), 4, 'Deserunt quo ea vero sint. Sunt velit ipsum soluta. Eius placeat beatae et reiciendis vitae minus. Autem id deserunt velit.', '1978-04-18 00:34:38');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (128,  (select hotel_id from bookings order by rand() limit 1), 9, 'Id unde sit repudiandae. Quos fuga ea sed accusantium. Qui eaque voluptas ut commodi eum aut et sed. Occaecati fugiat quae pariatur quia sed earum adipisci.', '1975-04-14 18:17:04');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (129,  (select hotel_id from bookings order by rand() limit 1), 7, 'Doloribus corrupti omnis aut quia molestiae rerum. Reiciendis cumque nulla rerum magni quis in veniam. Quia reprehenderit earum dolorem veniam.', '2017-11-14 11:51:57');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (130,  (select hotel_id from bookings order by rand() limit 1), 1, 'Voluptatem aut dolorem quasi quas laudantium voluptatem asperiores nisi. Id et fugit nam.\nCum sint cumque voluptas hic et illo laborum. Soluta illum velit quia perspiciatis iure.', '1979-06-22 09:42:57');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (131,  (select hotel_id from bookings order by rand() limit 1), 6, 'A aut minima vel neque expedita adipisci. Accusamus vel natus architecto rem est. Quod fuga est maxime sunt sint enim est.', '2007-08-03 13:53:45');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (132,  (select hotel_id from bookings order by rand() limit 1), 7, 'Fugiat ea et est nesciunt in voluptate. Facere expedita exercitationem consectetur corporis.', '1988-09-27 06:50:08');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (133,  (select hotel_id from bookings order by rand() limit 1), 2, 'In nulla et odio accusantium nam. Aliquid optio autem magni eligendi quia. Et aut eos laborum accusantium. Similique aut totam repudiandae et.', '1979-05-29 07:42:48');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (134, (select hotel_id from bookings order by rand() limit 1), 3, 'Quis praesentium est sint laudantium doloremque quod ducimus. Odio itaque unde provident. Modi accusamus non velit reiciendis laboriosam dignissimos.', '1980-01-06 12:53:52');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (135, (select hotel_id from bookings order by rand() limit 1), 2, 'Nesciunt temporibus numquam nam culpa maiores facere. Quo laudantium laborum mollitia in corporis dolores unde. Qui ea unde placeat autem consequatur. Non molestias incidunt omnis et.', '2016-03-18 14:37:40');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (136, (select hotel_id from bookings order by rand() limit 1), 3, 'Tenetur dolor qui possimus placeat ut quod tenetur. Dolorem ducimus neque corrupti illum ea neque ullam. Ipsum esse perferendis cupiditate. Ad voluptatem nobis voluptas sed magnam aut dicta.', '1984-11-24 17:43:10');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (137, (select hotel_id from bookings order by rand() limit 1), 9, 'Quidem numquam architecto illum ea saepe natus sapiente. Accusantium veniam debitis incidunt sequi adipisci.', '1988-07-02 02:24:52');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (138, (select hotel_id from bookings order by rand() limit 1), 10, 'Ad ut architecto eos nam ut doloribus rerum minima. Libero quidem laborum sed voluptatem amet perspiciatis. Sunt aut optio consequatur laboriosam saepe nesciunt.', '1984-06-22 22:44:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (139, (select hotel_id from bookings order by rand() limit 1), 9, 'Iusto ut omnis et nam officiis in eius sunt. Aut praesentium qui non distinctio et nulla. Occaecati quisquam aut quia quia totam. Molestiae aperiam et odit.', '1998-12-16 21:00:59');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (140, (select hotel_id from bookings order by rand() limit 1), 7, 'Repellat occaecati accusantium ducimus dignissimos. Ut ab officiis qui. Autem doloribus corporis aut eum debitis nesciunt quaerat.', '2002-04-15 12:17:39');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (141, (select hotel_id from bookings order by rand() limit 1), 4, 'Qui placeat rerum delectus possimus voluptate ipsam maxime. Assumenda odio qui aperiam maxime quisquam commodi. Ea commodi harum blanditiis ex vero voluptatem.', '1983-07-02 19:01:03');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (142, (select hotel_id from bookings order by rand() limit 1), 3, 'Soluta sunt ut rerum neque praesentium eius. Aut rem esse earum ut non a praesentium.\nModi vitae similique eos harum nesciunt. Rem omnis quas sit. Est maxime nobis velit dolorum.', '2007-06-22 16:25:13');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (143, (select hotel_id from bookings order by rand() limit 1), 3, 'Voluptatem quia id nihil exercitationem consequatur. Sit distinctio repellendus aut est expedita dolores deserunt. Officia delectus eveniet doloribus voluptatem soluta.', '2001-08-18 23:39:31');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (144, (select hotel_id from bookings order by rand() limit 1), 4, 'Adipisci aut alias quia dolorem cum voluptates est. Quod recusandae dolor quaerat molestias veniam. Rem quae similique dolorum et blanditiis rerum dignissimos.', '2015-10-22 09:19:33');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (145, (select hotel_id from bookings order by rand() limit 1), 8, 'Voluptates ducimus nemo sequi nesciunt architecto corporis id porro. Vel qui ut voluptas id est dolores temporibus. Molestiae odio perspiciatis qui quia esse ea odio. Magnam adipisci et dolorem quos.', '2017-05-21 07:50:05');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (146, (select hotel_id from bookings order by rand() limit 1), 3, 'Sapiente non itaque reprehenderit et ipsum nostrum omnis. Rerum architecto quo repellat ducimus facilis velit eaque ad.', '2014-08-07 19:46:07');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (147, (select hotel_id from bookings order by rand() limit 1), 3, 'Dolorem velit facere ipsam sit quia vitae distinctio. Itaque qui officia velit sint iste. Hic qui error unde.\nConsequatur ipsa eos et. Maiores repellendus quae qui consequuntur.', '1971-09-30 01:52:23');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (148, (select hotel_id from bookings order by rand() limit 1), 1, 'Pariatur molestiae est fugit debitis. Reiciendis eos est unde ducimus et nihil culpa. Vero similique ea dolorum voluptatum iure neque.', '1981-10-09 11:08:45');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (149, (select hotel_id from bookings order by rand() limit 1), 5, 'Et cupiditate dolores facere. Minus voluptates odit nostrum neque laudantium quisquam. Voluptatem ipsa dolores hic quia et vitae.', '1996-06-20 04:19:25');
-INSERT INTO `reviews` (`review_id`, `hotel_id`, `rating`, `body`, `created_at`) VALUES (150, (select hotel_id from bookings order by rand() limit 1), 4, 'Error nihil non suscipit libero sunt molestiae. Animi nisi excepturi vitae ea. Iure voluptatibus aut labore et. Est voluptas est voluptatibus tempore.', '1992-05-14 16:22:53');
-
-update hotels set rating = (select avg(rating) from reviews where hotels.hotel_id = hotel_id);
-update hotels set rating = 0 where rating is null;
-
--- JOIN
-
--- Выводим человека и его номер карты и имя на карте
-select CONCAT(u.first_name, ' ', u.last_name) as Full_name, p.cardholders_name as Cardholder_name , p.card_number as Card_number,
-p.expiration_date as ExpirationDate 
-from users as u  join payment_details p using(user_id); -- from users as u natural join payment_details p ;
-
--- Выводим человека  и его национальность
-select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n;
-
--- Выводим англичанина, американца и китайца
-select CONCAT(u.first_name, ' ', u.last_name) as Full_name, n.nationality from users u natural join nationalities n 
-where n.nationality in ("English", "Japanese", "Chinese") ;
-
--- Выводим cписок отелей, его страну, и средний рейтинг по убыванию с фото-видео представлением отеля и его пару характеристик
-select h.hotel_name as Hotels, h.country_hotel, h.rating, m.filename, 
-hi.age_limit, hi.airport_near, hi.parking_lot, hi.nature from hotels h 
-join hotels_included hi on hi.hotel_included_id = h.hotel_id
-inner join media m using(media_id) order by rating desc;
-
--- Выводим список людей кто бронировал отели на Багамах (почему бы и нет )
-select 
-CONCAT(u.first_name, ' ', u.last_name) as Full_name,
-b.hotel_id as Hotel, 
-b.arrival_day as 
-Arrive, b.check_out_day as CheckOut , 
-b.count_days as CountDays 
-from users u 
-join bookings b using(user_id) 
-where b.hotel_id in (select hotel_id from hotels where country_hotel = ("Bahamas")); -- b.hotel_id in (48,54,96) ;
-
--- Что арендовывал пользователь 1
-SELECT CONCAT(
-  'Пользователь ', 
-  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE user_id = bookings.user_id),
-  ' арендовал отель ', 
-  (SELECT hotel_name FROM hotels WHERE hotel_id = bookings.hotel_id),' в стране ', 
-  (SELECT country_hotel FROM hotels WHERE hotel_id = bookings.hotel_id), ' на ', 
-  count_days , ' дней, c ', arrival_day , ' , у которого рейтинг = ',
-  (SELECT round(rating,1) FROM hotels WHERE hotel_id= bookings.hotel_id)) AS news 
-    FROM bookings 
-    WHERE user_id = 1;
+ alter table communities_users
+	drop foreign key communities_users_user_id_fk,
+	drop foreign key communities_users_community_id_fk; 
+  
+   -- Добавляем внешние ключи
+ALTER TABLE communities_users 
+  ADD CONSTRAINT communities_users_user_id_fk 
+    FOREIGN KEY (user_id) REFERENCES users(id) 
+     on delete cascade,
+  ADD CONSTRAINT communities_users_community_id_fk 
+    FOREIGN KEY (community_id) REFERENCES communities(id)
+    on delete cascade ;
    
-   
- -- Что арендовывали пользователи в стране
-SELECT CONCAT(
-  'Пользователь ', 
-  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE user_id = bookings.user_id),
-  ' арендовал отель ', 
-  (SELECT hotel_name FROM hotels WHERE hotel_id = bookings.hotel_id),' в стране ', 
-  (SELECT country_hotel FROM hotels WHERE hotel_id = bookings.hotel_id), ' на ', 
-  count_days , ' дней, c ', arrival_day , ' , у которого рейтинг = ',
-  (SELECT round(rating,1) FROM hotels WHERE hotel_id= bookings.hotel_id)) AS news 
-    FROM bookings 
-    WHERE hotel_id in (select hotel_id from hotels where country_hotel = ("Italy"));
-  
- -- Самый дорогой отель по версии моего booking.com 
-select concat ('Самый дорогой отель ', (SELECT hotel_name FROM hotels WHERE price = (select max(price) from hotels))
-		,' в стране ', (SELECT country_hotel FROM hotels WHERE price = (select max(price) from hotels)), '. Его стоимость =  ', (select max(price) from hotels)) as The_most_expensive_hotel ;
-  
- -- Отели с ценой ниже средней по версии моего booking.com 
-SELECT hotel_name, country_hotel, price FROM hotels WHERE price < (select avg(price) from hotels);
+select * from friendship;
 
--- Кто бронировал больше всех отелей, мужчины или женщины?
+
+alter table friendship
+	drop foreign key friendship_user_id_fk,
+	drop foreign key friendship_friend_id_fk,
+	drop foreign key friendship_friendship_status_id_fk; 
+
+
+ -- Добавляем внешние ключи
+ALTER TABLE friendship 
+  ADD CONSTRAINT friendship_user_id_fk 
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    on delete cascade,
+    ADD CONSTRAINT friendship_friend_id_fk 
+    FOREIGN KEY (friend_id) REFERENCES users(id)
+    on delete cascade,
+  	ADD CONSTRAINT friendship_friendship_status_id_fk 
+    FOREIGN KEY (friendship_status_id) REFERENCES friendship_statuses(id)
+    on delete cascade;
+    
+select * from media;
+update media set id = id - 100;
+
+
+alter table media
+	drop foreign key media_user_id_fk,
+	drop foreign key media_media_type_id_fk; 
+
+
+ -- Добавляем внешние ключи
+ALTER TABLE media 
+  ADD CONSTRAINT media_user_id_fk 
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    on delete cascade,
+  ADD CONSTRAINT media_media_type_id_fk 
+    FOREIGN KEY (media_type_id) REFERENCES media_types(id)
+    on delete cascade;
+    
+select * from likes;
+select * from target_types;
+
+ -- Добавляем внешние ключи
+ALTER TABLE likes 
+  ADD CONSTRAINT likes_user_id_fk 
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    on delete cascade;
+   
+   ALTER TABLE likes 
+	 ADD CONSTRAINT likes_target_type_id_fk 
+   		FOREIGN KEY (target_type_id) REFERENCES target_types(id)
+    	on delete cascade;
+    
+alter table likes drop foreign key likes_target_id_fk;
+
+ALTER TABLE likes 
+  ADD CONSTRAINT likes_target_id_fk 
+    FOREIGN KEY (target_id) REFERENCES users(id)
+    on delete cascade; 
+    
+desc posts;
+ 
+-- Добавляем внешние ключи
+ALTER TABLE posts
+  ADD CONSTRAINT posts_user_id_fk 
+    FOREIGN KEY (user_id) REFERENCES users(id)
+    on delete cascade,
+	 ADD CONSTRAINT posts_community_id_fk 
+   		FOREIGN KEY (community_id) REFERENCES communities(id)
+    	on delete cascade,
+    	ADD CONSTRAINT posts_media_id_fk 
+   		FOREIGN KEY (media_id) REFERENCES media(id)
+    	on delete cascade;
+    
+    
+    
+    
+# dificcult use request
+
+    select * from users where id = 7;
+   
+   -- name, get lastname, city and so on from 2 tables
+   select 
+   first_name,
+   last_name,
+   'city',
+   'country'
+   from users
+   where id = 7;
+  
+  -- get a city where id = 7
+  select city from profiles where user_id = 7;
+   
+  select 
+   first_name,
+   last_name,
+   (select city from profiles where user_id = 7) as city, 
+   (select country from profiles where user_id = 7) as country
+   from users
+   where id = 7;
+  
+  -- improve this request
+  select 
+   first_name,
+   last_name,
+   (select city from profiles where user_id = users.id) as city, 
+   (select country from profiles where user_id = users.id) as country
+   from users
+   where id = 7;
+  
+  -- choose photos of users
+  
+  select * from media;
+ 	select * from media_types;
+ 
+ select filename from media
+ where user_id = 16 and media_type_id = (
+ select id from media_types where name = 'image');
+  
+  SELECT CONCAT(
+  'Пользователь ', 
+  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE id = media.user_id),
+  ' добавил фото ', 
+  filename, ' ', 
+  created_at) AS news 
+    FROM media 
+    WHERE user_id = 70 AND media_type_id = (
+        SELECT id FROM media_types WHERE name = 'gif'
+);
+
+SELECT user_id, filename, size 
+  FROM media 
+  ORDER BY size DESC
+  LIMIT 10;
+
+ SELECT CONCAT(
+  'User ', 
+  (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE id = media.user_id),
+  ' have the biggest file ', 
+  filename, ' ', size, ' which was added ',
+  created_at) AS BigFile 
+    FROM media 
+  ORDER BY size DESC
+  LIMIT 1;
+);
+
+
+select * from friendship;
+select * from friendship_statuses ;
+ 
+(select friend_id from friendship where user_id =3)
+union 
+(select user_id from friendship where friend_id =3);
+
+
+-- who confirmed friendship
+ 
+(SELECT friend_id 
+  FROM friendship 
+  WHERE user_id = 1 AND friendship_status_id = (
+      SELECT id FROM friendship_statuses WHERE name = 'Confirmed'
+    )
+)
+UNION
+(SELECT user_id 
+  FROM friendship 
+  WHERE friend_id = 1 AND friendship_status_id = (
+      SELECT id FROM friendship_statuses WHERE name = 'Confirmed'
+    )
+);
+
+select * from media;
+
+SELECT user_id, SUM(size) AS total
+  FROM media
+  GROUP BY user_id
+  HAVING total > 100000;
+ 
+ -- Сообщения со статусом
+SELECT from_user_id, 
+  to_user_id, 
+  body, 
+  IF(is_delivered, 'delivered', 'not delivered') AS status 
+    FROM messages
+      WHERE (from_user_id = 5 OR to_user_id = 5)
+    ORDER BY created_at DESC;
+  
+ -- Поиск пользователя по шаблонам имени  
+SELECT CONCAT(first_name, ' ', last_name) AS fullname  
+  FROM users
+  WHERE first_name LIKE 'M%';
+  
+ -- Используем регулярные выражения
+SELECT CONCAT(first_name, ' ', last_name) AS fullname  
+  FROM users
+  WHERE last_name RLIKE '^K.*r$';
+  
+ select * from likes;
+select likes.user_id from likes;
+select  profiles.user_id from profiles;
+
+show tables;
+select * from target_types;
+
+
+-- Task 3
+
+
+-- Кто поставил больше лайков?
 select 
-	(select gender from users where users.user_id = bookings.user_id) as gender,
+	(select gender from profiles where user_id = likes.user_id) as gender,
 	count(*) as total
-	from bookings 
+	from likes 
 	group by gender order by total desc limit 2;
-	
--- Топ 10 активных людей
-select user_id, (select concat (first_name, ' ', last_name) from users where bookings.user_id=users.user_id) as FIO,
-count(*) as total
-from bookings
-group by FIO order by total desc limit 10;
 
-select * from bookings b ;
 
--- Кто в списке bookings согласно id мужчина или женщина?
-select (select gender from users where bookings.user_id=users.user_id) 
-from bookings;
-	
--- у этих отелей нет брони ни одной
-select hotels.hotel_id , hotels.hotel_name ,b.user_id
-from hotels left join bookings b on b.hotel_id = hotels.hotel_id 
-where b.user_id is null ;
+-- Task 4
+select sum(likes_total) from
+(select 
+(select count(*) from likes where target_id = profiles.user_id and target_type_id = 2)
+as likes_total 
+from profiles 
+order by birthday desc limit 10) as user_likes;
 
+
+-- task 5 
+
+select 
+	concat(first_name, ' ', last_name) as user,
+	(select count(*) from likes where likes.user_id = users.id) +
+	(select count(*) from media where media.user_id = users.id) +
+	(select count(*) from messages where messages.from_user_id = users.id) as overall_activity
+	from users
+	order by overall_activity desc
+	limit 20;
+
+select * from users;
+
+select concat(u.first_name, ' ', u.last_name), u.email, p.gender,
+p.birthday, p.city
+from users u join profiles p on u.id = p.user_id 
+where u.id = 7; -- or 'and' (better 'and')
+
+select messages.from_user_id , messages.to_user_id, messages.body, users.first_name , users.last_name, 
+messages.created_at 
+from messages 
+join users 
+on users.id = messages.to_user_id 
+or users.id = messages.from_user_id 
+where users.id = 8;
+
+
+-- ДЗ 8 урок
+-- кто больше поставил лайков?
+select * from profiles p ;
+select profiles.gender , count(likes.id) as likes_total
+from likes 
+join profiles
+on likes.user_id =  profiles.user_id 
+group by profiles.gender order by likes_total desc;
+
+--  Наименьшая активность
+select users.id,
+  count(distinct messages.id) + 
+  count(distinct likes.id) + 
+  count(distinct media.id) as activity 
+  from users
+    left join messages 
+      on users.id = messages.from_user_id
+    left join likes
+      on users.id = likes.user_id
+    left join media
+      on users.id = media.user_id
+  group by users.id
+  order by activity
+  limit 10;  
+ 
+ -- 10 самых молодых
+ select sum(got_likes) as total
+  from (   
+    select count(distinct likes.id) as got_likes 
+      from profiles
+        left join likes
+          on likes.target_id = profiles.user_id
+            and target_type_id = 2
+      group by profiles.user_id
+      order by profiles.birthday desc
+      limit 10
+) as youngest;  
+
+
+
+
+
+
+ 
